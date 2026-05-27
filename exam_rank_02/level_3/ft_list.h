@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_size.c                                     :+:      :+:    :+:   */
+/*   ft_list.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/27 16:59:39 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/05/27 17:04:12 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/05/27 17:04:33 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/05/27 17:06:02 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
+#ifndef FT_LIST_H
+# define FT_LIST_H
 
-int	ft_list_size(t_list *begin_list)
+# include <unistd.h>
+
+typedef struct s_list
 {
-	int	size;
+	struct s_list	*next;
+	void			*data;
+}	t_list;
 
-	size = 0;
-	while (begin_list != NULL)
-	{
-		size++;
-		begin_list = begin_list->next;
-	}
-	return (size);
-}
+#endif

@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_size.c                                     :+:      :+:    :+:   */
+/*   paramsum.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/27 16:59:39 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/05/27 17:04:12 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/05/27 17:37:42 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/05/27 17:40:46 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
+#include <unistd.h>
 
-int	ft_list_size(t_list *begin_list)
+void print_digt(int nb)
 {
-	int	size;
+    if (nb >= 10)
+        print_digt(nb/10);
+    write(1, &(char){nb % 10 + '0'}, 1);
+}
+int main(int argc, char **argv)
+{
+    (void)argv;
+    int sum = argc - 1;
 
-	size = 0;
-	while (begin_list != NULL)
-	{
-		size++;
-		begin_list = begin_list->next;
-	}
-	return (size);
+    print_digt(sum);
+    write(1, "\n", 1);
+    return (0);
 }

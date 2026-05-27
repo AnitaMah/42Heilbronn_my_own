@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_size.c                                     :+:      :+:    :+:   */
+/*   ft_rrange.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/27 16:59:39 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/05/27 17:04:12 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/05/27 17:14:51 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/05/27 17:18:31 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
+#include <stdlib.h>
 
-int	ft_list_size(t_list *begin_list)
+int	*ft_rrange(int start, int end)
 {
+	int	*res;
 	int	size;
+	int	iter;
 
-	size = 0;
-	while (begin_list != NULL)
+	size = ft_abs(start - end + 1);
+	iter = 0;
+	res = (int *)malloc(size);
+	while (iter < size)
 	{
-		size++;
-		begin_list = begin_list->next;
+		if (end <= start)
+			res[iter] = end++;
+		else if (end >= start)
+			res[iter] = end--;
+		iter++;
 	}
-	return (size);
+	return (res);
 }

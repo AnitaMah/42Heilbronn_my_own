@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_size.c                                     :+:      :+:    :+:   */
+/*   lcm.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/27 16:59:39 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/05/27 17:04:12 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/05/27 17:31:14 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/05/27 17:31:21 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-
-int	ft_list_size(t_list *begin_list)
+unsigned int	lcm(unsigned int a, unsigned int b)
 {
-	int	size;
+	int	div;
 
-	size = 0;
-	while (begin_list != NULL)
+	if (a == 0 || b == 0)
 	{
-		size++;
-		begin_list = begin_list->next;
+		return (0);
 	}
-	return (size);
+	div = 2;
+	while (1)
+	{
+		if (a % div == 0 && b % div == 0)
+			return (div);
+		else if (div > a || div > b)
+			return (1);
+		div++;
+	}
 }
