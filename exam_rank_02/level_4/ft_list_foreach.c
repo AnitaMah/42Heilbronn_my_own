@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hidenp.c                                           :+:      :+:    :+:   */
+/*   ft_list_foreach.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/27 20:25:12 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/05/27 20:25:13 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/05/28 17:26:58 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/05/28 17:32:13 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	hidenp(char *s1, char *s2)
-{
-	int	i;
-	int	j;
+#include "ft_list_foreach.h"
 
-	i = 0;
-	j = 0;
-	while (s1[i] && s2[j])
-	{
-		if (s1[i] == s2[j])
-			i++;
-		j++;
-	}
-	if (s1[i] == '\0')
-		write(1, "1", 1);
-	else
-		write(1, "0", 1);
-}
-
-int	main(int argc, char **argv)
+void	ft_list_foreach(t_list *begin_list, void (*f)(void *))
 {
-	if (argc == 3)
+	t_list	*temp;
+
+	temp = begin_list;
+	if (!begin_list)
+		return ;
+	while (temp)
 	{
-		hidenp(argv[1], argv[2]);
+		f(temp->data);
+		temp = temp->next;
 	}
-	write(1, "\n", 1);
-	return (0);
 }

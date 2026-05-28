@@ -1,40 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hidenp.c                                           :+:      :+:    :+:   */
+/*   flood_fill.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/27 20:25:12 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/05/27 20:25:13 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/05/28 14:12:16 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/05/28 14:12:24 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	hidenp(char *s1, char *s2)
-{
-	int	i;
-	int	j;
+#ifndef FLOOD_FILL_H
+# define FLOOD_FILL_H
 
-	i = 0;
-	j = 0;
-	while (s1[i] && s2[j])
-	{
-		if (s1[i] == s2[j])
-			i++;
-		j++;
-	}
-	if (s1[i] == '\0')
-		write(1, "1", 1);
-	else
-		write(1, "0", 1);
-}
+# include <stdlib.h>
 
-int	main(int argc, char **argv)
+typedef struct  s_point
 {
-	if (argc == 3)
-	{
-		hidenp(argv[1], argv[2]);
-	}
-	write(1, "\n", 1);
-	return (0);
-}
+	int	x;
+	int	y;
+}	t_point;
+
+void	flood_fill(char **tab, t_point size, t_point begin);
+
+#endif

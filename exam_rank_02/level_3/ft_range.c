@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/27 17:07:35 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/05/27 17:14:01 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/05/27 20:25:55 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/05/27 20:25:56 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ int	*ft_range(int start, int end)
 			res[iter] = start--;
 		iter++;
 	}
-	return (res);	
+	return (res);
 }
