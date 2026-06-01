@@ -17,17 +17,6 @@ t_node	*find_max(t_stack *b)
 	}
 	return (max);
 }
-void	restore_to_a(t_stack *a, t_stack *b)
-{
-	t_node	*max;
-
-	while (b->size > 0)
-	{
-		max = find_max(b);
-		bring_to_top(b, max);
-		pa(a, b);
-	}
-}
 
 void	push_chunks(t_stack *a, t_stack *b)
 {

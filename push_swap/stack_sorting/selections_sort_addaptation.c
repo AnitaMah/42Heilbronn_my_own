@@ -1,13 +1,5 @@
 #include "push_swap.h"
 
-void	restore_to_a(t_stack *a, t_stack *b)
-{
-	while (b->size > 0)
-	{
-		pa(a, b);
-	}
-}
-
 t_node	*find_min(t_stack *a)
 {
 	t_node	*min;

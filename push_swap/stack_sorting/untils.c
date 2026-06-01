@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 16:32:43 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/01 16:38:38 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/01 16:56:47 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ void	bring_to_top(t_stack *stack, t_node *target)
 	else
 		while (stack->top != target)
 			rrb(stack);
+}
+
+void	restore_to_a(t_stack *a, t_stack *b)
+{
+	while (b->size > 0)
+	{
+		pa(a, b);
+	}
 }

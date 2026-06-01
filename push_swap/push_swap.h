@@ -43,5 +43,5 @@ void				quicksort(int *arr, int left, int right);
 void				normalize_index(t_stack *a);
 void				chunk_sort(t_stack *a, t_stack *b);
 void				bring_to_top(t_stack *stack, t_node *tagred);
-
+void				restore_to_a(t_stack *a, t_stack *b);
 #endif
