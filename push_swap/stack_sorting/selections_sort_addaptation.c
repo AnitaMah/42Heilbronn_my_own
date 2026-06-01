@@ -8,32 +8,6 @@ void	restore_to_a(t_stack *a, t_stack *b)
 	}
 }
 
-void	bring_to_top(t_stack *a, t_node *min)
-{
-	int		pos;
-	int		size;
-	t_node	*current;
-
-	pos = 0;
-	current = a->top;
-	while (current != min)
-	{
-		current = current->next;
-		pos++;
-	}
-	size = a->size;
-	if (pos <= size / 2)
-	{
-		while (a->top != min)
-			ra(a);
-	}
-	else
-	{
-		while (a->top != min)
-			rra(a);
-	}
-}
-
 t_node	*find_min(t_stack *a)
 {
 	t_node	*min;
