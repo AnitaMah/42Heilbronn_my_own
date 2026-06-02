@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 22:01:29 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/01 22:01:29 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/02 12:07:39 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@
 */
 typedef struct s_node
 {
-	int				value;   // original value from input
-	int				index;   // normalized index used for sorting logic
-	struct s_node	*next;   // next element in stack
-	struct s_node	*prev;   // previous element in stack
-}					t_node;
+	int value;           // original value from input
+	int index;           // normalized index used for sorting logic
+	struct s_node *next; // next element in stack
+	struct s_node *prev; // previous element in stack
+}		t_node;
 
 /*
 ** Stack structure
@@ -40,11 +40,11 @@ typedef struct s_node
 */
 typedef struct s_stack
 {
-	t_node			*top;        // first element (top of stack)
-	t_node			*bottom;     // last element (bottom of stack)
-	int				size;        // number of elements in stack
-	int				chunk_size;  // used in chunk-based sorting algorithm
-}					t_stack;
+	t_node *top;    // first element (top of stack)
+	t_node *bottom; // last element (bottom of stack)
+	int size;       // number of elements in stack
+	int chunk_size; // used in chunk-based sorting algorithm
+}		t_stack;
 
 /*
 ** =========================
