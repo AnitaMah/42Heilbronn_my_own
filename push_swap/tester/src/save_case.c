@@ -1,28 +1,20 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   save_case.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/02 12:48:23 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/02 12:48:47 by anmakhov         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../tester.h"
+#include <stdio.h>
 
-#include "tester.h"
-
-void	save_case(int *arr, int size, char *file)
+void save_case(int *arr, int size, const char *file)
 {
-	FILE	*f;
-	int		i;
+	FILE *f;
+	int i = 0;
 
 	f = fopen(file, "w");
-	i = 0;
+	if (!f)
+		return;
+
 	while (i < size)
 	{
 		fprintf(f, "%d ", arr[i]);
 		i++;
 	}
+	fprintf(f, "\n");
 	fclose(f);
 }

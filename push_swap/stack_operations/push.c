@@ -1,53 +1,43 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   push.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/01 21:59:32 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/01 21:59:32 by anmakhov         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "../push_swap.h"
 
-#include "push_swap.h"
-
-void	pb(t_stack *a, t_stack *b)
+/* static helper FIRST */
+static void push_stack(t_stack *src, t_stack *dest)
 {
-	push_stack(a, b);
-	write(1, "pb\n", 3);
-}
+	t_node *tmp;
 
-void	pb(t_stack *a, t_stack *b)
-{
-	push_stack(a, b);
-	write(1, "pb\n", 3);
-}
-void	pa(t_stack *a, t_stack *b)
-{
-	push_stack(b, a);
-	write(1, "pa\n", 3);
-}
-
-static void	push_stack(t_stack *src, t_stack *dest)
-{
-	t_node	*node;
-
-	if (!src || src->size == 0)
-		return ;
-	node = src->top;
-	src->top = node->next;
+	if (!src->top)
+		return;
+	tmp = src->top;
+	src->top = tmp->next;
 	if (src->top)
 		src->top->prev = NULL;
 	else
 		src->bottom = NULL;
-	src->size--;
-	node->next = dest->top;
-	node->prev = NULL;
+
+	tmp->prev = NULL;
+	tmp->next = dest->top;
+
 	if (dest->top)
-		dest->top->prev = node;
+		dest->top->prev = tmp;
 	else
-		dest->bottom = node;
-	dest->top = node;
+		dest->bottom = tmp;
+
+	dest->top = tmp;
+
+	src->size--;
 	dest->size++;
+}
+
+/* pb */
+void pb(t_stack *a, t_stack *b)
+{
+	push_stack(a, b);
+	write(1, "pb\n", 3);
+}
+
+/* pa */
+void pa(t_stack *a, t_stack *b)
+{
+	push_stack(b, a);
+	write(1, "pa\n", 3);
 }

@@ -1,4 +1,4 @@
-#include "tester.h"
+#include "../tester.h"
 
 int	ft_strlen(char *s)
 {

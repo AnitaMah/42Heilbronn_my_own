@@ -1,4 +1,4 @@
-#include "tester.h"
+#include "../tester.h"
 #include <string.h>
 
 int	checker_ok(char *args)

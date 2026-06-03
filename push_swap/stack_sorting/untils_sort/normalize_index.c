@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   normalize_index.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anita <anita@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:07:19 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/02 12:07:19 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/03                          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../../push_swap.h"
 
 void	assign_index(t_stack *a, int *arr)
 {
@@ -40,15 +40,16 @@ int	*stack_to_array(t_stack *a)
 	int		pos;
 	t_node	*current;
 
+	if (!a || a->size <= 0)
+		return (NULL);
 	arr = malloc(sizeof(int) * a->size);
 	if (!arr)
-		return ;
+		return (NULL);
 	pos = 0;
 	current = a->top;
 	while (current)
 	{
-		arr[pos] = current->value;
-		pos++;
+		arr[pos++] = current->value;
 		current = current->next;
 	}
 	return (arr);
@@ -57,9 +58,9 @@ int	*stack_to_array(t_stack *a)
 void	normalize_index(t_stack *a)
 {
 	int		*arr;
-	int		pos;
-	t_node	*current;
 
+	if (!a || !a->top)
+		return ;
 	arr = stack_to_array(a);
 	if (!arr)
 		return ;

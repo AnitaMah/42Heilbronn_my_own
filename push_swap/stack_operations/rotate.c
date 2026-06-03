@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anita <anita@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 22:00:12 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/01 22:00:12 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/03 08:42:20 by anita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
+
+static void	rotate_stack(t_stack *stack)
+{
+	t_node	*first;
+
+	if (!stack || stack->size < 2)
+		return ;
+	first = stack->top;
+	stack->top = first->next;
+	stack->top->prev = NULL;
+	first->next = NULL;
+	first->prev = stack->bottom;
+	stack->bottom->next = first;
+	stack->bottom = first;
+}
 
 void	rr(t_stack *a, t_stack *b)
 {
@@ -29,19 +44,4 @@ void	ra(t_stack *a)
 {
 	rotate_stack(a);
 	write(1, "ra\n", 3);
-}
-
-static void	rotate_stack(t_stack *stack)
-{
-	t_node	*first;
-
-	if (!stack || stack->size < 2)
-		return ;
-	first = stack->top;
-	stack->top = first->next;
-	stack->top->prev = NULL;
-	first->next = NULL;
-	first->prev = stack->bottom;
-	stack->bottom->next = first;
-	stack->bottom = first;
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   selections_sort_addaptation.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anita <anita@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 22:01:14 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/01 22:01:14 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/03 10:55:14 by anita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
-t_node	*find_min(t_stack *a)
+t_node	*find_min_node(t_stack *a)
 {
 	t_node	*min;
 	t_node	*current;

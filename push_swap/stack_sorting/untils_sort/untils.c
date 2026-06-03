@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   untils.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anita <anita@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 16:32:43 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/02 12:07:25 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/03 10:54:59 by anita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../../push_swap.h"
 
 void	bring_to_top(t_stack *stack, t_node *target)
 {
@@ -38,7 +38,7 @@ void	bring_to_top(t_stack *stack, t_node *target)
 			rrb(stack);
 }
 
-void	restore_to_a(t_stack *a, t_stack *b)
+void		restore_to_a(t_stack *a, t_stack *b)
 {
 	while (b->size > 0)
 	{

@@ -1,4 +1,4 @@
-#include "tester.h"
+#include "../tester.h"
 
 int	*generate_unique(int size)
 {

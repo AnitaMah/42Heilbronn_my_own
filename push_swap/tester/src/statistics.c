@@ -1,4 +1,4 @@
-#include "tester.h"
+#include "../tester.h"
 
 void	init_stats(t_stats *s)
 {

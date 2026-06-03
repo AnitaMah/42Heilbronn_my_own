@@ -1,29 +1,53 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/06/03                               #+#    #+#              #
+#    Updated: 2026/06/03                               ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = tester
 
-SRC = src/main.c \
-      src/generator.c \
-      src/shuffle.c \
-      src/runner.c \
-      src/checker.c \
-      src/valgrind.c \
-      src/statistics.c \
-      src/save_case.c \
-      src/utils.c \
-	  stack_operations/push.c \
-	  stack_operations/reverse.c \
-	  stack_operations/rotate.c \
-	  stack_operations/swap.c \
-	  stack_sorting/chunk_sort.c \
-	  stack_sorting/selections_sort_addaptation.c \
-	  stack_sorting/radix_sort.c \
-	  stack_sorting/untils_sort/normalize_index.c \
-	  stack_sorting/untils_sort/quick_sort.c \
-	  stack_sorting/untils_sort/untils.c
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -I.
 
-all:
-	gcc $(SRC) -I include -o $(NAME)
+SRC_DIR = src
+
+SRC = \
+	$(SRC_DIR)/main.c \
+	$(SRC_DIR)/generator.c \
+	$(SRC_DIR)/shuffle.c \
+	$(SRC_DIR)/runner.c \
+	$(SRC_DIR)/checker.c \
+	$(SRC_DIR)/valgrind.c \
+	$(SRC_DIR)/statistics.c \
+	$(SRC_DIR)/save_case.c \
+	$(SRC_DIR)/utils.c
+
+OBJ = $(SRC:.c=.o)
+
+# path to push_swap (IMPORTANT FIX)
+PUSH_SWAP = ../push_swap
+CHECKER = ../checker_linux
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	rm -f $(OBJ)
+
+fclean: clean
 	rm -f $(NAME)
 
-re: clean all
+re: fclean all
+
+.PHONY: all clean fclean re

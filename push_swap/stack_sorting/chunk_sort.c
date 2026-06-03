@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   chunk_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anita <anita@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:07:09 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/02 12:07:10 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/03 08:39:33 by anita            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
 t_node	*find_max(t_stack *b)
 {

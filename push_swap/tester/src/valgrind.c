@@ -1,4 +1,4 @@
-#include "tester.h"
+#include "../tester.h"
 
 int	check_leaks(char *args)
 {
