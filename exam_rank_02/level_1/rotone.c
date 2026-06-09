@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:36:48 by username          #+#    #+#             */
-/*   Updated: 2026/03/18 09:54:49 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:00:12 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,20 @@ void	ft_putstr(char *str)
 
 char	*ft_changer(char *str)
 {
-	int		iter = 0;
-	char	*clone = str;
+	int	iter;
 
-	while (clone[iter])
+	iter = 0;
+	while (str[iter])
 	{
-		if ((clone[iter] >= 'A' && clone[iter] <= 'Y')
-				|| (clone[iter] >= 'a' && clone[iter] <= 'y'))
+		if ((str[iter] >= 'a' && str[iter] <= 'y') || (str[iter] >= 'A'
+				&& str[iter] <= 'Y'))
 		{
-			clone[iter] = clone[iter] + 1;
+			str[iter] += 1;
 		}
-		if (clone[iter] == 'Z' || clone[iter] == 'z')
-		{
-			clone[iter] = clone[iter] - 25;
-		}
+		else if (str[iter] == 'z')
+			str[iter] = 'a';
+		else if (str[iter] == 'Z')
+			str[iter] = 'a';
 		iter++;
 	}
 	return (str);
@@ -46,11 +46,7 @@ int	main(int argc, char **argv)
 {
 	if (argc == 2)
 	{
-		ft_putstr(argv[1]);
-		write(1, "\n", 1);
 		ft_putstr(ft_changer(argv[1]));
 	}
-	else
-		write(1, "\n", 1);
 	write(1, "\n", 1);
 }

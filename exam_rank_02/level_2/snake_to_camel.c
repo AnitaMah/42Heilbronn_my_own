@@ -1,5 +1,6 @@
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
+
 int	ft_strlen(char *str)
 {
 	int	iter;
@@ -21,45 +22,45 @@ void	ft_putstr(char *str)
 		iter++;
 	}
 }
-char *snake_to_camel(char *str)
+char	*snake_to_camel(char *str)
 {
-	int		i = 0;
-	int		j = 0;
-	int		len = ft_strlen(str);
+	int		i;
 	char	*res;
-	int		upper = 0;
+	int		j;
 
-	res = malloc (len + 1);
+	i = 0;
+	j = 0;
+	res = malloc(ft_strlen(str) + 1);
 	if (!res)
 		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '_')
-			upper = 1;
+			i++;
 		else
 		{
-			if (upper && str[i] >= 'a' && str[i] <= 'z')
-				res[j++]= str[i] -32;
+			if (i > 0 && str[i - 1] == '_')
+				res[j++] = str[i] - 32;
 			else
 				res[j++] = str[i];
-			upper = 0;
+			i++;
 		}
-		i++;
 	}
 	res[j] = '\0';
 	return (res);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	char *str;
+	char	*str;
+
 	if (argc == 2)
 	{
 		str = snake_to_camel(argv[1]);
 		if (str)
 		{
 			ft_putstr(str);
-			free (str);
+			free(str);
 		}
 	}
 	write(1, "\n", 1);
