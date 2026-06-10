@@ -106,6 +106,11 @@ void	normalize_index(t_stack *a);
 void	chunk_sort(t_stack *a, t_stack *b);
 
 /*
+** Finds the node with maximum index in a stack
+*/
+t_node	*find_max(t_stack *b);
+
+/*
 ** Moves selected node to top of stack efficiently
 */
 void	bring_to_top(t_stack *stack, t_node *target);
