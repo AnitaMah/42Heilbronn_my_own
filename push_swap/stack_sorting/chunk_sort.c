@@ -12,24 +12,6 @@
 
 #include "../push_swap.h"
 
-t_node	*find_max(t_stack *b)
-{
-	t_node	*current;
-	t_node	*max;
-
-	if (!b || !b->top)
-		return (NULL);
-	current = b->top;
-	max = b->top;
-	while (current)
-	{
-		if (current->index > max->index)
-			max = current;
-		current = current->next;
-	}
-	return (max);
-}
-
 void	push_chunks(t_stack *a, t_stack *b)
 {
 	int	max;
@@ -53,12 +35,14 @@ void	push_chunks(t_stack *a, t_stack *b)
 		}
 	}
 }
+
 void	init_chunks(t_stack *a)
 {
 	a->chunk_size = a->size / 5;
 	if (a->chunk_size < 1)
 		a->chunk_size = 1;
 }
+
 void	chunk_sort(t_stack *a, t_stack *b)
 {
 	normalize_index(a);
