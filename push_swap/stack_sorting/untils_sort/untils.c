@@ -12,6 +12,24 @@
 
 #include "../../push_swap.h"
 
+t_node	*find_max(t_stack *b)
+{
+	t_node	*current;
+	t_node	*max;
+
+	if (!b || !b->top)
+		return (NULL);
+	current = b->top;
+	max = b->top;
+	while (current)
+	{
+		if (current->index > max->index)
+			max = current;
+		current = current->next;
+	}
+	return (max);
+}
+
 void	bring_to_top(t_stack *stack, t_node *target)
 {
 	int		pos;
@@ -38,10 +56,14 @@ void	bring_to_top(t_stack *stack, t_node *target)
 			rrb(stack);
 }
 
-void		restore_to_a(t_stack *a, t_stack *b)
+void	restore_to_a(t_stack *a, t_stack *b)
 {
+	t_node	*max;
+
 	while (b->size > 0)
 	{
+		max = find_max(b);
+		bring_to_top(b, max);
 		pa(a, b);
 	}
 }
