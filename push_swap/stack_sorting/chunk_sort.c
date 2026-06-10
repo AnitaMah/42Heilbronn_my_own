@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chunk_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anita <anita@student.42.fr>                +#+  +:+       +#+        */
+/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:07:09 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/03 08:39:33 by anita            ###   ########.fr       */
+/*   Updated: 2026/06/10 17:38:42 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,24 @@
 void	push_chunks(t_stack *a, t_stack *b)
 {
 	int	max;
-	int	size_at_start;
+	int	pushed;
 
+	pushed = 0;
 	max = a->chunk_size;
 	while (a->size > 0)
 	{
-		size_at_start = a->size;
-		while (a->size > 0)
+		if (a->top->index <= max)
 		{
-			if (a->top->index < max)
-				pb(a, b);
-			else
-				ra(a);
-			if (a->size == size_at_start)
-				break ;
+			pb(a, b);
+			pushed++;
 		}
-		max += a->chunk_size;
+		else
+			ra(a);
+		if (pushed == a->chunk_size)
+		{
+			max += a->chunk_size;
+			pushed = 0;
+		}
 	}
 }
 
