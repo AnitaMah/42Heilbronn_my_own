@@ -12,6 +12,36 @@
 
 #include "../../push_swap.h"
 
+static void	rotate_stack_silent(t_stack *stack)
+{
+	t_node	*first;
+
+	if (!stack || stack->size < 2)
+		return ;
+	first = stack->top;
+	stack->top = first->next;
+	stack->top->prev = NULL;
+	first->next = NULL;
+	first->prev = stack->bottom;
+	stack->bottom->next = first;
+	stack->bottom = first;
+}
+
+static void	reverse_rotate_stack_silent(t_stack *stack)
+{
+	t_node	*last;
+
+	if (!stack || stack->size < 2)
+		return ;
+	last = stack->bottom;
+	stack->bottom = last->prev;
+	stack->bottom->next = NULL;
+	last->prev = NULL;
+	last->next = stack->top;
+	stack->top->prev = last;
+	stack->top = last;
+}
+
 t_node	*find_max(t_stack *b)
 {
 	t_node	*current;
@@ -50,10 +80,10 @@ void	bring_to_top(t_stack *stack, t_node *target)
 		return ;
 	if (pos <= size / 2)
 		while (stack->top != target)
-			rb(stack);
+			rotate_stack_silent(stack);
 	else
 		while (stack->top != target)
-			rrb(stack);
+			reverse_rotate_stack_silent(stack);
 }
 
 void	restore_to_a(t_stack *a, t_stack *b)
