@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bring_to_top.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdhamoda <jdhamoda@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:19:09 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/15 21:22:10 by jdhamoda         ###   ########.fr       */
+/*   Updated: 2026/06/18 14:48:51 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,35 +35,35 @@ static int	count_operations_to_top(t_stack *stack, t_node *target)
 	return (-pos_from_bottom);
 }
 
-void	execute_rotation(t_stack *stack, int ops)
+void	execute_rotation(t_stack *stack, int ops, t_flags *apply)
 {
 	while (ops != 0)
 	{
 		if (ops > 0)
 		{
 			if (stack->name == 'a')
-				ra(stack);
+				ra(stack, apply);
 			else
-				rb(stack);
+				rb(stack, apply);
 			ops--;
 		}
 		else
 		{
 			if (stack->name == 'a')
-				rra(stack);
+				rra(stack, apply);
 			else
-				rrb(stack);
+				rrb(stack, apply);
 			ops++;
 		}
 	}
 }
 
-void	bring_to_top(t_stack *stack, t_node *target)
+void	bring_to_top(t_stack *stack, t_node *target, t_flags *apply)
 {
 	int	ops;
 
 	if (!stack || !target)
 		return ;
 	ops = count_operations_to_top(stack, target);
-	execute_rotation(stack, ops);
+	execute_rotation(stack, ops, apply);
 }

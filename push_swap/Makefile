@@ -6,7 +6,7 @@
 #    By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/15 14:59:16 by anmakhov          #+#    #+#              #
-#    Updated: 2026/06/17 14:20:57 by anmakhov         ###   ########.fr        #
+#    Updated: 2026/06/18 14:10:15 by anmakhov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRC = main/main.c \
 	flags/bench.c \
 	flags/parse_args_utils.c \
 	flags/parse_flags.c \
-	flags/strategy_apply.c
+	flags/strategy_apply.c \
+	flags/count_only.c
 
 
 

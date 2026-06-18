@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bench.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdhamoda <jdhamoda@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 10:57:06 by jdhamoda          #+#    #+#             */
-/*   Updated: 2026/06/17 11:10:37 by jdhamoda         ###   ########.fr       */
+/*   Updated: 2026/06/18 15:19:21 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 int	op_counter(int mode)
 {
-	static int	c[11];
+	static int	c[OP_TOTAL];
+	static int	total;
 	int			i;
-	int			total;
 
 	if (mode == -1)
 	{
 		i = 0;
+		total = 0;
 		while (i < 11)
 			c[i++] = 0;
 		return (0);
 	}
-	if (mode >= 0 && mode < 11)
-		return (++c[mode]);
-	if (mode == 11)
+	if (mode >= 0 && mode < OP_TOTAL)
 	{
-		total = 0;
-		i = 0;
-		while (i < 11)
-			total += c[i++];
-		return (total);
+		c[mode]++;
+		total++;
+		return (c[mode]);
 	}
+	if (mode == OP_TOTAL)
+		return (total);
 	if (mode >= 12 && mode < 23)
 		return (c[mode - 12]);
 	return (0);

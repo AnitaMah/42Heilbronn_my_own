@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selections_sort_addaptation.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdhamoda <jdhamoda@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 22:01:14 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/15 21:58:51 by jdhamoda         ###   ########.fr       */
+/*   Updated: 2026/06/18 14:52:43 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_node	*find_min_node(t_stack *a)
 	return (min);
 }
 
-void	selection_sort_adaptation(t_stack *a, t_stack *b)
+void	selection_sort_adaptation(t_stack *a, t_stack *b, t_flags *apply)
 {
 	t_node	*min;
 
@@ -39,8 +39,8 @@ void	selection_sort_adaptation(t_stack *a, t_stack *b)
 		min = find_min_node(a);
 		if (!min)
 			return ;
-		bring_to_top(a, min);
-		pb(a, b);
+		bring_to_top(a, min, apply);
+		pb(a, b, apply);
 	}
-	restore_to_a(a, b);
+	restore_to_a(a, b, apply);
 }

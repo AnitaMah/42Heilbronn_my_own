@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdhamoda <jdhamoda@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 14:17:00 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/17 11:13:47 by jdhamoda         ###   ########.fr       */
+/*   Updated: 2026/06/18 14:45:36 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,27 @@ static void	reverse_rotate_stack(t_stack *stack)
 	stack->top = last;
 }
 
-void	rrr(t_stack *a, t_stack *b)
+void	rrr(t_stack *a, t_stack *b, t_flags *apply)
 {
 	reverse_rotate_stack(a);
 	reverse_rotate_stack(b);
 	op_counter(OP_RRR);
-	write(1, "rrr\n", 4);
+	if (!apply->count_only)
+		write(1, "rrr\n", 4);
 }
 
-void	rrb(t_stack *b)
+void	rrb(t_stack *b, t_flags *apply)
 {
 	reverse_rotate_stack(b);
 	op_counter(OP_RRB);
-	write(1, "rrb\n", 4);
+	if (!apply->count_only)
+		write(1, "rrb\n", 4);
 }
 
-void	rra(t_stack *a)
+void	rra(t_stack *a, t_flags *apply)
 {
 	reverse_rotate_stack(a);
 	op_counter(OP_RRA);
-	write(1, "rra\n", 4);
+	if (!apply->count_only)
+		write(1, "rra\n", 4);
 }

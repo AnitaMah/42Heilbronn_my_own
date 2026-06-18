@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 15:02:56 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/17 14:09:18 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/18 14:48:03 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,18 @@ static void	push_stack(t_stack *src, t_stack *dest)
 	dest->size++;
 }
 
-void	pb(t_stack *a, t_stack *b)
+void	pb(t_stack *a, t_stack *b, t_flags *apply)
 {
 	push_stack(a, b);
 	op_counter(OP_PB);
-	write(1, "pb\n", 3);
+	if (!apply->count_only)
+		write(1, "pb\n", 3);
 }
 
-void	pa(t_stack *a, t_stack *b)
+void	pa(t_stack *a, t_stack *b, t_flags *apply)
 {
 	push_stack(b, a);
 	op_counter(OP_PA);
-	write(1, "pa\n", 3);
+	if (!apply->count_only)
+		write(1, "pa\n", 3);
 }

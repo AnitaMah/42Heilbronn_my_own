@@ -6,19 +6,19 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:21:49 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/15 16:21:56 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/18 14:53:52 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_file/push_swap.h"
 
-void	sort_two(t_stack *a)
+void	sort_two(t_stack *a, t_flags *apply)
 {
 	if (a->top->value > a->top->next->value)
-		sa(a);
+		sa(a, apply);
 }
 
-void	sort_three(t_stack *a)
+void	sort_three(t_stack *a, t_flags *apply)
 {
 	int	top;
 	int	mid;
@@ -30,21 +30,21 @@ void	sort_three(t_stack *a)
 	mid = a->top->next->value;
 	bot = a->top->next->next->value;
 	if (top > mid && mid < bot && top < bot)
-		sa(a);
+		sa(a, apply);
 	else if (top > mid && mid > bot && top > bot)
 	{
-		sa(a);
-		rra(a);
+		sa(a, apply);
+		rra(a, apply);
 	}
 	else if (top > mid && mid < bot && top > bot)
-		ra(a);
+		ra(a, apply);
 	else if (top < mid && mid > bot && top < bot)
 	{
-		sa(a);
-		ra(a);
+		sa(a, apply);
+		ra(a, apply);
 	}
 	else if (top < mid && mid > bot && top > bot)
-		rra(a);
+		rra(a, apply);
 }
 
 static int	get_min_pos(t_stack *stack)
@@ -86,7 +86,7 @@ static int	get_stack_size(t_stack *stack)
 	return (size);
 }
 
-void	sort_four_five(t_stack *a, t_stack *b, int size)
+void	sort_four_five(t_stack *a, t_stack *b, int size, t_flags *apply)
 {
 	int	min_pos;
 	int	cur_size;
@@ -98,17 +98,17 @@ void	sort_four_five(t_stack *a, t_stack *b, int size)
 		if (min_pos <= cur_size / 2)
 		{
 			while (min_pos-- > 0)
-				ra(a);
+				ra(a, apply);
 		}
 		else
 		{
 			while (min_pos++ < cur_size)
-				rra(a);
+				rra(a, apply);
 		}
-		pb(a, b);
+		pb(a, b, apply);
 		size--;
 	}
-	sort_three(a);
+	sort_three(a, apply);
 	while (b->top)
-		pa(a, b);
+		pa(a, b, apply);
 }

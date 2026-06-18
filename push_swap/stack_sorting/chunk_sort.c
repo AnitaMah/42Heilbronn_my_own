@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   chunk_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdhamoda <jdhamoda@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 12:07:09 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/15 21:26:26 by jdhamoda         ###   ########.fr       */
+/*   Updated: 2026/06/18 14:50:45 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	init_chunks(t_stack *a)
 		a->chunk_size = 30;
 }
 
-static void	push_chunks(t_stack *a, t_stack *b)
+static void	push_chunks(t_stack *a, t_stack *b, t_flags *apply)
 {
 	int	max;
 	int	pushed;
@@ -49,9 +49,9 @@ static void	push_chunks(t_stack *a, t_stack *b)
 	{
 		if (a->top->index <= max)
 		{
-			pb(a, b);
+			pb(a, b, apply);
 			if (b->top->index < max - (a->chunk_size / 2))
-				rb(b);
+				rb(b, apply);
 			pushed++;
 			if (pushed == max)
 				max += a->chunk_size;
@@ -59,19 +59,19 @@ static void	push_chunks(t_stack *a, t_stack *b)
 		else
 		{
 			if (find_position(a, max) <= a->size / 2)
-				ra(a);
+				ra(a, apply);
 			else
-				rra(a);
+				rra(a, apply);
 		}
 	}
 }
 
-void	chunk_sort(t_stack *a, t_stack *b)
+void	chunk_sort(t_stack *a, t_stack *b, t_flags *apply)
 {
 	if (!a || a->size <= 1)
 		return ;
 	normalize_index(a);
 	init_chunks(a);
-	push_chunks(a, b);
-	restore_to_a(a, b);
+	push_chunks(a, b, apply);
+	restore_to_a(a, b, apply);
 }

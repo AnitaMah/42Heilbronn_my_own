@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 12:53:17 by jdhamoda          #+#    #+#             */
-/*   Updated: 2026/06/17 14:23:14 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/18 15:00:24 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	parse_flags(int argc, char **argv, t_flags *flags)
 
 	flags->strategy = STRATEGY_ADAPTIVE;
 	flags->bench = 0;
+	flags->count_only = 0;
 	i = 1;
 	while (i < argc)
 	{
@@ -44,6 +45,8 @@ void	parse_flags(int argc, char **argv, t_flags *flags)
 			flags->strategy = STRATEGY_ADAPTIVE;
 		else if (is_flag(argv[i], "--bench"))
 			flags->bench = 1;
+		else if (is_flag(argv[1], "--count_only"))
+			flags->count_only = 1;
 		else if (argv[i][0] == '-' && argv[i][1] == '-')
 			error_exit();
 		i++;
