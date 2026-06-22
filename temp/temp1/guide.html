@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Python Module 01: Code Cultivation Guide</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: auto; padding: 20px; background: #f4f4f9; }
+        h1, h2 { color: #2c3e50; }
+        .exercise { background: white; border-left: 5px solid #3498db; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        pre { background: #2d3436; color: #dfe6e9; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .lang-toggle { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Python Module 01: Code Cultivation</h1>
+
+    <h2>Концепція / Concept</h2>
+    <p><strong>UA:</strong> Перехід від процедурного до об'єктно-орієнтованого програмування (ООП). Об'єкт інкапсулює стан (дані) та поведінку (методи)[cite: 65].</p>
+    <p><strong>EN:</strong> Transition from procedural to Object-Oriented Programming (OOP). An object encapsulates state (data) and behavior (methods)[cite: 65].</p>
+
+    <div class="exercise">
+        <h3>Ex00: Основи класів / Class Basics</h3>
+        <pre><code>class Animal:
+    def __init__(self, name):
+        self.name = name</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h3>Ex01: Успадкування / Inheritance</h3>
+        <p><strong>UA:</strong> Повторне використання коду через "is-a" зв'язки[cite: 68, 69].</p>
+        <p><strong>EN:</strong> Code reuse through "is-a" relationships[cite: 68, 69].</p>
+        <pre><code>class Dog(Animal):
+    def bark(self):
+        return "Woof!"</code></pre>
+    </div>
+
+    <div class="exercise">
+        <h3>Ex02: Інкапсуляція / Encapsulation</h3>
+        <p><strong>UA:</strong> Використання <code>@property</code> для безпечного керування станом[cite: 74, 75].</p>
+        <p><strong>EN:</strong> Using <code>@property</code> to manage state safely[cite: 74, 75].</p>
+    </div>
+
+    <div class="exercise">
+        <h3>Ex03: Dunder методи / Dunder Methods</h3>
+        <p><strong>UA:</strong> Методи як <code>__str__</code> або <code>__add__</code> роблять об'єкти "рідними" для Python[cite: 70, 77, 78].</p>
+        <p><strong>EN:</strong> Methods like <code>__str__</code> or <code>__add__</code> make objects feel native to Python[cite: 70, 77, 78].</p>
+    </div>
+
+    <div class="exercise">
+        <h3>Ex04 - Ex06: Поглиблення / Deep Dive</h3>
+        <p><strong>UA:</strong> Вивчення <code>@classmethod</code>, <code>@staticmethod</code> та комплексних патернів проєктування.</p>
+        <p><strong>EN:</strong> Exploring <code>@classmethod</code>, <code>@staticmethod</code>, and complex design patterns.</p>
+    </div>
+
+    <h2>Поради / Tips</h2>
+    <ul>
+        <li><strong>Self:</strong> <code>self</code> посилається на конкретний екземпляр класу. / <code>self</code> refers to the specific instance.</li>
+        <li><strong>Naming:</strong> <code>PascalCase</code> для класів, <code>snake_case</code> для методів.</li>
+    </ul>
+</body>
+</html>

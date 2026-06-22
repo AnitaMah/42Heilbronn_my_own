@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Python Module 02: Garden Guardian - Повний Посібник</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        h2 {
+            color: #27ae60;
+            border-bottom: 2px solid #27ae60;
+            padding-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+
+        .note {
+            background: #e8f6f3;
+            padding: 15px;
+            border-left: 5px solid #27ae60;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Python Module 02: Garden Guardian</h1>
+    <p>Data Engineering for Smart Agriculture. Цей модуль присвячений створенню стійких конвеєрів даних шляхом
+        опанування обробки виключень[cite: 10, 17, 75].</p>
+
+    <h2>Проєкт та концепції</h2>
+    <p>Сучасне сільське господарство вимагає систем, які витончено обробляють неочікувані збої (наприклад, несправності
+        датчиків або розриви мережі)[cite: 12, 13, 15, 98].</p>
+    <ul>
+        <li><strong>Resilient Design:</strong> Системи, що не виходять з ладу при помилках[cite: 15, 96].</li>
+        <li><strong>Exception Handling:</strong> Використання <code>try</code>, <code>except</code>,
+            <code>finally</code>, <code>raise</code>[cite: 17, 101, 102].</li>
+        <li><strong>Custom Exceptions:</strong> Створення власних типів помилок[cite: 165].</li>
+    </ul>
+
+    <h2>Дорожня карта вправ</h2>
+    <table>
+        <tr>
+            <th>Вправа</th>
+            <th>Файл</th>
+            <th>Фокус</th>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td><code>ft_first_exception.py</code></td>
+            <td>Базова валідація [cite: 107, 108, 114]</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td><code>ft_raise_exception.py</code></td>
+            <td>Кастомна логіка через <code>raise</code> [cite: 138, 140, 146]</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><code>ft_different_errors.py</code></td>
+            <td>Обробка різних типів помилок [cite: 153]</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><code>ft_custom_errors.py</code></td>
+            <td>Власні класи помилок [cite: 164]</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><code>ft_finally_block.py</code></td>
+            <td>Очищення ресурсів (finally) [cite: 172]</td>
+        </tr>
+    </table>
+
+    <h2>Деталі завдань (Що потрібно зробити)</h2>
+    <table>
+        <tr>
+            <th>Вправа</th>
+            <th>Завдання</th>
+        </tr>
+        <tr>
+            <td>Ex 0</td>
+            <td>Написати функцію <code>input_temperature(temp_str)</code>, яка перетворює рядок на число. Написати тест
+                для перевірки успішного виконання та обробки помилок.</td>
+        </tr>
+        <tr>
+            <td>Ex 1</td>
+            <td>Додати валідацію: температура має бути в межах 0–40°C. Якщо ні — викликати помилку через
+                <code>raise</code>.</td>
+        </tr>
+        <tr>
+            <td>Ex 2</td>
+            <td>Створити <code>garden_operations(operation_number)</code>, яка генерує помилки: <code>ValueError</code>,
+                <code>ZeroDivisionError</code>, <code>FileNotFoundError</code>, <code>TypeError</code>.</td>
+        </tr>
+        <tr>
+            <td>Ex 3</td>
+            <td>Створити ієрархію: <code>GardenError</code> (базовий), <code>PlantError</code> та
+                <code>WaterError</code> (успадковуються від <code>GardenError</code>).</td>
+        </tr>
+        <tr>
+            <td>Ex 4</td>
+            <td>Реалізувати <code>water_plant(plant_name)</code> з використанням <code>PlantError</code> та блок
+                <code>finally</code> для "закриття" системи поливу.</td>
+        </tr>
+    </table>
+
+    <h2>Концепції обробки виключень</h2>
+    <p>Розуміння того, як потік виконання змінюється при помилці, є критичним[cite: 98, 101].</p>
+
+
+
+    <h3>Псевдокод та приклади</h3>
+    <pre>
+    // Приклад Вправа 0: Базова валідація
+    try:
+        temp = int(input_str) // Спроба конвертації
+    except ValueError:
+        print("Помилка: некоректні дані")
+
+    // Приклад Вправа 4: Гарантоване очищення
+    try:
+        відкрити_систему_поливу()
+        поливати()
+    finally:
+        закрити_систему_поливу() // Виконається ЗАВЖДИ
+    </pre>
+
+    <h3>Ключові поради</h3>
+    <ul>
+        <li><strong>raise:</strong> Використовуйте для порушення бізнес-логіки, якщо дані поза межами (наприклад,
+            0–40°C)[cite: 146].</li>
+        <li><strong>Специфічність:</strong> Ловіть конкретні помилки (ValueError, TypeError), а не
+            <code>Exception</code>, щоб уникнути приховування багів[cite: 103, 160].</li>
+        <li><strong>Ієрархія:</strong> Створюйте власні класи через успадкування для кращого групування помилок[cite:
+            165, 171].</li>
+    </ul>
+
+    <h2>Загальні правила</h2>
+    <ul>
+        <li><strong>Мова:</strong> Python 3.10+[cite: 88].</li>
+        <li><strong>Стандарти:</strong> flake8, type hints[cite: 89, 90].</li>
+        <li><strong>Оборонне програмування:</strong> Програми ніколи не повинні "падати"[cite: 96].</li>
+        <li><strong>AI Policy:</strong> Використовуйте ШІ, але ви повинні повністю розуміти та обґрунтувати свій код під
+            час захисту[cite: 34, 61].</li>
+    </ul>
+
+    <div class="note">
+        <p><strong>Порада:</strong> "Професійні інженери даних знають, що надійні системи будуються для витонченої
+            обробки неочікуваного"[cite: 15, 97].</p>
+    </div>
+
+</body>
+
+</html>

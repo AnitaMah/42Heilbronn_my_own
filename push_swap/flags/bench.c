@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/17 10:57:06 by jdhamoda          #+#    #+#             */
-/*   Updated: 2026/06/18 15:19:21 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/18 16:05:33 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	op_counter(int mode)
 	{
 		i = 0;
 		total = 0;
-		while (i < 11)
+		while (i < OP_TOTAL)
 			c[i++] = 0;
 		return (0);
 	}
