@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/09 17:12:22 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/09 17:28:11 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/06/16 19:02:37 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/06/16 19:12:08 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GET_NEXT_LINE_H
 
 # include <stdlib.h>
-# include <sys/types.h>
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
@@ -22,8 +21,16 @@
 # endif
 
 char	*get_next_line(int fd);
+
+char	*read_from_file(int fd, char *stash);
+char	*extract_line(char *stash);
+char	*update_stash(char *stash);
+
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strdup(const char *s1);
+char	*ft_strdup(const char *s);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+char	*ft_strjoin(char *s1, char *s2);
 
 #endif
