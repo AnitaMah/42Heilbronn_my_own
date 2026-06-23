@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 11:17:31 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/23 12:55:24 by anmakhov         ###   ########.fr       */
+/*   Created: 2026/06/23 15:31:44 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/06/23 15:34:09 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,55 @@
 
 void	save_rest(char *line, char *leftover)
 {
-	char	*newline_ptr;
-	int		i;
-	int		j;
+	char	*nl;
+	size_t	i;
 
-	newline_ptr = ft_strchr(line, '\n');
-	if (!newline_ptr)
+	i = 0;
+	if (!line)
 	{
 		leftover[0] = '\0';
 		return ;
 	}
-	i = (newline_ptr - line) + 1;
-	j = 0;
-	while (line[i + j])
+	nl = ft_strchr(line, '\n');
+	if (!nl || !*(nl + 1))
 	{
-		leftover[j] = line[i + j];
-		j++;
+		leftover[0] = '\0';
+		return ;
 	}
-	leftover[j] = '\0';
+	nl++;
+	while (*nl && i < BUFFER_SIZE)
+		leftover[i++] = *nl++;
+	leftover[i] = '\0';
 }
 
 char	*extract_line(char *line)
 {
-	char	*newline;
-	char	*res;
+	char	*nl;
 
-	newline = ft_strchr(line, '\n');
-	if (!newline)
-		return (line);
-	res = ft_substr(line, 0, (newline - line) + 1);
+	if (!line || !*line)
+		return (NULL);
+	nl = ft_strchr(line, '\n');
+	if (nl)
+		return (ft_substr(line, 0, (nl - line) + 1));
+	return (ft_strdup(line));
+}
+
+char	*append_buf(char *line, char *buf, ssize_t n)
+{
+	char	*tmp;
+	size_t	len;
+
+	if (!line)
+		line = ft_strdup("");
+	len = ft_strlen(line);
+	tmp = malloc(len + n + 1);
+	if (!tmp)
+		return (free(line), NULL);
+	ft_memcpy(tmp, line, len);
+	ft_memcpy(tmp + len, buf, n);
+	tmp[len + n] = '\0';
 	free(line);
-	return (res);
+	return (tmp);
 }
 
 char	*read_from_file(int fd, char *line)
@@ -52,19 +70,23 @@ char	*read_from_file(int fd, char *line)
 	char	*buf;
 	ssize_t	n;
 
-	buf = malloc(BUFFER_SIZE + 1);
+	buf = malloc(BUFFER_SIZE);
 	if (!buf)
 		return (free(line), NULL);
-	n = 1;
-	while (!ft_strchr(line, '\n') && n > 0)
+	while (!ft_strchr(line, '\n'))
 	{
 		n = read(fd, buf, BUFFER_SIZE);
-		if (n == -1)
-			return (free(buf), free(line), NULL);
 		if (n == 0)
 			break ;
-		buf[n] = '\0';
-		line = ft_strjoin(line, buf);
+		if (n < 0)
+		{
+			free(buf);
+			free(line);
+			return (NULL);
+		}
+		line = append_buf(line, buf, n);
+		if (!line)
+			return (free(buf), NULL);
 	}
 	free(buf);
 	return (line);
@@ -74,17 +96,26 @@ char	*get_next_line(int fd)
 {
 	static char	leftover[BUFFER_SIZE + 1];
 	char		*line;
+	char		*res;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = ft_strdup(leftover);
-	line = read_from_file(fd, line);
-	if (!line || *line == '\0')
+	if (!line)
 	{
-		free(line);
 		leftover[0] = '\0';
 		return (NULL);
 	}
+	line = read_from_file(fd, line);
+	if (!line)
+	{
+		leftover[0] = '\0';
+		return (NULL);
+	}
+	res = extract_line(line);
 	save_rest(line, leftover);
-	return (extract_line(line));
+	free(line);
+	if (!res)
+		leftover[0] = '\0';
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 19:06:45 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/16 19:10:51 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/23 15:32:52 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,29 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	unsigned char		*d;
+	const unsigned char	*s = (const unsigned char *)src;
+
+	d = (unsigned char *)dest;
+	while (n--)
+		*d++ = *s++;
+	return (dest);
+}
+
 char	*ft_strdup(const char *s)
 {
+	size_t	len;
 	char	*ptr;
 	size_t	i;
 
-	ptr = malloc(ft_strlen(s) + 1);
+	len = ft_strlen(s);
+	ptr = malloc(len + 1);
+	i = 0;
 	if (!ptr)
 		return (NULL);
-	i = 0;
-	while (s[i])
+	while (i < len)
 	{
 		ptr[i] = s[i];
 		i++;
@@ -62,6 +75,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char	*ptr;
 	size_t	i;
 
+	i = 0;
 	if (!s)
 		return (NULL);
 	if (start >= ft_strlen(s))
@@ -71,34 +85,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	ptr = malloc(len + 1);
 	if (!ptr)
 		return (NULL);
-	i = 0;
 	while (i < len)
-		ptr[i++] = s[start++];
+	{
+		ptr[i] = s[start + i];
+		i++;
+	}
 	ptr[i] = '\0';
 	return (ptr);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*new;
-	size_t	l1;
-	size_t	l2;
-	size_t	i;
-	size_t	j;
-
-	l1 = ft_strlen(s1);
-	l2 = ft_strlen(s2);
-	i = 0;
-	j = 0;
-	new = malloc(l1 + l2 + 1);
-	if (!new)
-		return (free(s1), NULL);
-	while (s1[i])
-		new[j++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		new[j++] = s2[i++];
-	new[j] = '\0';
-	free(s1);
-	return (new);
 }
