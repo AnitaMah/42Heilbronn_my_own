@@ -110,11 +110,6 @@ void    sort_stack(t_stack *a, t_stack *b, t_flags *flags, double disorder)
         apply_strategy(a, b, disorder, flags);
     else
         auto_strategy(a, b, disorder, flags);
-    if (flags->count_only)
-    {
-        print_count_only(flags);
-        return ;
-    }
     if (flags->bench)
         print_bench(flags, disorder);
 }
