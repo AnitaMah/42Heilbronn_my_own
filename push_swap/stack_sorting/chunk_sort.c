@@ -1,77 +1,107 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   chunk_sort.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/02 12:07:09 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/18 14:50:45 by anmakhov         ###   ########.fr       */
-/*                                                                            */
+/* */
+/* :::      ::::::::   */
+/* chunk_sort.c                                       :+:      :+:    :+:   */
+/* +:+ +:+         +:+     */
+/* By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
+/* +#+#+#+#+#+   +#+           */
+/* Created: 2026/06/02 12:07:09 by anmakhov          #+#             */
+/* Updated: 2026/06/18 14:50:45 by anmakhov         ###   ########.fr       */
+/* */
 /* ************************************************************************** */
 
 #include "../header_file/push_swap.h"
 
-t_node	*find_max(t_stack *b)
+/*
+** find_max - Searches for the node with the highest index in stack b.
+** @b: The pointer to stack B.
+**
+** Iterates through the stack to find and return the node with the 
+** maximum index value.
+*/
+t_node  *find_max(t_stack *b)
 {
-	t_node	*cur;
-	t_node	*max;
+    t_node  *cur;
+    t_node  *max;
 
-	if (!b || !b->top)
-		return (NULL);
-	cur = b->top;
-	max = b->top;
-	while (cur)
-	{
-		if (cur->index > max->index)
-			max = cur;
-		cur = cur->next;
-	}
-	return (max);
+    if (!b || !b->top)
+        return (NULL);
+    cur = b->top;
+    max = b->top;
+    while (cur)
+    {
+        if (cur->index > max->index)
+            max = cur;
+        cur = cur->next;
+    }
+    return (max);
 }
 
-static void	init_chunks(t_stack *a)
+/*
+** init_chunks - Sets the chunk size based on the number of elements.
+** @a: The pointer to stack A.
+**
+** Determines an appropriate chunk size (15 or 30) depending on the 
+** input size for the sorting algorithm.
+*/
+static void init_chunks(t_stack *a)
 {
-	if (a->size <= 100)
-		a->chunk_size = 15;
-	else
-		a->chunk_size = 30;
+    if (a->size <= 100)
+        a->chunk_size = 15;
+    else
+        a->chunk_size = 30;
 }
 
-static void	push_chunks(t_stack *a, t_stack *b, t_flags *apply)
+/*
+** push_chunks - Moves elements from stack A to B in sorted chunks.
+** @a: The source stack A.
+** @b: The target stack B.
+**
+** Iteratively pushes elements into chunks based on their index. 
+** Optimizes the movement using rotations.
+*/
+static void push_chunks(t_stack *a, t_stack *b)
 {
-	int	max;
-	int	pushed;
+    int max;
+    int pushed;
 
-	max = a->chunk_size;
-	pushed = 0;
-	while (a->size > 0)
-	{
-		if (a->top->index <= max)
-		{
-			pb(a, b, apply);
-			if (b->top->index < max - (a->chunk_size / 2))
-				rb(b, apply);
-			pushed++;
-			if (pushed == max)
-				max += a->chunk_size;
-		}
-		else
-		{
-			if (find_position(a, max) <= a->size / 2)
-				ra(a, apply);
-			else
-				rra(a, apply);
-		}
-	}
+    max = a->chunk_size;
+    pushed = 0;
+    while (a->size > 0)
+    {
+        if (a->top->index <= max)
+        {
+            pb(a, b);
+            if (b->top->index < max - (a->chunk_size / 2))
+                rb(b);
+            pushed++;
+            if (pushed == max)
+                max += a->chunk_size;
+        }
+        else
+        {
+            if (find_position(a, max) <= a->size / 2)
+                ra(a);
+            else
+                rra(a);
+        }
+    }
 }
 
-void	chunk_sort(t_stack *a, t_stack *b, t_flags *apply)
+/*
+** chunk_sort - Main function to sort the stack using the chunk algorithm.
+** @a: The source stack.
+** @b: The helper stack.
+**
+** Normalizes indices, initializes chunk parameters, and manages the 
+** transfer of nodes between stacks to achieve sorting.
+*/
+void    chunk_sort(t_stack *a, t_stack *b)
 {
-	if (!a || a->size <= 1)
-		return ;
-	normalize_index(a);
-	init_chunks(a);
-	push_chunks(a, b, apply);
-	restore_to_a(a, b, apply);
+    if (!a || a->size <= 1)
+        return ;
+    normalize_index(a);
+    init_chunks(a);
+    push_chunks(a, b);
+    restore_to_a(a, b);
 }

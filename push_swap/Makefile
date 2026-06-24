@@ -52,8 +52,6 @@ SRC = main/main.c \
 	flags/parse_args_utils.c \
 	flags/parse_flags.c \
 	flags/strategy_apply.c \
-	flags/count_only.c
-
 
 
 OBJ = $(SRC:.c=.o)
