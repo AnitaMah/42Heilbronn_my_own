@@ -6,13 +6,12 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/16 12:53:17 by jdhamoda          #+#    #+#             */
-/*   Updated: 2026/06/25 14:49:23 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/25 17:27:06 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_file/push_swap.h"
-#include <stdlib.h>
-#include <unistd.h>
+
 
 int	is_flag(char *s, char *flag)
 {

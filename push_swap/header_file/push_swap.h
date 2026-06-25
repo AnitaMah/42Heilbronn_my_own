@@ -6,14 +6,14 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:17:37 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/25 14:48:49 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/25 17:27:24 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# define STRATEGY_NONE 0
+# define STRATEGY_NONE -1
 # define STRATEGY_SIMPLE 0
 # define STRATEGY_MEDIUM 1
 # define STRATEGY_COMPLEX 2
