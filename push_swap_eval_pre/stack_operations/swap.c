@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:18:54 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/26 12:57:58 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/26 17:19:27 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	sa(t_stack *a)
 		return ;
 	swap_stack(a);
 	op_counter(OP_SA);
-	write(1, "sa\n", 3);
+	if (!supress_output(-1))
+		write(1, "sa\n", 3);
 }
 
 /**
@@ -57,7 +58,8 @@ void	sb(t_stack *b)
 		return ;
 	swap_stack(b);
 	op_counter(OP_SB);
-	write(1, "sb\n", 3);
+	if (!supress_output(-1))
+		write(1, "sb\n", 3);
 }
 
 /**
@@ -73,5 +75,6 @@ void	ss(t_stack *a, t_stack *b)
 	swap_stack(a);
 	swap_stack(b);
 	op_counter(OP_SS);
-	write(1, "ss\n", 3);
+	if (!supress_output(-1))
+		write(1, "ss\n", 3);
 }

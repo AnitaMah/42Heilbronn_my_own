@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 14:17:00 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/26 12:55:18 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/26 17:18:23 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	rrr(t_stack *a, t_stack *b)
 	reverse_rotate_stack(a);
 	reverse_rotate_stack(b);
 	op_counter(OP_RRR);
-	write(1, "rrr\n", 4);
+	if (!supress_output(-1))
+		write(1, "rrr\n", 4);
 }
 
 /**
@@ -55,7 +56,8 @@ void	rrb(t_stack *b)
 {
 	reverse_rotate_stack(b);
 	op_counter(OP_RRB);
-	write(1, "rrb\n", 4);
+	if (!supress_output(-1))
+		write(1, "rrb\n", 4);
 }
 
 /**
@@ -67,5 +69,6 @@ void	rra(t_stack *a)
 {
 	reverse_rotate_stack(a);
 	op_counter(OP_RRA);
-	write(1, "rra\n", 4);
+	if (!supress_output(-1))
+		write(1, "rra\n", 4);
 }

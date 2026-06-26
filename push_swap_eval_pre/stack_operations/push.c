@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/11 15:02:56 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/26 12:54:23 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/26 17:17:44 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	pb(t_stack *a, t_stack *b)
 {
 	push_stack(a, b);
 	op_counter(OP_PB);
-	write(1, "pb\n", 3);
+	if (!supress_output(-1))
+		write(1, "pb\n", 3);
 }
 
 /**
@@ -64,5 +65,6 @@ void	pa(t_stack *a, t_stack *b)
 {
 	push_stack(b, a);
 	op_counter(OP_PA);
-	write(1, "pa\n", 3);
+	if (!supress_output(-1))
+		write(1, "pa\n", 3);
 }

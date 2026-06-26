@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/15 16:17:37 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/06/26 13:47:59 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/06/26 17:15:23 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@
 # include <unistd.h>
 
 /* ========================================================================== */
-/* STRUCTURE DEFINITIONS                           							  */
+/* STRUCTURE DEFINITIONS                           								*/
 /* ========================================================================== */
 
 typedef struct s_flags
 {
 	int				strategy;
 	int				bench;
+	int				count_only;
 }					t_flags;
 
 typedef struct s_node
@@ -77,7 +78,7 @@ typedef struct s_context
 }					t_context;
 
 /* ========================================================================== */
-/* STACK OPERATIONS                               							  */
+/* STACK OPERATIONS                               								*/
 /* ========================================================================== */
 
 /**
@@ -146,7 +147,7 @@ void				rrb(t_stack *b);
 void				rrr(t_stack *a, t_stack *b);
 
 /* ========================================================================== */
-/* SORTING ALGORITHMS                             							  */
+/* SORTING ALGORITHMS                             								*/
 /* ========================================================================== */
 
 /**
@@ -234,7 +235,7 @@ int					stack_to_array(t_stack *a);
 double				compute_disorder(int *arr, int size);
 
 /* ========================================================================== */
-/* CORE FUNCTIONS                              								  */
+/* CORE FUNCTIONS                              									*/
 /* ========================================================================== */
 
 /**
@@ -269,7 +270,7 @@ void				free_stack(t_stack *a);
 void				execute_rotation(t_stack *stack, int ops);
 
 /* ========================================================================== */
-/* PARSING                                   								  */
+/* PARSING                                   									*/
 /* ========================================================================== */
 
 /**
@@ -395,5 +396,6 @@ int					init_and_fill_stack(t_stack *a, int argc, char **argv,
  * @param a, @param b.
  */
 void				cleanup(t_stack *a, t_stack *b);
+int					supress_output(int mode);
 
 #endif
