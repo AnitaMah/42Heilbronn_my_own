@@ -1,139 +1,143 @@
 /* ************************************************************************** */
-/* */
-/* :::      ::::::::   */
-/* bench.c                                            :+:      :+:    :+:   */
-/* +:+ +:+         +:+     */
-/* By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
-/* +#+#+#+#+#+   +#+           */
-/* Created: 2026/06/17 10:57:06 by jdhamoda          #+#    #+#             */
-/* Updated: 2026/06/18 16:05:33 by anmakhov         ###   ########.fr       */
-/* */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bench.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdhamoda <jdhamoda@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/17 10:57:06 by jdhamoda          #+#    #+#             */
+/*   Updated: 2026/06/26 12:52:50 by jdhamoda         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_file/push_swap.h"
 
-/*
-** @brief Manages the counting of operations in the program.
-**
-** @param mode Operation mode (reset, increment, or retrieve).
-** @return int The count of a specific operation or total operations.
-*/
-int op_counter(int mode)
-{
-    static int  c[OP_TOTAL];
-    static int  total;
-    int         i;
+/**
+ * @file push_swap_bench.c
+ * @brief Operations tracker and benchmarking utilities.
+ */
 
-    if (mode == -1)
-    {
-        i = 0;
-        total = 0;
-        while (i < OP_TOTAL)
-            c[i++] = 0;
-        return (0);
-    }
-    if (mode >= 0 && mode < OP_TOTAL)
-    {
-        c[mode]++;
-        total++;
-        return (c[mode]);
-    }
-    if (mode == OP_TOTAL)
-        return (total);
-    if (mode >= 12 && mode < 23)
-        return (c[mode - 12]);
-    return (0);
+/**
+ * @brief Tracks and manages push_swap operation counts.
+ * @param mode `-1` to reset, `0-10` to increment, `11`
+ *  for total, `12-22` to read.
+ * @return The requested count or total operations.
+ */
+
+int	op_counter(int mode)
+{
+	static int	c[11];
+	int			i;
+	int			total;
+
+	if (mode == -1)
+	{
+		i = 0;
+		while (i < 11)
+			c[i++] = 0;
+		return (0);
+	}
+	if (mode >= 0 && mode < 11)
+		return (++c[mode]);
+	if (mode == 11)
+	{
+		total = 0;
+		i = 0;
+		while (i < 11)
+			total += c[i++];
+		return (total);
+	}
+	if (mode >= 12 && mode < 23)
+		return (c[mode - 12]);
+	return (0);
 }
 
-/*
-** @brief Prints the disorder level of the stack to the error output.
-**
-** @param disorder The disorder value (between 0.0 and 1.0).
-*/
-static void write_disorder(double disorder)
+/**
+ * @brief Prints the stack disorder level as a percentage to stderr.
+ * @param disorder Raw disorder value (0.0 to 1.0).
+ */
+static void	write_disorder(double disorder)
 {
-    int percent;
-    int decimals;
+	int	percent;
+	int	decimals;
 
-    percent = (int)(disorder * 100.0);
-    decimals = (int)(disorder * 10000.0) % 100;
-    ft_putstr_fd("[bench] disorder: ", 2);
-    ft_putnbr_fd(percent, 2);
-    ft_putchar_fd('.', 2);
-    if (decimals < 10)
-        ft_putchar_fd('0', 2);
-    ft_putnbr_fd(decimals, 2);
-    ft_putstr_fd("%\n", 2);
+	percent = (int)(disorder * 100.0);
+	decimals = (int)(disorder * 10000.0) % 100;
+	ft_putstr_fd("[bench] disorder: ", 2);
+	ft_putnbr_fd(percent, 2);
+	ft_putchar_fd('.', 2);
+	if (decimals < 10)
+		ft_putchar_fd('0', 2);
+	ft_putnbr_fd(decimals, 2);
+	ft_putstr_fd("%\n", 2);
 }
 
-/*
-** @brief Prints the selected sorting strategy.
-**
-** @param strat Strategy identifier.
-** @param disorder Current disorder level.
-*/
-static void write_strategy(int strat, double disorder)
+/**
+ * @brief Prints the sorting strategy and its big-O complexity.
+ * @param strat Strategy identifier.
+ * @param disorder Stack disorder value used for adaptive strategy mapping.
+ */
+static void	write_strategy(int strat, double disorder)
 {
-    ft_putstr_fd("[bench] strategy: ", 2);
-    if (strat == STRATEGY_SIMPLE)
-        ft_putstr_fd("Simple / O(n^2)\n", 2);
-    else if (strat == STRATEGY_MEDIUM)
-        ft_putstr_fd("Medium / O(n*sqrt(n))\n", 2);
-    else if (strat == STRATEGY_COMPLEX)
-        ft_putstr_fd("Complex / O(n log n)\n", 2);
-    else if (disorder < 0.2)
-        ft_putstr_fd("Adaptive / O(n^2)\n", 2);
-    else if (disorder < 0.5)
-        ft_putstr_fd("Adaptive / O(n*sqrt(n))\n", 2);
-    else
-        ft_putstr_fd("Adaptive / O(n log n)\n", 2);
+	ft_putstr_fd("[bench] strategy: ", 2);
+	if (strat == STRATEGY_SIMPLE)
+		ft_putstr_fd("Simple / O(n^2)\n", 2);
+	else if (strat == STRATEGY_MEDIUM)
+		ft_putstr_fd("Medium / O(n*sqrt(n))\n", 2);
+	else if (strat == STRATEGY_COMPLEX)
+		ft_putstr_fd("Complex / O(n log n)\n", 2);
+	else if (disorder < 0.2)
+		ft_putstr_fd("Adaptive / O(n^2)\n", 2);
+	else if (disorder < 0.5)
+		ft_putstr_fd("Adaptive / O(n*sqrt(n))\n", 2);
+	else
+		ft_putstr_fd("Adaptive / O(n log n)\n", 2);
 }
 
-/*
-** @brief Prints the counts of each performed operation.
-*/
-static void write_op_counts(void)
+/**
+ * @brief Outputs individual metric tallies for all 11 push_swap operations.
+ */
+static void	write_op_counts(void)
 {
-    ft_putstr_fd("[bench] sa: ", 2);
-    ft_putnbr_fd(op_counter(12), 2);
-    ft_putstr_fd(" sb: ", 2);
-    ft_putnbr_fd(op_counter(13), 2);
-    ft_putstr_fd(" ss: ", 2);
-    ft_putnbr_fd(op_counter(14), 2);
-    ft_putstr_fd(" pa: ", 2);
-    ft_putnbr_fd(op_counter(15), 2);
-    ft_putstr_fd(" pb: ", 2);
-    ft_putnbr_fd(op_counter(16), 2);
-    ft_putstr_fd(" ra: ", 2);
-    ft_putnbr_fd(op_counter(17), 2);
-    ft_putchar_fd('\n', 2);
-    ft_putstr_fd("[bench] rb: ", 2);
-    ft_putnbr_fd(op_counter(18), 2);
-    ft_putstr_fd(" rr: ", 2);
-    ft_putnbr_fd(op_counter(19), 2);
-    ft_putstr_fd(" rra: ", 2);
-    ft_putnbr_fd(op_counter(20), 2);
-    ft_putstr_fd(" rrb: ", 2);
-    ft_putnbr_fd(op_counter(21), 2);
-    ft_putstr_fd(" rrr: ", 2);
-    ft_putnbr_fd(op_counter(22), 2);
-    ft_putchar_fd('\n', 2);
+	ft_putstr_fd("[bench] sa: ", 2);
+	ft_putnbr_fd(op_counter(12), 2);
+	ft_putstr_fd(" sb: ", 2);
+	ft_putnbr_fd(op_counter(13), 2);
+	ft_putstr_fd(" ss: ", 2);
+	ft_putnbr_fd(op_counter(14), 2);
+	ft_putstr_fd(" pa: ", 2);
+	ft_putnbr_fd(op_counter(15), 2);
+	ft_putstr_fd(" pb: ", 2);
+	ft_putnbr_fd(op_counter(16), 2);
+	ft_putstr_fd(" ra: ", 2);
+	ft_putnbr_fd(op_counter(17), 2);
+	ft_putchar_fd('\n', 2);
+	ft_putstr_fd("[bench] rb: ", 2);
+	ft_putnbr_fd(op_counter(18), 2);
+	ft_putstr_fd(" rr: ", 2);
+	ft_putnbr_fd(op_counter(19), 2);
+	ft_putstr_fd(" rra: ", 2);
+	ft_putnbr_fd(op_counter(20), 2);
+	ft_putstr_fd(" rrb: ", 2);
+	ft_putnbr_fd(op_counter(21), 2);
+	ft_putstr_fd(" rrr: ", 2);
+	ft_putnbr_fd(op_counter(22), 2);
+	ft_putchar_fd('\n', 2);
 }
 
-/*
-** @brief Main function to display benchmarking statistics.
-**
-** @param flags Pointer to the flags structure.
-** @param disorder Current disorder value.
-*/
-void    print_bench(t_flags *flags, double disorder)
+/**
+ * @brief Displays overall benchmark results if the flag is enabled.
+ * @param flags Program configuration options.
+ * @param disorder Calculated structural data chaos metric.
+ */
+void	print_bench(t_flags *flags, double disorder)
 {
-    if (!flags->bench)
-        return ;
-    write_disorder(disorder);
-    write_strategy(flags->strategy, disorder);
-    ft_putstr_fd("[bench] total_ops: ", 2);
-    ft_putnbr_fd(op_counter(11), 2);
-    ft_putchar_fd('\n', 2);
-    write_op_counts();
+	if (!flags->bench)
+		return ;
+	write_disorder(disorder);
+	write_strategy(flags->strategy, disorder);
+	ft_putstr_fd("[bench] total_ops: ", 2);
+	ft_putnbr_fd(op_counter(11), 2);
+	ft_putchar_fd('\n', 2);
+	write_op_counts();
 }

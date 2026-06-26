@@ -1,120 +1,114 @@
 /* ************************************************************************** */
-/* */
-/* :::      ::::::::   */
-/* strategy_apply.c                                   :+:      :+:    :+:   */
-/* +:+ +:+         +:+     */
-/* By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
-/* +#+#+#+#+#+   +#+           */
-/* Created: 2026/06/16 17:08:04 by jdhamoda          #+#    #+#             */
-/* Updated: 2026/06/18 16:34:01 by anmakhov         ###   ########.fr       */
-/* */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   strategy_apply.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdhamoda <jdhamoda@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/16 17:08:04 by jdhamoda          #+#    #+#             */
+/*   Updated: 2026/06/26 13:00:03 by jdhamoda         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_file/push_swap.h"
 
-/*
- * auto_strategy - Selects a sorting algorithm based on stack size and disorder.
- * @a: Pointer to stack A.
- * @b: Pointer to stack B.
- * @disorder: A coefficient representing how unsorted the stack is.
- * @flags: Pointer to the program configuration flags.
+/**
+ * @file strategy_selector.c
+ * @brief Strategy routing and sorting core for push_swap.
  */
-static void auto_strategy(t_stack *a, t_stack *b, double disorder,
-        t_flags *flags)
+
+/**
+ * @brief Selects a default sorting strategy based solely on stack size.
+ * @param a Pointer to stack A.
+ * @param b Pointer to stack B.
+ */
+
+static void	auto_strategy(t_stack *a, t_stack *b)
 {
-    if (a->size <= 5)
-        sort_four_five(a, b, a->size, flags);
-    else if (a->size <= 100)
-    {
-        if (disorder < 0.2)
-            selection_sort_adaptation(a, b, flags);
-        else
-            chunk_sort(a, b, flags);
-    }
-    else
-    {
-        if (disorder < 0.2)
-            selection_sort_adaptation(a, b, flags);
-        else if (disorder < 0.5)
-            chunk_sort(a, b, flags);
-        else
-            radix_sort(a, b, flags);
-    }
+	if (a->size <= 100)
+		chunk_sort(a, b);
+	else
+		radix_sort(a, b);
 }
 
-/*
- * sort_appadptive - Applies adaptive sorting based on the disorder level.
- * @a: Pointer to stack A.
- * @b: Pointer to stack B.
- * @flags: Pointer to the program configuration flags.
- * @disorder: A coefficient representing the level of disorder.
+/**
+ * @brief Selects a sorting strategy dynamically based on the disorder metric.
+ * @param a Pointer to stack A.
+ * @param b Pointer to stack B.
+ * @param disorder Calculated structural data chaos metric.
  */
-static void sort_appadptive(t_stack *a, t_stack *b, t_flags *flags,
-        double disorder)
+static void	sort_adaptive(t_stack *a, t_stack *b, double disorder)
 {
-    if (disorder < 0.25)
-        selection_sort_adaptation(a, b, flags);
-    else if (disorder >= 0.25 && disorder < 0.5)
-        chunk_sort(a, b, flags);
-    else if (disorder > 0.5)
-        radix_sort(a, b, flags);
+	if (disorder < 0.25)
+		selection_sort_adaptation(a, b);
+	else if (disorder < 0.5)
+		chunk_sort(a, b);
+	else
+		radix_sort(a, b);
 }
 
-/*
- * apply_strategy - Decides the sorting strategy based on provided user flags
- * or initiates an adaptive selection process.
- * @a: Pointer to stack A.
- * @b: Pointer to stack B.
- * @disorder: A coefficient representing the level of disorder.
- * @flags: Pointer to the program configuration flags.
+/**
+ * @brief Applies the designated sorting strategy
+   corresponding to the program flags.
+ * @param a Pointer to stack A.
+ * @param b Pointer to stack B.
+ * @param flags Pointer to the configuration structure
+   containing the strategy mode.
+ * @param disorder Calculated structural data chaos metric.
  */
-static void apply_strategy(t_stack *a, t_stack *b, double disorder,
-        t_flags *flags)
+static void	apply_strategy(t_stack *a, t_stack *b, t_flags *flags,
+		double disorder)
 {
-    if (flags->strategy == STRATEGY_SIMPLE)
-        selection_sort_adaptation(a, b, flags);
-    else if (flags->strategy == STRATEGY_MEDIUM)
-        chunk_sort(a, b, flags);
-    else if (flags->strategy == STRATEGY_COMPLEX)
-        radix_sort(a, b, flags);
-    else
-    {
-        if (a->size <= 5)
-        {
-            sort_four_five(a, b, a->size, flags);
-            return ;
-        }
-        else
-            sort_appadptive(a, b, flags, disorder);
-    }
+	if (flags->strategy == STRATEGY_NONE)
+		auto_strategy(a, b);
+	else if (flags->strategy == STRATEGY_SIMPLE)
+		selection_sort_adaptation(a, b);
+	else if (flags->strategy == STRATEGY_MEDIUM)
+		chunk_sort(a, b);
+	else if (flags->strategy == STRATEGY_COMPLEX)
+		radix_sort(a, b);
+	else if (flags->strategy == STRATEGY_ADAPTIVE)
+		sort_adaptive(a, b, disorder);
 }
 
-/*
- * sort_stack - Main entry point to sort the stack using the configured strategy.
- * Handles small stack optimizations, strategy application, and logging.
- * @a: Pointer to stack A.
- * @b: Pointer to stack B.
- * @flags: Pointer to the program configuration flags.
- * @disorder: A coefficient representing the level of disorder.
+/**
+ * @brief Optimally sorts tiny stacks (sizes 2 through 5) 
+   if no explicit strategy is specified.
+ * @param a Pointer to stack A.
+ * @param b Pointer to stack B.
+ * @param flags Pointer to the configuration structure 
+   containing the strategy mode.
+ * @return 1 if a small stack sorting routine was 
+   successfully executed, 0 otherwise.
  */
-void    sort_stack(t_stack *a, t_stack *b, t_flags *flags, double disorder)
+static int	handle_small_stack(t_stack *a, t_stack *b, t_flags *flags)
 {
-    if (a->size <= 1)
-        return ;
-    if (a->size == 2)
-    {
-        if (a->top->value > a->top->next->value)
-            sa(a, flags);
-    }
-    if (flags->strategy != STRATEGY_ADAPTIVE)
-        apply_strategy(a, b, disorder, flags);
-    else
-        auto_strategy(a, b, disorder, flags);
-    if (flags->count_only)
-    {
-        print_count_only(flags);
-        return ;
-    }
-    if (flags->bench)
-        print_bench(flags, disorder);
+	if (a->size == 2 && flags->strategy == STRATEGY_NONE)
+		return (sort_two(a), 1);
+	if (a->size == 3 && flags->strategy == STRATEGY_NONE)
+		return (sort_three(a), 1);
+	if (a->size <= 5 && flags->strategy == STRATEGY_NONE)
+		return (sort_four_five(a, b, a->size), 1);
+	return (0);
+}
+
+/**
+ * @brief Main entry point for sorting the stacks and triggering benchmarks.
+ * @param a Pointer to stack A.
+ * @param b Pointer to stack B.
+ * @param flags Pointer to the configuration structure containing 
+   diagnostic options.
+ * @param disorder Calculated structural data chaos metric.
+ */
+void	sort_stack(t_stack *a, t_stack *b, t_flags *flags, double disorder)
+{
+	if (a->size <= 1)
+		return ;
+	if (handle_small_stack(a, b, flags))
+	{
+		print_bench(flags, disorder);
+		return ;
+	}
+	apply_strategy(a, b, flags, disorder);
+	print_bench(flags, disorder);
 }

@@ -1,38 +1,35 @@
 /* ************************************************************************** */
-/* */
-/* :::      ::::::::   */
-/* is_sorted.c                                        :+:      :+:    :+:   */
-/* +:+ +:+         +:+     */
-/* By: jdhamoda <jdhamoda@student.42heilbronn.    +#+  +:+       +#+        */
-/* +#+#+#+#+#+   +#+           */
-/* Created: 2026/06/11 13:26:04 by anmakhov          #+#    #+#             */
-/* Updated: 2026/06/15 15:05:51 by jdhamoda         ###   ########.fr       */
-/* */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_sorted.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/11 13:26:04 by anmakhov          #+#    #+#             */
+/*   Updated: 2026/06/26 13:19:40 by anmakhov         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header_file/push_swap.h"
 
-/*
-** is_sorted - Checks if the stack is sorted in ascending order.
-**
-** @a: Pointer to the stack structure.
-**
-** Iterates through the stack starting from the top node. If any element is
-** greater than the next element, the stack is not sorted.
-** Returns 1 if the stack is sorted or empty/null, otherwise returns 0.
-*/
-int is_sorted(t_stack *a)
-{
-    t_node  *cur;
+/**
+ * @brief Checks if the stack is sorted in ascending order.
+ * @param a Pointer to the stack to be checked.
+ * @return 1 if sorted or empty, 0 otherwise.
+ */
 
-    if (!a || !a->top)
-        return (1);
-    cur = a->top;
-    while (cur->next)
-    {
-        if (cur->value > cur->next->value)
-            return (0);
-        cur = cur->next;
-    }
-    return (1);
+int	is_sorted(t_stack *a)
+{
+	t_node	*cur;
+
+	if (!a || !a->top)
+		return (1);
+	cur = a->top;
+	while (cur->next)
+	{
+		if (cur->value > cur->next->value)
+			return (0);
+		cur = cur->next;
+	}
+	return (1);
 }
