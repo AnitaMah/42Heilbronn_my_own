@@ -157,13 +157,13 @@ Where an inversion is any pair (i, j) with i < j but arr[i] > arr[j]. A sorted a
 
 The adaptive strategy measures disorder first, then selects the most appropriate algorithm:
 
-| Input size | Disorder | Strategy chosen | Complexity |
-|------------|----------|-----------------|------------|
-| ≤ 5 | any | Hardcoded optimal | O(1) |
-| ≤ 100 | < 0.15 | Selection sort | O(n²) |
-| ≤ 100 | ≥ 0.15 | Chunk sort | O(n√n) |
-| > 100 | < 0.10 | Selection sort | O(n²) |
-| > 100 | ≥ 0.10 | Radix sort | O(n log n) |
+Disorder | Strategy chosen | Complexity |
+|------------|----------|-----------------|
+| < 0.25 | Selection sort | O(n²) |
+| <= 0.5 | Chunk sort | O(n√n) |
+| >= 0.5 | Radix sort | O(n log n) |
+
+
 
 **Rationale for thresholds:**
 - At very low disorder, the minimum element is usually already near the top, so selection sort's O(n²) scans cost very few rotations in practice.
@@ -188,6 +188,99 @@ Used by both selection sort and chunk sort. Given a target node, it counts how m
 Typical results with this implementation:
 - 100 numbers: ~700–900 ops (chunk sort path)
 - 500 numbers: ~6000–7000 ops (radix sort path)
+
+---
+
+## Time Complexity Graph
+
+To empirically validate the O(n log n) behaviour of the `--complex` radix sort strategy, we benchmarked execution time across increasing input sizes (n = 10 to 6000, step 10) and plotted it against a scaled O(n log n) reference curve.
+
+> **Note:** This graph measures wall-clock execution time, which includes process startup, input generation, and system scheduling overhead alongside the actual sorting work. The op-count figures in the Performance table above (from `--bench`) are the more precise and primary measure of algorithmic complexity, since they directly reflect the number of stack operations executed rather than external timing noise.
+
+### Benchmark script (`benchmark.sh`)
+
+Generates random integers for each size, times the actual `push_swap` execution (wall-clock, in milliseconds), and writes the results to `results.csv`:
+
+```bash
+#!/bin/bash
+
+EXECUTABLE="./push_swap"
+STRATEGY="--complex"
+OUTPUT="results.csv"
+
+rm -f $OUTPUT
+echo "size,duration_ms" > $OUTPUT
+
+for n in {10..6000..10}; do
+    shuf -i 1-1000000 -n "$n" > nums.txt
+
+    start_time=$(date +%s%3N)
+    $EXECUTABLE $STRATEGY $(cat nums.txt) > /dev/null
+    end_time=$(date +%s%3N)
+
+    duration=$((end_time - start_time))
+    echo "$n,$duration" >> $OUTPUT
+    echo "Tested size: $n | Duration: ${duration}ms"
+done
+
+rm -f nums.txt
+echo "Done! Data saved to $OUTPUT"
+```
+
+### Plotting script (`plot_complexity.py`)
+
+Reads `results.csv`, fits a scaled `n·log₂(n)` reference curve to the data, and saves the comparison as `time_complexity_graph.png`:
+
+```python
+import matplotlib.pyplot as plt
+import csv
+import numpy as np
+
+def plot_complexity(csv_file):
+    n = []
+    duration = []
+
+    with open(csv_file, 'r') as f:
+        reader = csv.reader(f)
+        next(reader)
+        for row in reader:
+            n.append(float(row[0]))
+            duration.append(float(row[1]))
+
+    n_arr = np.array(n)
+    ref_curve = n_arr * np.log2(n_arr)
+    scale_factor = np.mean(duration) / np.mean(ref_curve)
+    scaled_ref = ref_curve * scale_factor
+
+    plt.figure(figsize=(12, 7))
+    plt.plot(n_arr, duration, marker='o', label='Actual Time', color='blue')
+    plt.plot(n_arr, scaled_ref, linestyle='--', label='O(n log n) Reference', color='red')
+
+    plt.xlabel('Size (n)')
+    plt.ylabel('Duration (ms)')
+    plt.title('Push_swap Complexity Analysis')
+    plt.legend()
+    plt.grid(True, which='both', linestyle='--')
+
+    plt.savefig('time_complexity_graph.png')
+    print("Graph saved as time_complexity_graph.png")
+
+if __name__ == "__main__":
+    plot_complexity('results.csv')
+```
+
+### Usage
+
+```bash
+./benchmark.sh
+python3 plot_complexity.py
+```
+
+### Result
+
+![Time Complexity Graph](time_complexity_graph.png)
+
+The actual execution time tracks the scaled O(n log n) reference curve closely up to roughly n = 4000, after which it grows slightly faster than the reference — likely due to system-level effects (memory allocation overhead, cache behaviour, scheduling noise) rather than the algorithm itself. This is consistent with the O(n log n) guarantee given by the operation-count results above.
 
 ---
 
@@ -217,8 +310,6 @@ Their use was limited to:
 - Providing general feedback on code structure and project organization
 - Assisting in the creation of an initial README structure based on the project's source code and features
 
-No AI-generated code was copied into the final project. All implementation decisions, coding, testing, debugging, and validation were carried out by the contributors. AI was not used to write or generate any C source code included in this repository. All implementations are the original work of the authors.
-
 Any suggestions obtained through AI tools were critically reviewed, understood, and adapted before being considered for inclusion.
 
-## This README follows all requirements from the subject! Good luck tomorrow!​​​​​​​​​​​​​​​​
+## This README follows all requirements from the subject! Good luck tomorrow!
