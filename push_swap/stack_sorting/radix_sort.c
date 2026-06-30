@@ -12,58 +12,68 @@
 
 #include "../header_file/push_swap.h"
 
-static void	handle_bit(t_stack *a, t_stack *b, int bit)
+static void distribute_by_bit(t_stack *a, t_stack *b, int bit)
 {
-	int	size;
+    int size;
 
-	size = a->size;
-	while (size > 0)
-	{
-		if (((a->top->index >> bit) & 1) == 0)
-			pb(a, b);
-		else
-			ra(a);
-		size--;
-	}
+    size = a->size;
+    // Одиничний прохід: без зайвих вкладених циклів
+    while (size--)
+    {
+        if (((a->top->index >> bit) & 1) == 0)
+            pb(a, b);
+        else
+            ra(a);
+    }
 }
 
-static int	get_max_bits(t_stack *a)
+static void collect_from_b(t_stack *a, t_stack *b)
 {
-	int		max;
-	int		bits;
-	t_node	*cur;
-
-	if (!a || !a->top)
-		return (0);
-	cur = a->top;
-	max = cur->index;
-	while (cur)
-	{
-		if (cur->index > max)
-			max = cur->index;
-		cur = cur->next;
-	}
-	bits = 0;
-	while ((max >> bits) != 0)
-		bits++;
-	return (bits);
+    // Одиничний прохід: просто повертаємо все з B в A
+    while (b->size > 0)
+        pa(a, b);
 }
 
-void	radix_sort(t_stack *a, t_stack *b)
+static void process_bits(t_stack *a, t_stack *b, int max_bits)
 {
-	int	max_bits;
-	int	i;
+    int i;
 
-	if (!a || !a->top)
-		return ;
-	normalize_index(a);
-	max_bits = get_max_bits(a);
-	i = 0;
-	while (i < max_bits)
-	{
-		handle_bit(a, b, i);
-		while (b->top)
-			pa(a, b);
-		i++;
-	}
+    i = 0;
+    while (i < max_bits)
+    {
+        // Переміщення елементів відповідно до біта
+        distribute_by_bit(a, b, i);
+
+        // Повернення елементів назад в стек А
+        collect_from_b(a, b);
+        i++;
+    }
+}
+
+static int  get_max_bits(t_stack *a)
+{
+    int     max;
+    int     bits;
+
+    if (!a || a->size == 0)
+        return (0);
+    max = a->size - 1;
+
+    bits = 0;
+    while ((max >> bits) != 0)
+        bits++;
+    return (bits);
+}
+
+void    radix_sort(t_stack *a, t_stack *b)
+{
+    int max_bits;
+
+    if (!a || a->size <= 1)
+        return ;
+    normalize_index(a);
+    max_bits = get_max_bits(a);
+
+    // Використовуємо функцію-обгортку для проходу по бітах
+    process_bits(a, b, max_bits);
 }
