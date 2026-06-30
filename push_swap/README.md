@@ -10,6 +10,7 @@ The project explores algorithmic complexity hands-on: different input sizes and 
 
 **Allowed operations:**
 
+
 | Operation | Effect |
 |-----------|--------|
 | `sa` / `sb` | Swap the top two elements of stack a / b |
