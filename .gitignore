@@ -1,0 +1,4 @@
+# .gitignore
+push_swap/venv/
+__pycache__/
+*.pyc
