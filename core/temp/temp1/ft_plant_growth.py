@@ -17,7 +17,7 @@ if __name__ == "__main__":
     for day in range(1, 8):
         print(f"=== Day {day} ===")
         plant.grow()
-        plant,age_plant()
+        plant.age_plant()
         print(f"{plant.name}: {round(plant.height, 1)}cm, {plant.age} days old")
     growth = plant.height - start_height
     print(f"Growth this week: {round(growth, 1)}cm")

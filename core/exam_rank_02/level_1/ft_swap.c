@@ -6,13 +6,14 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 16:53:37 by anmakhov          #+#    #+#             */
-/*   Updated: 2026/05/20 16:54:40 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/07/10 13:13:54 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	ft_swap(int *a, int *b)
 {
 	int	temp;
+
 	temp = *a;
 	*a = *b;
 	*b = temp;

@@ -6,7 +6,7 @@
 /*   By: anmakhov <anmakhov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 13:36:48 by username          #+#    #+#             */
-/*   Updated: 2026/06/08 14:00:12 by anmakhov         ###   ########.fr       */
+/*   Updated: 2026/07/10 14:16:46 by anmakhov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_changer(char *str)
 		else if (str[iter] == 'z')
 			str[iter] = 'a';
 		else if (str[iter] == 'Z')
-			str[iter] = 'a';
+			str[iter] = 'A';
 		iter++;
 	}
 	return (str);

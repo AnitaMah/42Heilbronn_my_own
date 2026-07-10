@@ -5,15 +5,15 @@ int do_op(int nb1, char op, int nb2)
     int results = 0;
     if (op == '/' && nb2 == 0)
     {
-        return (0);    
+        return (0);
     }
     if (op == '%' && nb2 == 0)
     {
-        return (0);    
+        return (0);
     }
     if (op == '*')
     {
-        results = nb1 * nb2;        
+        results = nb1 * nb2;
     }
     else if (op == '+')
     {
@@ -25,7 +25,7 @@ int do_op(int nb1, char op, int nb2)
     }
     else if (op == '/')
     {
-        results = nb1 / nb2;    
+        results = nb1 / nb2;
     }
     else if (op == '%')
     {
@@ -33,6 +33,7 @@ int do_op(int nb1, char op, int nb2)
     }
     return (results);
 }
+
 int main (int argc, char **argv)
 {
     int nb1, nb2, res;
