@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+
 void	rstr_capitalizer(char *str)
 {
 	int	iter;
@@ -34,11 +36,12 @@ int	main(int argc, char **argv)
 	int	size;
 	int	iter;
 
-	iter = 0;
+	iter = 1;
 	size = argc;
-	while (iter > size)
+	while (iter < size)
 	{
 		rstr_capitalizer(argv[iter]);
+		write(1, "\n", 1);
 		iter++;
 	}
 	write(1, "\n", 1);

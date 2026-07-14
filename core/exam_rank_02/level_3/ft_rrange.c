@@ -12,15 +12,28 @@
 
 #include <stdlib.h>
 
+int ft_abs(int nb)
+{
+	if (nb < 0)
+	{
+		return (-nb);
+	}
+	return (nb);
+}
+
 int	*ft_rrange(int start, int end)
 {
 	int	*res;
 	int	size;
 	int	iter;
 
-	size = ft_abs(start - end + 1);
+	size = ft_abs(end - start) + 1;
 	iter = 0;
-	res = (int *)malloc(size);
+	res = (int *)malloc(size *sizeof(int));
+	if (!res)
+	{
+		return (NULL);
+	}
 	while (iter < size)
 	{
 		if (end <= start)

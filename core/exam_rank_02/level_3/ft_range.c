@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+
 int	ft_abs(int n)
 {
 	if (n < 0)
@@ -23,8 +25,12 @@ int	*ft_range(int start, int end)
 	int	size;
 	int	iter;
 
-	size = (start - end + 1);
-	res = (int *)malloc(size);
+	size = ft_abs(start - end )+ 1;
+	res = (int *)malloc(size *sizeof(int));
+	if (!res)
+	{
+		return (NULL);
+	}
 	iter = 0;
 	while (iter < size)
 	{
