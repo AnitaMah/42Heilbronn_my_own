@@ -21,7 +21,6 @@ void	last_word_print(char *str)
 	iter = 0;
 	while (str[iter])
 		iter++;
-	iter--;
 	while(iter >= 0 && (str[iter] == ' ' || str[iter] == '\t'))
 		iter--;
 	while (iter >= 0 && str[iter] != ' ' && str[iter] != '\t')
