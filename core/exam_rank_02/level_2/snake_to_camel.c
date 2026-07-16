@@ -7,7 +7,9 @@ int	ft_strlen(char *str)
 
 	iter = 0;
 	while (str[iter])
+	{
 		iter++;
+	}
 	return (iter);
 }
 
@@ -36,13 +38,19 @@ char	*snake_to_camel(char *str)
 	while (str[i])
 	{
 		if (str[i] == '_')
+		{
 			i++;
+		}
 		else
 		{
 			if (i > 0 && str[i - 1] == '_')
+			{
 				res[j++] = str[i] - 32;
+			}
 			else
+			{
 				res[j++] = str[i];
+			}
 			i++;
 		}
 	}

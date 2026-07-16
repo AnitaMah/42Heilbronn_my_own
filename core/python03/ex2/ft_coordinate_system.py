@@ -1,8 +1,10 @@
 import math
 
+
 def get_player_pos():
     while True:
-        user_input = input("Enter new coordinates as floats in format 'x,y,z': ")
+        user_input = input(
+            "Enter new coordinates as floats in format 'x,y,z': ")
 
         parts = user_input.split(',')
 
@@ -20,12 +22,20 @@ def get_player_pos():
                     float(x.strip())
                 except ValueError:
                     clean_x = x.strip()
-                    print(f"Error on parameter '{clean_x}': could not convert string to float: '{clean_x}'")
+                    print(
+                        f"Error on parameter '{clean_x}': "
+                        f"could not convert string to float: '{clean_x}'"
+                    )
                     break
 
 
 def calculate_distance(p1, p2=(0, 0, 0)):
-    return math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2 + (p2[2] - p1[2])**2)
+    return math.sqrt(
+        (p2[0] - p1[0])**2 +
+        (p2[1] - p1[1])**2 +
+        (p2[2] - p1[2])**2
+    )
+
 
 def main():
     print("=== Game Coordinate System ===\n")
@@ -43,7 +53,10 @@ def main():
 
     pos2 = get_player_pos()
     dist_between = calculate_distance(pos1, pos2)
-    print(f"Distance between the 2 sets of coordinates: {round(dist_between, 4)}")
+    print(
+        f"Distance between the 2 sets of coordinates: "
+        f"{round(dist_between, 4)}"
+    )
 
 
 if __name__ == "__main__":

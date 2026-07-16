@@ -1,21 +1,27 @@
 import random
 
+
 class PlayerData:
     def __init__(self, name):
         self.name = name
         self.achievements = set()
 
+
 def get_all_possible_achievements():
     return {
-        'Crafting Genius', 'World Savior', 'Master Explorer', 'Collector Supreme',
-        'Untouchable', 'Boss Slayer', 'Strategist', 'Unstoppable', 'Speed Runner',
-        'Survivor', 'Treasure Hunter', 'First Steps', 'Sharp Mind', 'Hidden Path Finder'
+        'Crafting Genius', 'World Savior', 'Master Explorer',
+        'Collector Supreme', 'Untouchable', 'Boss Slayer',
+        'Strategist', 'Unstoppable', 'Speed Runner', 'Survivor',
+        'Treasure Hunter', 'First Steps', 'Sharp Mind',
+        'Hidden Path Finder'
     }
+
 
 def add_atributs(player):
     pool = get_all_possible_achievements()
     count = random.randint(3, 9)
     player.achievements = set(random.sample(list(pool), count))
+
 
 def check_atributs(players):
     all_pool = get_all_possible_achievements()
@@ -32,11 +38,13 @@ def check_atributs(players):
     print(f"Common achievements: {common}")
 
     for p in players:
-        others = set().union(*(other.achievements for other in players if other != p))
+        others = set().union(*(other.achievements for other in players
+                               if other != p))
         print(f"Only {p.name} has: {p.achievements.difference(others)}")
 
     for p in players:
         print(f"{p.name} is missing: {all_pool.difference(p.achievements)}")
+
 
 def gen_player_achievements():
     names = ["Alice", "Bob", "Charlie", "Dylan"]
@@ -47,8 +55,10 @@ def gen_player_achievements():
 
     check_atributs(players)
 
+
 def main():
     gen_player_achievements()
 
+
 if __name__ == "__main__":
-    gen_player_achievements()
+    main()

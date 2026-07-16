@@ -16,6 +16,8 @@ int	ft_strcmp(char *s1, char *s2)
 
 	iter = 0;
 	while (s1[iter] && s1[iter] == s2[iter])
+	{
 		iter++;
-	return ((unsigned char )s1[iter] - (unsigned char) s2[iter]);
+	}
+	return ((unsigned char ) s1[iter] - (unsigned char) s2[iter]);
 }

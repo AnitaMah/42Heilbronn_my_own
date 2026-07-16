@@ -6,8 +6,9 @@ void	print_bits(unsigned char octet)
 	unsigned char	res;
 
 	index = 8;
-	while ((--index) > 0)
+	while (index > 0)
 	{
+		index--;
 		res = (octet >> index & 1) + '0';
 		write(1, &res, 1);
 	}

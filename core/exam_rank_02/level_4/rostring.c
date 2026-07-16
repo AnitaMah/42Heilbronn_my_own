@@ -1,4 +1,11 @@
 
+#include <unistd.h>
+
+void put_char(char c)
+{
+	write(1, &c, 1);
+}
+
 int	is_space(char c)
 {
 	return (c == ' ' || c == '\t');
@@ -8,6 +15,7 @@ void	rosting(char *str)
 {
 	int	i;
 	int	is_fist_word;
+	int word_printed = 0;
 
 	i = 0;
 	while (is_space(str[i]))
@@ -17,15 +25,25 @@ void	rosting(char *str)
 	is_fist_word = i;
 	while (str[i] && !is_space(str[i]))
 		i++;
-	while (str[i])
+	while (is_space(str[i]))
 	{
-		if (is_space(str[i]) && !is_space(str[i + 1]))
-			put_char(' ');
-		else if (!is_space(str[i]))
-			put_char(str[i]);
 		i++;
 	}
-	if (i != is_fist_word)
+	while (str[i])
+    {
+        if (is_space(str[i]) && !is_space(str[i + 1]) && str[i + 1] != '\0') // Важливо: перевіряємо, чи наступне не кінець
+        {
+            put_char(' ');
+            word_printed = 1; // Зафіксували, що щось друкували
+        }
+        else if (!is_space(str[i]))
+        {
+            put_char(str[i]);
+            word_printed = 1;
+        }
+        i++;
+    }
+	if (word_printed)
 		put_char(' ');
 	while (str[is_fist_word] && !is_space(str[is_fist_word]))
 	{

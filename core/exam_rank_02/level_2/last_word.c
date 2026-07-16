@@ -20,18 +20,23 @@ void	last_word_print(char *str)
 		return;
 	iter = 0;
 	while (str[iter])
+	{
 		iter++;
+	}
 	while(iter >= 0 && (str[iter] == ' ' || str[iter] == '\t'))
+	{
 		iter--;
+	}
 	while (iter >= 0 && str[iter] != ' ' && str[iter] != '\t')
+	{
 		iter--;
+	}
 	iter++;
 	while (str[iter] && str[iter] != ' ' && str[iter] != '\t')
 	{
 		write(1, &str[iter], 1);
 		iter++;
 	}
-	
 }
 
 int main(int argc, char **argv)

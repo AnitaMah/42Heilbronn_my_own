@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 int	is_power_of_2(unsigned int n)
 {
 	if (n == 0)
@@ -17,4 +20,22 @@ int	is_power_of_2(unsigned int n)
 	if (n & (n - 1))
 		return (0);
 	return (1);
+}
+
+int main(int argc, char **argv)
+{
+	int nb;
+	if (argc == 2)
+	{
+		nb = atoi(argv[1]);
+		if (is_power_of_2(nb))
+		{
+			printf("This is power of 2");
+		}
+		else
+		{
+			printf("This number is not power of 2");
+		}
+	}
+	return (0);
 }

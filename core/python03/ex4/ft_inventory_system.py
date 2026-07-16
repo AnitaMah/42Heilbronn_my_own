@@ -1,5 +1,6 @@
 import sys
 
+
 def create_inventory(args):
     inventory = {}
 
@@ -16,16 +17,15 @@ def create_inventory(args):
 
         try:
             inventory[item] = int(quantity_str)
-
         except ValueError:
-            print(f"Quantity error for '{item}': invalid literal for int() with base 10: '{quantity_str}'")
+            print(f"Quantity error for '{item}': invalid literal "
+                  "for int() with base 10: '{quantity_str}'")
 
+    return inventory
 
-        return inventory
 
 def print_inventory(inventory):
     print(f"Got inventory: {inventory}")
-
 
 
 def analyze_inventory(inventory):
@@ -53,6 +53,7 @@ def main():
 
     inventory['magic_item'] = 1
     print(f"Updated inventory: {inventory}")
+
 
 if __name__ == "__main__":
     main()

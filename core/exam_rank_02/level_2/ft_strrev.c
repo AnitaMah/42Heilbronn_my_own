@@ -20,7 +20,9 @@ char	*ft_strrev(char *str)
 	
 	len = 0;
 	while (str[len])
+	{
 		len++;
+	}
 	i = 0;
 	while (i < len / 2)
 	{
