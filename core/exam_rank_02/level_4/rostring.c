@@ -31,10 +31,10 @@ void	rosting(char *str)
 	}
 	while (str[i])
     {
-        if (is_space(str[i]) && !is_space(str[i + 1]) && str[i + 1] != '\0') // Важливо: перевіряємо, чи наступне не кінець
+        if (is_space(str[i]) && !is_space(str[i + 1]) && str[i + 1] != '\0')
         {
             put_char(' ');
-            word_printed = 1; // Зафіксували, що щось друкували
+            word_printed = 1;
         }
         else if (!is_space(str[i]))
         {
