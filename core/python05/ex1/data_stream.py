@@ -127,6 +127,42 @@ class LogProcessor(DataProcessor):
         return (rank, item)
 
 
+class DataStream:
+    def __init__(self) -> None:
+        self._processors: list[DataProcessor] = []
+
+    def register_processor(self, proc: DataProcessor) -> None:
+        """Register a new data processor."""
+        self._processors.append(proc)
+
+    def process_stream(self, stream: list[Any]) -> None:
+        """Route each element in the stream to the appropriate processor."""
+        for data in stream:
+            processed = False
+            for proc in self._processors:
+                if proc.validate(data):
+                    proc.ingest(data)
+                    processed = True
+                    break
+            if not processed:
+                print(f"DataStream error - "
+                      f"Can't process element in stream: {data}")
+
+    def print_processors_stats(self) -> None:
+        """Print statistics for all registered processors."""
+        if not self._processors:
+            print("No processor found, no data")
+            return
+        for proc in self._processors:
+            processor_name = proc.__class__.__name__
+            total_processed = getattr(proc, "_total_processed", 0)
+            remaining = len(getattr(proc, "_data", []))
+            print(
+                f"{processor_name}: total {total_processed} items processed, "
+                f"remaining {remaining} on processor"
+            )
+
+
 def main() -> None:
     print("=== Code Nexus - Data Processor ===")
     print()
@@ -146,7 +182,7 @@ def main() -> None:
     print("Processing data: [1, 2, 3, 4, 5]")
     numeric_proc.ingest([1, 2, 3, 4, 5])
     print("Extracting 3 values...")
-    for i in range(3):
+    for _ in range(3):
         rank, value = numeric_proc.output()
         print(f"Numeric value {rank}: {value}")
     print()
@@ -173,7 +209,7 @@ def main() -> None:
     print(f"Processing data: {log_data}")
     log_proc.ingest(log_data)
     print("Extracting 2 values...")
-    for i in range(2):
+    for _ in range(2):
         rank, value = log_proc.output()
         print(f"Log entry {rank}: {value}")
 
