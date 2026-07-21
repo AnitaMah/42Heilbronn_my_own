@@ -117,3 +117,57 @@ class LogProcessor(DataProcessor):
         rank = self._rank
         self._rank += 1
         return (rank, item)
+
+
+def main():
+    print("=== Code Nexus - Data Processor ===")
+    print()
+
+    # Testing Numeric Processor
+    print("Testing Numeric Processor...")
+    numeric_proc = NumericProcessor()
+    print(f"Trying to validate input '42': {numeric_proc.validate(42)}")
+    print(f"Trying to validate input 'Hello': "
+          f"{numeric_proc.validate('Hello')}")
+    print("Test invalid ingestion of string 'foo' without prior validation:")
+    try:
+        numeric_proc.ingest("foo")
+    except ValueError as e:
+        print(f"Got exception: {e}")
+    print("Processing data: [1, 2, 3, 4, 5]")
+    numeric_proc.ingest([1, 2, 3, 4, 5])
+    print("Extracting 3 values...")
+    for i in range(3):
+        rank, value = numeric_proc.output()
+        print(f"Numeric value {rank}: {value}")
+    print()
+
+    # Testing Text Processor
+    print("Testing Text Processor...")
+    text_proc = TextProcessor()
+    print(f"Trying to validate input '42': {text_proc.validate(42)}")
+    print("Processing data: ['Hello', 'Nexus', 'World']")
+    text_proc.ingest(['Hello', 'Nexus', 'World'])
+    print("Extracting 1 value...")
+    rank, value = text_proc.output()
+    print(f"Text value {rank}: {value}")
+    print()
+
+    # Testing Log Processor
+    print("Testing Log Processor...")
+    log_proc = LogProcessor()
+    print(f"Trying to validate input 'Hello': {log_proc.validate('Hello')}")
+    log_data = [
+        {'log_level': 'NOTICE', 'log_message': 'Connection to server'},
+        {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}
+    ]
+    print(f"Processing data: {log_data}")
+    log_proc.ingest(log_data)
+    print("Extracting 2 values...")
+    for i in range(2):
+        rank, value = log_proc.output()
+        print(f"Log entry {rank}: {value}")
+
+
+if __name__ == "__main__":
+    main()

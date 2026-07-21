@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Модуль Python 05: Поліморфні Потоки Даних | Довідник Лекцій</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--dark-color);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        .lecture-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .theory {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid var(--primary-color);
+            margin: 15px 0;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .code-block .comment {
+            color: #75715e;
+        }
+
+        .code-block .keyword {
+            color: #f92672;
+        }
+
+        .code-block .string {
+            color: #e6db74;
+        }
+
+        .code-block .number {
+            color: #ae81ff;
+        }
+
+        .exercise {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .exercise-title {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .quiz {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .quiz-answer {
+            margin-left: 20px;
+            display: none;
+        }
+
+        .quiz-button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .pitfalls {
+            background: #fff8f8;
+            border-left: 4px solid var(--danger-color);
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .best-practices {
+            background: #f8fff8;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .analogy {
+            font-style: italic;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--dark-color);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🚀 Модуль Python 05: Поліморфні Потоки Даних у Цифровій Матриці</h1>
+            <p><strong>Довідник Лекцій: Оволодіння Поліморфізмом, Абстрактними Класами та "Качиним" Типізацією</strong></p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="nav">
+            <a href="#introduction">Вступ</a>
+            <a href="#exercise0">Вправа 0: Обробник Даних</a>
+            <a href="#exercise1">Вправа 1: Поліморфна Обробка Потоку Даних</a>
+            <a href="#exercise2">Вправа 2: Конвеєр Даних</a>
+            <a href="#conclusion">Висновок</a>
+        </div>
+
+        <!-- Вступ -->
+        <section id="introduction" class="lecture-section">
+            <h2>📌 Вступ до Лекції: Чому Поліморфізм Важливий</h2>
+
+            <div class="theory">
+                <h3>🎯 Навчальні Цілі</h3>
+                <p>
+                    До кінця цієї лекції ви зможете:
+                </p>
+                <ul>
+                    <li>Розуміти принципи <strong>поліморфізму</strong> та як він дозволяє створювати гнучкий і багаторазово використовуваний код.</li>
+                    <li>Реалізовувати <strong>абстрактні базові класи (ABC)</strong> для визначення інтерфейсів для підкласів.</li>
+                    <li>Використовувати <strong>перевизначення методів</strong> для налаштування поведінки в підкласах.</li>
+                    <li>Проектувати <strong>систему плагінів</strong> з використанням "качиної" типізації та протоколів.</li>
+                    <li>Застосовувати ці концепції для побудови <strong>масштабованої системи обробки даних</strong>.</li>
+                </ul>
+            </div>
+
+            <div class="analogy">
+                <p>
+                    <strong>🌆 Реальна Аналогія: Код Нексус</strong><br>
+                    Уявіть футуристичне місто, де дані течуть як річки крізь квантові мережі. <strong>Код Нексус</strong> —
+                    це центральний вузол, де всі ці дані обробляються. Так само, як місто обробляє різні типи транспортних засобів
+                    (автомобілі, автобуси, велосипеди) на тих самих дорогах, Нексус використовує <strong>поліморфізм</strong>, щоб обробляти
+                    різні типи даних (числа, текст, журнали) через один і той же конвеєр. Кожен тип даних має свій власний "транспортний засіб" (обробник),
+                    але всі вони дотримуються тих самих "правил дорожнього руху" (інтерфейсу).
+                </p>
+            </div>
+
+            <h3>🔑 Ключові Концепції</h3>
+            <div class="theory">
+                <h4>1. Поліморфізм</h4>
+                <p>
+                    Поліморфізм (від грецького <em>poly</em> = багато, <em>morph</em> = форма) дозволяє об'єктам різних класів
+                    оброблятися як об'єкти спільного базового класу. У Python це досягається за допомогою:
+                </p>
+                <ul>
+                    <li><strong>Спадкування:</strong> Підкласи успадковують від базового класу і перевизначають методи.</li>
+                    <li><strong>"Качина" Типізація:</strong> Якщо об'єкт "ходить як качка і крякає як качка", він вважається качкою — без явного спадкування.</li>
+                </ul>
+                <p>
+                    <strong>Приклад:</strong> <code>DataProcessor</code> може перевіряти і обробляти дані, але конкретна поведінка
+                    залежить від того, чи це <code>NumericProcessor</code>, <code>TextProcessor</code>, чи <code>LogProcessor</code>.
+                </p>
+            </div>
+
+            <div class="theory">
+                <h4>2. Абстрактні Базові Класи (ABC)</h4>
+                <p>
+                    ABC визначають <strong>контракт</strong>, якого повинні дотримуватися підкласи. Їх не можна інстанціювати безпосередньо,
+                    і вони можуть містити <strong>абстрактні методи</strong> (методи без реалізації), які підкласи повинні перевизначити.
+                </p>
+                <p>
+                    <strong>Чому використовувати ABC?</strong>
+                </p>
+                <ul>
+                    <li>Забезпечують <strong>консистентний інтерфейс</strong> для всіх підкласів.</li>
+                    <li>Роблять код <strong>самодокументованим</strong>, чітко визначаючи очікувані методи.</li>
+                    <li>Дозволяють <strong>перевірку на етапі виконання</strong> (наприклад, <code>isinstance(obj, DataProcessor)</code>).</li>
+                </ul>
+            </div>
+
+            <div class="theory">
+                <h4>3. "Качина" Типізація</h4>
+                <p>
+                    "Качина" типізація — це концепція програмування, де <strong>тип або клас об'єкта визначається його поведінкою</strong>
+                    (методами і властивостями), а не його явним типом. У Python це часто підсумовується як:
+                </p>
+                <blockquote>
+                    "Якщо це ходить як качка і крякає як качка, то це, мабуть, качка."
+                </blockquote>
+                <p>
+                    <strong>Приклад:</strong> У Вправі 2 протокол <code>ExportPlugin</code> визначає, що будь-який клас з методом
+                    <code>process_output</code> може використовуватися як плагін, незалежно від його ієрархії спадкування.
+                </p>
+            </div>
+
+            <div class="theory">
+                <h4>4. Перевизначення Методів</h4>
+                <p>
+                    Перевизначення методів дозволяє підкласу надати <strong>специфічну реалізацію</strong> методу, який уже визначений
+                    у його базовому класі. Саме так досягається поліморфізм в об'єктно-орієнтованому програмуванні.
+                </p>
+                <p>
+                    <strong>Приклад:</strong> Метод <code>validate</code> у <code>NumericProcessor</code> перевіряє, чи є дані числовими,
+                    тоді як той самий метод у <code>TextProcessor</code> перевіряє, чи є дані рядком.
+                </p>
+            </div>
+        </section>
+
+        <!-- Вправа 0: Обробник Даних -->
+        <section id="exercise0" class="lecture-section">
+            <div class="exercise">
+                <div class="exercise-title">
+                    <h2>🛠️ Вправа 0: Обробник Даних</h2>
+                </div>
+
+                <h3>📚 Лекція: Побудова Основи</h3>
+                <p>
+                    У цій вправі ви створите <strong>базову архітектуру</strong> для системи обробки даних.
+                    Метою є визначення спільного інтерфейсу для обробки різних типів даних (числа, текст, журнали),
+                    дозволяючи кожному типу зберігати свою унікальну поведінку.
+                </p>
+
+                <div class="theory">
+                    <h4>🎯 Чому Абстрактні Класи?</h4>
+                    <p>
+                        Клас <code>DataProcessor</code> визначений як <strong>абстрактний базовий клас (ABC)</strong>, тому що:
+                    </p>
+                    <ul>
+                        <li>
+                            Його <strong>не можна інстанціювати безпосередньо</strong> — це шаблон для інших класів.
+                        </li>
+                        <li>
+                            Він <strong>вимагає дотримання контракту</strong>: всі підкласи повинні реалізовувати <code>validate</code> і <code>ingest</code>.
+                        </li>
+                        <li>
+                            Він надає <strong>єдиний інтерфейс</strong> для взаємодії з різними обробниками.
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>Реальна Аналогія:</strong> Уявіть <code>DataProcessor</code> як "USB-порт". Будь-який пристрій (підклас),
+                        який дотримується стандарту USB (реалізовує <code>validate</code> і <code>ingest</code>), може підключитися до нього.
+                    </p>
+                </div>
+
+                <h3>🔧 Покрокова Реалізація</h3>
+
+                <h4>1. Визначте Абстрактний Базовий Клас</h4>
+                <p>
+                    Почніть із створення класу <code>DataProcessor</code> з абстрактними методами. Використовуйте модуль <code>abc</code>,
+                    щоб визначити абстрактні методи.
+                </p>
+                <div class="code-block">
+<code><span class="keyword">from</span> <span class="string">abc</span> <span class="keyword">import</span> <span class="string">ABC</span>, <span class="string">abstractmethod</span>
+<span class="keyword">from</span> <span class="string">typing</span> <span class="keyword">import</span> <span class="string">Any</span>
+
+<span class="keyword">class</span> <span class="string">DataProcessor</span>(<span class="string">ABC</span>):
+    <span class="comment"># Абстрактний метод: повинен бути перевизначений у підкласах</span>
+    <span class="keyword">@abstractmethod</span>
+    <span class="keyword">def</span> <span class="string">validate</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">bool</span>:
+        <span class="comment">"""Перевірити, чи можуть дані бути оброблені цим обробником."""</span>
+        <span class="keyword">pass</span>
+
+    <span class="comment"># Абстрактний метод: повинен бути перевизначений у підкласах</span>
+    <span class="keyword">@abstractmethod</span>
+    <span class="keyword">def</span> <span class="string">ingest</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">None</span>:
+        <span class="comment">"""Обробити та зберегти дані всередині."""</span>
+        <span class="keyword">pass</span>
+
+    <span class="comment"># Конкретний метод: може бути успадкований або перевизначений</span>
+    <span class="keyword">def</span> <span class="string">output</span>(<span class="string">self</span>) -> <span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]:
+        <span class="comment">"""Вилучити найстаріші збережені дані та їх ранг."""</span>
+        <span class="keyword">pass</span>
+</code>
+                </div>
+                <div class="best-practices">
+                    <p>
+                        <strong>💡 Краща Практика:</strong> Завжди використовуйте <strong>вказівки типів</strong> (наприклад, <code>data: Any</code>, <code>-> bool</code>),
+                        щоб зробити свій код самодокументованим. Це допомагає інструментам, таким як <code>mypy</code>, виявляти помилки на ранніх етапах.
+                    </p>
+                </div>
+
+                <h4>2. Реалізуйте Спеціалізовані Обробники</h4>
+                <p>
+                    Тепер створіть три підкласи <code>DataProcessor</code>: <code>NumericProcessor</code>, <code>TextProcessor</code>,
+                    і <code>LogProcessor</code>. Кожен з них перевизначить <code>validate</code> і <code>ingest</code>, щоб обробляти свій специфічний тип даних.
+                </p>
+
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">NumericProcessor</span>(<span class="string">DataProcessor</span>):
+    <span class="keyword">def</span> <span class="string">__init__</span>(<span class="string">self</span>):
+        <span class="string">self._data</span> = []  <span class="comment"># Внутрішнє сховище для оброблених даних</span>
+        <span class="string">self._rank</span> = 0   <span class="comment"># Лічильник рангу для виводу</span>
+
+    <span class="keyword">def</span> <span class="string">validate</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">bool</span>:
+        <span class="comment"># Приймає int, float або списки цих типів</span>
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, (<span class="string">int</span>, <span class="string">float</span>)):
+            <span class="keyword">return</span> <span class="string">True</span>
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="keyword">return</span> <span class="string">all</span>(<span class="string">isinstance</span>(<span class="string">item</span>, (<span class="string">int</span>, <span class="string">float</span>)) <span class="keyword">for</span> <span class="string">item</span> <span class="keyword">in</span> <span class="string">data</span>)
+        <span class="keyword">return</span> <span class="string">False</span>
+
+    <span class="keyword">def</span> <span class="string">ingest</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">int</span> | <span class="string">float</span> | <span class="string">list</span>[<span class="string">int</span> | <span class="string">float</span>]) -> <span class="string">None</span>:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self.validate</span>(<span class="string">data</span>):
+            <span class="keyword">raise</span> <span class="string">ValueError</span>(<span class="string">"Некоректні числові дані"</span>)
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="string">self._data.extend</span>(<span class="string">map</span>(<span class="string">str</span>, <span class="string">data</span>))
+        <span class="keyword">else</span>:
+            <span class="string">self._data.append</span>(<span class="string">str</span>(<span class="string">data</span>))
+
+    <span class="keyword">def</span> <span class="string">output</span>(<span class="string">self</span>) -> <span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self._data</span>:
+            <span class="keyword">raise</span> <span class="string">IndexError</span>(<span class="string">"Немає даних для виводу"</span>)
+        <span class="string">item</span> = <span class="string">self._data.pop</span>(0)
+        <span class="string">rank</span> = <span class="string">self._rank</span>
+        <span class="string">self._rank</span> += 1
+        <span class="keyword">return</span> (<span class="string">rank</span>, <span class="string">item</span>)
+</code>
+                </div>
+
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">TextProcessor</span>(<span class="string">DataProcessor</span>):
+    <span class="keyword">def</span> <span class="string">__init__</span>(<span class="string">self</span>):
+        <span class="string">self._data</span> = []
+        <span class="string">self._rank</span> = 0
+
+    <span class="keyword">def</span> <span class="string">validate</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">bool</span>:
+        <span class="comment"># Приймає str або списки str</span>
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">str</span>):
+            <span class="keyword">return</span> <span class="string">True</span>
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="keyword">return</span> <span class="string">all</span>(<span class="string">isinstance</span>(<span class="string">item</span>, <span class="string">str</span>) <span class="keyword">for</span> <span class="string">item</span> <span class="keyword">in</span> <span class="string">data</span>)
+        <span class="keyword">return</span> <span class="string">False</span>
+
+    <span class="keyword">def</span> <span class="string">ingest</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">str</span> | <span class="string">list</span>[<span class="string">str</span>]) -> <span class="string">None</span>:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self.validate</span>(<span class="string">data</span>):
+            <span class="keyword">raise</span> <span class="string">ValueError</span>(<span class="string">"Некоректні текстові дані"</span>)
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="string">self._data.extend</span>(<span class="string">data</span>)
+        <span class="keyword">else</span>:
+            <span class="string">self._data.append</span>(<span class="string">data</span>)
+
+    <span class="keyword">def</span> <span class="string">output</span>(<span class="string">self</span>) -> <span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self._data</span>:
+            <span class="keyword">raise</span> <span class="string">IndexError</span>(<span class="string">"Немає даних для виводу"</span>)
+        <span class="string">item</span> = <span class="string">self._data.pop</span>(0)
+        <span class="string">rank</span> = <span class="string">self._rank</span>
+        <span class="string">self._rank</span> += 1
+        <span class="keyword">return</span> (<span class="string">rank</span>, <span class="string">item</span>)
+</code>
+                </div>
+
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">LogProcessor</span>(<span class="string">DataProcessor</span>):
+    <span class="keyword">def</span> <span class="string">__init__</span>(<span class="string">self</span>):
+        <span class="string">self._data</span> = []
+        <span class="string">self._rank</span> = 0
+
+    <span class="keyword">def</span> <span class="string">validate</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">bool</span>:
+        <span class="comment"># Приймає dict зі строковими ключами/значеннями або список таких dict</span>
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">dict</span>):
+            <span class="keyword">return</span> <span class="string">all</span>(<span class="string">isinstance</span>(<span class="string">k</span>, <span class="string">str</span>) <span class="keyword">and</span> <span class="string">isinstance</span>(<span class="string">v</span>, <span class="string">str</span>)
+                           <span class="keyword">for</span> <span class="string">k</span>, <span class="string">v</span> <span class="keyword">in</span> <span class="string">data.items</span>())
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="keyword">return</span> <span class="string">all</span>(<span class="string">self.validate</span>(<span class="string">item</span>) <span class="keyword">for</span> <span class="string">item</span> <span class="keyword">in</span> <span class="string">data</span>)
+        <span class="keyword">return</span> <span class="string">False</span>
+
+    <span class="keyword">def</span> <span class="string">ingest</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">dict</span>[<span class="string">str</span>, <span class="string">str</span>] | <span class="string">list</span>[<span class="string">dict</span>[<span class="string">str</span>, <span class="string">str</span>]]) -> <span class="string">None</span>:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self.validate</span>(<span class="string">data</span>):
+            <span class="keyword">raise</span> <span class="string">ValueError</span>(<span class="string">"Некоректні дані журналу"</span>)
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="keyword">for</span> <span class="string">item</span> <span class="keyword">in</span> <span class="string">data</span>:
+                <span class="string">log_str</span> = <span class="string">f"</span>{<span class="string">item</span>[<span class="string">'log_level'</span>]}<span class="string">: </span>{<span class="string">item</span>[<span class="string">'log_message'</span>]}<span class="string">"</span>
+                <span class="string">self._data.append</span>(<span class="string">log_str</span>)
+        <span class="keyword">else</span>:
+            <span class="string">log_str</span> = <span class="string">f"</span>{<span class="string">data</span>[<span class="string">'log_level'</span>]}<span class="string">: </span>{<span class="string">data</span>[<span class="string">'log_message'</span>]}<span class="string">"</span>
+            <span class="string">self._data.append</span>(<span class="string">log_str</span>)
+
+    <span class="keyword">def</span> <span class="string">output</span>(<span class="string">self</span>) -> <span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self._data</span>:
+            <span class="keyword">raise</span> <span class="string">IndexError</span>(<span class="string">"Немає даних для виводу"</span>)
+        <span class="string">item</span> = <span class="string">self._data.pop</span>(0)
+        <span class="string">rank</span> = <span class="string">self._rank</span>
+        <span class="string">self._rank</span> += 1
+        <span class="keyword">return</span> (<span class="string">rank</span>, <span class="string">item</span>)
+</code>
+                </div>
+
+                <div class="pitfalls">
+                    <p>
+                        <strong>⚠️ Поширені Помилки:</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Забули викликати <code>super().__init__()</code>:</strong> Якщо ваш базовий клас має метод <code>__init__</code>,
+                            завжди викликайте його у підкласах, щоб забезпечити належну ініціалізацію.
+                        </li>
+                        <li>
+                            <strong>Ігнорування вказівок типів:</strong> Хоча Python є динамічно типізованою мовою, вказівки типів покращують читабельність
+                            і допомагають виявляти помилки на ранніх етапах за допомогою інструментів, таких як <code>mypy</code>.
+                        </li>
+                        <li>
+                            <strong>Не перевіряєте дані перед обробкою:</strong> Завжди перевіряйте дані у методі <code>ingest</code>, щоб уникнути прихованих помилок або псування даних.
+                        </li>
+                    </ul>
+                </div>
+
+                <h4>3. Тестування Вашої Реалізації</h4>
+                <p>
+                    Створіть екземпляри кожного обробника і протестуйте їхні методи. Зверніть особливу увагу на крайні випадки,
+                    такі як порожні списки або недійсні типи даних.
+                </p>
+                <div class="code-block">
+<code><span class="comment"># Тестування NumericProcessor</span>
+<span class="string">numeric_proc</span> = <span class="string">NumericProcessor</span>()
+<span class="string">print</span>(<span class="string">numeric_proc.validate</span>(42))          <span class="comment"># True</span>
+<span class="string">print</span>(<span class="string">numeric_proc.validate</span>(<span class="string">"Hello"</span>))      <span class="comment"># False</span>
+
+<span class="string">numeric_proc.ingest</span>([1, 2, 3])
+<span class="string">print</span>(<span class="string">numeric_proc.output</span>())  <span class="comment"># (0, '1')</span>
+<span class="string">print</span>(<span class="string">numeric_proc.output</span>())  <span class="comment"># (1, '2')</span>
+
+<span class="comment"># Тестування недійсної обробки (має викликати ValueError)</span>
+<span class="keyword">try</span>:
+    <span class="string">numeric_proc.ingest</span>(<span class="string">"foo"</span>)
+<span class="keyword">except</span> <span class="string">ValueError</span> <span class="keyword">as</span> <span class="string">e</span>:
+    <span class="string">print</span>(<span class="string">f</span><span class="string">"Отримано виняток: </span>{<span class="string">e</span>}<span class="string">"</span>)  <span class="comment"># Отримано виняток: Некоректні числові дані</span>
+</code>
+                </div>
+
+                <div class="quiz">
+                    <h4>📝 Самооцінка</h4>
+                    <div>
+                        <p class="quiz-question">1. Чому <code>DataProcessor</code> визначений як абстрактний клас?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong> Щоб забезпечити дотримання контракту, згідно якого всі підкласи повинні реалізовувати <code>validate</code> і <code>ingest</code>.
+                            Це гарантує консистентність між усіма обробниками і запобігає інстанціюванню базового класу.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">2. Що станеться, якщо викликати <code>ingest</code> без попередньої перевірки даних?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong> Метод викличе <code>ValueError</code>, якщо дані є недійсними, згідно з реалізацією методу <code>ingest</code> у кожному обробнику.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">3. Як поліморфізм спрощує дизайн <code>DataProcessor</code>?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong> Поліморфізм дозволяє <code>DataStream</code> (у Вправі 1) обробляти всі обробники єдино через інтерфейс <code>DataProcessor</code>,
+                            без необхідності знати їхні конкретні реалізації.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Вправа 1: Поліморфна Обробка Потоку Даних -->
+        <section id="exercise1" class="lecture-section">
+            <div class="exercise">
+                <div class="exercise-title">
+                    <h2>🌊 Вправа 1: Поліморфна Обробка Потоку Даних</h2>
+                </div>
+
+                <h3>📚 Лекція: Динамічна Маршрутизація Даних</h3>
+                <p>
+                    У Вправі 0 ви створили індивідуальні обробники. Тепер ви створите клас <code>DataStream</code>, який
+                    <strong>динамічно маршрутизує дані</strong> до відповідного обробника на основі поліморфізму. Саме тут
+                    проявляється потужність абстрактних класів і перевизначення методів: <code>DataStream</code> не потрібно знати
+                    деталі кожного обробника — він просто викликає <code>validate</code> і <code>ingest</code> на кожному зареєстрованому обробнику.
+                </p>
+
+                <div class="theory">
+                    <h4>🎯 Чому Поліморфізм Важливий Тут</h4>
+                    <p>
+                        Поліморфізм дозволяє <code>DataStream</code>:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Обробляти всі обробники єдино:</strong> <code>DataStream</code> взаємодіє з обробниками
+                            через інтерфейс <code>DataProcessor</code>, незалежно від їхнього конкретного типу.
+                        </li>
+                        <li>
+                            <strong>Додавати нові обробники без зміни коду:</strong> Ви можете зареєструвати новий обробник (наприклад, <code>ImageProcessor</code>)
+                            без зміни класу <code>DataStream</code>.
+                        </li>
+                        <li>
+                            <strong>Обробляти різні типи даних:</strong> Потік може обробляти числа, текст, журнали або будь-які інші типи,
+                            для яких зареєстровано обробник.
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>Реальна Аналогія:</strong> Уявіть <code>DataStream</code> як поштову службу. Йому не потрібно знати
+                        вміст кожного пакета (даних) — він просто має знати, до якої поштової скриньки (обробника) його доставити на основі адреси (валідації).
+                    </p>
+                </div>
+
+                <h3>🔧 Покрокова Реалізація</h3>
+
+                <h4>1. Визначте Клас DataStream</h4>
+                <p>
+                    Клас <code>DataStream</code> буде:
+                </p>
+                <ul>
+                    <li>Підтримувати список зареєстрованих обробників.</li>
+                    <li>Маршрутизувати кожен елемент даних до першого обробника, який його валідує.</li>
+                    <li>Реєструвати помилки для даних, які не можуть бути оброблені.</li>
+                    <li>Відстежувати статистику для кожного обробника.</li>
+                </ul>
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">DataStream</span>:
+    <span class="keyword">def</span> <span class="string">__init__</span>(<span class="string">self</span>):
+        <span class="string">self._processors</span> = []  <span class="comment"># Список зареєстрованих обробників</span>
+
+    <span class="keyword">def</span> <span class="string">register_processor</span>(<span class="string">self</span>, <span class="string">proc</span>: <span class="string">DataProcessor</span>) -> <span class="string">None</span>:
+        <span class="comment">"""Зареєструвати новий обробник даних."""</span>
+        <span class="string">self._processors.append</span>(<span class="string">proc</span>)
+
+    <span class="keyword">def</span> <span class="string">process_stream</span>(<span class="string">self</span>, <span class="string">stream</span>: <span class="string">list</span>[<span class="string">Any</span>]) -> <span class="string">None</span>:
+        <span class="comment">"""Маршрутизувати кожен елемент у потоці до відповідного обробника."""</span>
+        <span class="keyword">for</span> <span class="string">data</span> <span class="keyword">in</span> <span class="string">stream</span>:
+            <span class="string">processed</span> = <span class="string">False</span>
+            <span class="keyword">for</span> <span class="string">proc</span> <span class="keyword">in</span> <span class="string">self._processors</span>:
+                <span class="keyword">if</span> <span class="string">proc.validate</span>(<span class="string">data</span>):
+                    <span class="string">proc.ingest</span>(<span class="string">data</span>)
+                    <span class="string">processed</span> = <span class="string">True</span>
+                    <span class="keyword">break</span>
+            <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">processed</span>:
+                <span class="string">print</span>(<span class="string">f</span><span class="string">"Помилка DataStream - Не вдалося обробити елемент у потоці: </span>{<span class="string">data</span>}<span class="string">"</span>)
+
+    <span class="keyword">def</span> <span class="string">print_processors_stats</span>(<span class="string">self</span>) -> <span class="string">None</span>:
+        <span class="comment">"""Надрукувати статистику для всіх зареєстрованих обробників."""</span>
+        <span class="keyword">for</span> <span class="string">i</span>, <span class="string">proc</span> <span class="keyword">in</span> <span class="string">enumerate</span>(<span class="string">self._processors</span>):
+            <span class="string">processor_name</span> = <span class="string">proc.__class__.__name__</span>
+            <span class="string">data_count</span> = <span class="string">len</span>(<span class="string">proc._data</span>)
+            <span class="string">print</span>(<span class="string">f"</span>{<span class="string">processor_name</span>}<span class="string">: всього </span>{<span class="string">data_count</span>}<span class="string"> елементів оброблено, залишилося </span>{<span class="string">data_count</span>}<span class="string"> в обробнику"</span>)
+</code>
+                </div>
+
+                <div class="best-practices">
+                    <p>
+                        <strong>💡 Краща Практика:</strong> Метод <code>process_stream</code> використовує патерн <strong>цикл-і-вихід</strong> для маршрутизації
+                        даних до першого обробника, який їх валідує. Це ефективно і гарантує, що кожен елемент даних обробляється не більше ніж одним обробником.
+                    </p>
+                </div>
+
+                <h4>2. Тестування DataStream</h4>
+                <p>
+                    Зареєструйте всі три обробники і відправте змішаний потік даних через <code>DataStream</code>. Спостерігайте, як
+                    кожен елемент даних маршрутизується до правильного обробника.
+                </p>
+                <div class="code-block">
+<code><span class="comment"># Ініціалізуємо DataStream</span>
+<span class="string">stream</span> = <span class="string">DataStream</span>()
+
+<span class="comment"># Реєструємо обробники</span>
+<span class="string">stream.register_processor</span>(<span class="string">NumericProcessor</span>())
+<span class="string">stream.register_processor</span>(<span class="string">TextProcessor</span>())
+<span class="string">stream.register_processor</span>(<span class="string">LogProcessor</span>())
+
+<span class="comment"># Відправляємо пакет змішаних даних</span>
+<span class="string">data</span> = [
+    42,
+    <span class="string">"Hello"</span>,
+    <span class="string">{</span><span class="string">'log_level'</span>: <span class="string">'INFO'</span>, <span class="string">'log_message'</span>: <span class="string">'Test'</span><span class="string">}</span>,
+    <span class="string">[1, 2, 3]</span>,
+    <span class="string">["a", "b", "c"]</span>
+]
+<span class="string">stream.process_stream</span>(<span class="string">data</span>)
+
+<span class="comment"># Друкуємо статистику</span>
+<span class="string">stream.print_processors_stats</span>()
+</code>
+                </div>
+                <p>
+                    <strong>Очікуваний Вивід:</strong>
+                </p>
+                <div class="code-block">
+<code><span class="string">Помилка DataStream - Не вдалося обробити елемент у потоці: Hello</span>
+<span class="string">NumericProcessor: всього 2 елементів оброблено, залишилося 2 в обробнику</span>
+<span class="string">TextProcessor: всього 1 елементів оброблено, залишилося 1 в обробнику</span>
+<span class="string">LogProcessor: всього 1 елементів оброблено, залишилося 1 в обробнику</span>
+</code>
+                </div>
+                <div class="pitfalls">
+                    <p>
+                        <strong>⚠️ Поширені Помилки:</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Порядок реєстрації обробників має значення:</strong> Якщо два обробники можуть валідувати ті самі дані,
+                            перший зареєстрований обробник обробить їх. Переконайтеся, що обробники зареєстровані у правильному порядку.
+                        </li>
+                        <li>
+                            <strong>Необроблювані дані ігноруються:</strong> Поточна реалізація друкує помилку, але продовжує обробку.
+                            Розгляньте можливість логування цих помилок для зручності наладкування.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="theory">
+                    <h4>🔍 Як Працює Поліморфізм Тут</h4>
+                    <p>
+                        Клас <code>DataStream</code> демонструє поліморфізм у дії:
+                    </p>
+                    <ol>
+                        <li>
+                            <strong>Єдиний Інтерфейс:</strong> <code>DataStream</code> викликає <code>validate</code> і <code>ingest</code>
+                            на кожному обробнику, не знаючи їхнього конкретного типу. Це можливо, тому що всі обробники успадковують від
+                            <code>DataProcessor</code> і реалізовують ці методи.
+                        </li>
+                        <li>
+                            <strong>Динамічна Диспетчеризація:</strong> Python автоматично викликає правильні методи <code>validate</code> і <code>ingest</code>
+                            на основі фактичного типу обробника (наприклад, <code>NumericProcessor.validate</code> vs.
+                            <code>TextProcessor.validate</code>).
+                        </li>
+                        <li>
+                            <strong>Розширюваність:</strong> Ви можете додати новий обробник (наприклад, <code>ImageProcessor</code>) без зміни
+                            класу <code>DataStream</code>. Просто зареєструйте його, і потік буде використовувати його автоматично.
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="quiz">
+                    <h4>📝 Самооцінка</h4>
+                    <div>
+                        <p class="quiz-question">1. Як <code>DataStream</code> визначає, який обробник використовувати для даного елемента даних?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong> Він ітерує через усі зареєстровані обробники і використовує перший, чий метод <code>validate</code>
+                            повертає <code>True</code> для даних.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">2. Які переваги використання поліморфізму в цьому дизайні?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong>
+                            <ul>
+                                <li>Дозволяє <code>DataStream</code> обробляти нові типи даних без зміни коду.</li>
+                                <li>Спрощує логіку <code>DataStream</code>, обробляючи всі обробники єдино.</li>
+                                <li>Робить систему більш підтримуваною і розширюваною.</li>
+                            </ul>
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">3. Як ви розширите цю систему для підтримки нового типу даних (наприклад, <code>ImageProcessor</code>)?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong> Створіть новий клас (наприклад, <code>ImageProcessor</code>), який успадковує від <code>DataProcessor</code>
+                            і реалізовує <code>validate</code> і <code>ingest</code>. Потім зареєструйте його в <code>DataStream</code>.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Вправа 2: Конвеєр Даних -->
+        <section id="exercise2" class="lecture-section">
+            <div class="exercise">
+                <div class="exercise-title">
+                    <h2>🚀 Вправа 2: Конвеєр Даних</h2>
+                </div>
+
+                <h3>📚 Лекція: "Качина" Типізація та Система Плагінів</h3>
+                <p>
+                    У Вправі 1 ви побудували систему, яка обробляє і зберігає дані. Тепер ви розширите її, щоб <strong>експортувати</strong>
+                    оброблені дані за допомогою <strong>системи плагінів</strong>. Тут на сцену виходять <strong>"качина" типізація</strong> і
+                    <strong>протоколи</strong>. Замість того, щоб вимагати від плагінів успадковуватися від конкретного класу,
+                    ви визначите <strong>протокол</strong> (набір методів), які плагіни повинні реалізовувати.
+                </p>
+
+                <div class="theory">
+                    <h4>🎯 Чому "Качина" Типізація?</h4>
+                    <p>
+                        "Качина" типізація дозволяє:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Уникнути тісної зв'язності:</strong> Плагінам не потрібно успадковуватися від конкретного класу — їм просто потрібно
+                            реалізовувати необхідні методи (наприклад, <code>process_output</code>).
+                        </li>
+                        <li>
+                            <strong>Підтримувати кілька реалізацій:</strong> Ви можете створити плагіни для CSV, JSON або XML без зміни
+                            класу <code>DataStream</code>.
+                        </li>
+                        <li>
+                            <strong>Зберегти гнучкість коду:</strong> Нові формати експорту можуть бути додані без зміни існуючого коду.
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>Реальна Аналогія:</strong> Уявіть плагіни як "адаптери" для електричної розетки. Якщо адаптер (плагін)
+                        має правильні штекери (методи), він може підключитися до розетки (<code>DataStream</code>), незалежно від
+                        його марки або дизайну.
+                    </p>
+                </div>
+
+                <div class="theory">
+                    <h4>🔍 Протоколи в Python</h4>
+                    <p>
+                        Протокол <code>typing.Protocol</code> у Python дозволяє визначити "контракт" для класів без вимоги успадкування від конкретного базового класу.
+                        Це ідеально підходить для систем плагінів, де ви хочете забезпечити наявність певних методів без обмеження спадкування.
+                    </p>
+                    <p>
+                        <strong>Приклад:</strong> Протокол <code>ExportPlugin</code> вимагає наявності методу <code>process_output</code>.
+                        Будь-який клас, який реалізовує цей метод, може використовуватися як плагін, навіть якщо він не успадковується від конкретного класу.
+                    </p>
+                </div>
+
+                <h3>🔧 Покрокова Реалізація</h3>
+
+                <h4>1. Визначте Протокол ExportPlugin</h4>
+                <p>
+                    Використовуйте <code>typing.Protocol</code>, щоб визначити інтерфейс для плагінів експорту. Декоратор <code>@runtime_checkable</code>
+                    дозволяє використовувати <code>isinstance</code> для перевірки, чи відповідає об'єкт протоколу.
+                </p>
+                <div class="code-block">
+<code><span class="keyword">from</span> <span class="string">typing</span> <span class="keyword">import</span> <span class="string">Protocol</span>, <span class="string">runtime_checkable</span>
+
+<span class="keyword">@runtime_checkable</span>
+<span class="keyword">class</span> <span class="string">ExportPlugin</span>(<span class="string">Protocol</span>):
+    <span class="keyword">def</span> <span class="string">process_output</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">list</span>[<span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]]) -> <span class="string">None</span>:
+        <span class="comment">"""Обробити та експортувати дані."""</span>
+        <span class="keyword">pass</span>
+</code>
+                </div>
+
+                <h4>2. Реалізуйте Плагіни CSV і JSON</h4>
+                <p>
+                    Створіть два плагіни: <code>CSVPlugin</code> і <code>JSONPlugin</code>. Кожен з них реалізує <code>process_output</code>,
+                    щоб форматувати дані як CSV або JSON відповідно.
+                </p>
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">CSVPlugin</span>:
+    <span class="keyword">def</span> <span class="string">process_output</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">list</span>[<span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]]) -> <span class="string">None</span>:
+        <span class="comment">"""Експортувати дані у форматі CSV."""</span>
+        <span class="string">csv_data</span> = [<span class="string">f"</span>{<span class="string">rank</span>},<span class="string">"</span>{<span class="string">value</span>}<span class="string">"</span> <span class="keyword">for</span> <span class="string">rank</span>, <span class="string">value</span> <span class="keyword">in</span> <span class="string">data</span>]
+        <span class="string">print</span>(<span class="string">"Вивід CSV:\n"</span> + <span class="string">"\n"</span>.join(<span class="string">csv_data</span>))
+
+<span class="keyword">class</span> <span class="string">JSONPlugin</span>:
+    <span class="keyword">def</span> <span class="string">process_output</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">list</span>[<span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]]) -> <span class="string">None</span>:
+        <span class="comment">"""Експортувати дані у форматі JSON."""</span>
+        <span class="string">json_data</span> = {<span class="string">f"</span><span class="string">item_</span>{<span class="string">rank</span>}<span class="string">"</span>: <span class="string">value</span> <span class="keyword">for</span> <span class="string">rank</span>, <span class="string">value</span> <span class="keyword">in</span> <span class="string">data</span>}
+        <span class="string">print</span>(<span class="string">"Вивід JSON:\n"</span> + <span class="string">str</span>(<span class="string">json_data</span>))
+</code>
+                </div>
+
+                <h4>3. Розширте DataStream для Підтримки Плагінів</h4>
+                <p>
+                    Додайте метод <code>output_pipeline</code> до <code>DataStream</code>, який споживає <code>nb</code> елементів з усіх
+                    зареєстрованих обробників і експортує їх за допомогою наданого плагіна.
+                </p>
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">DataStream</span>:
+    <span class="comment"># ... (попередні методи)</span>
+
+    <span class="keyword">def</span> <span class="string">output_pipeline</span>(<span class="string">self</span>, <span class="string">nb</span>: <span class="string">int</span>, <span class="string">plugin</span>: <span class="string">ExportPlugin</span>) -> <span class="string">None</span>:
+        <span class="comment">"""Спожити `nb` елементів з усіх обробників і експортувати за допомогою плагіна."""</span>
+        <span class="string">all_data</span> = []
+        <span class="keyword">for</span> <span class="string">proc</span> <span class="keyword">in</span> <span class="string">self._processors</span>:
+            <span class="keyword">for</span> <span class="string">_</span> <span class="keyword">in</span> <span class="string">range</span>(<span class="string">nb</span>):
+                <span class="keyword">try</span>:
+                    <span class="string">all_data.append</span>(<span class="string">proc.output</span>())
+                <span class="keyword">except</span> <span class="string">IndexError</span>:
+                    <span class="keyword">break</span>
+        <span class="string">plugin.process_output</span>(<span class="string">all_data</span>)
+</code>
+                </div>
+
+                <h4>4. Тестування Конвеєра</h4>
+                <p>
+                    Зареєструйте обробники, обробіть потік даних, а потім експортуйте результати за допомогою плагінів CSV і JSON.
+                </p>
+                <div class="code-block">
+<code><span class="comment"># Ініціалізуємо DataStream</span>
+<span class="string">stream</span> = <span class="string">DataStream</span>()
+
+<span class="comment"># Реєструємо обробники</span>
+<span class="string">stream.register_processor</span>(<span class="string">NumericProcessor</span>())
+<span class="string">stream.register_processor</span>(<span class="string">TextProcessor</span>())
+<span class="string">stream.register_processor</span>(<span class="string">LogProcessor</span>())
+
+<span class="comment"># Обробляємо потік даних</span>
+<span class="string">data</span> = [
+    42,
+    <span class="string">"Hello"</span>,
+    <span class="string">{</span><span class="string">'log_level'</span>: <span class="string">'INFO'</span>, <span class="string">'log_message'</span>: <span class="string">'Test'</span><span class="string">}</span>,
+    <span class="string">[1, 2, 3]</span>,
+    <span class="string">["a", "b", "c"]</span>
+]
+<span class="string">stream.process_stream</span>(<span class="string">data</span>)
+
+<span class="comment"># Експортуємо 2 елементи з кожного обробника у форматі CSV</span>
+<span class="string">stream.output_pipeline</span>(2, <span class="string">CSVPlugin</span>())
+
+<span class="comment"># Експортуємо 2 елементи з кожного обробника у форматі JSON</span>
+<span class="string">stream.output_pipeline</span>(2, <span class="string">JSONPlugin</span>())
+</code>
+                </div>
+                <p>
+                    <strong>Очікуваний Вивід:</strong>
+                </p>
+                <div class="code-block">
+<code><span class="string">Вивід CSV:</span>
+<span class="string">0,42</span>
+<span class="string">1,1</span>
+<span class="string">0,Hello</span>
+<span class="string">0,INFO: Test</span>
+
+<span class="string">Вивід JSON:</span>
+<span class="string">{'item_0': '42', 'item_1': '1', 'item_0': 'Hello', 'item_0': 'INFO: Test'}</span>
+</code>
+                </div>
+
+                <div class="best-practices">
+                    <p>
+                        <strong>💡 Краща Практика:</strong> При проектуванні систем плагінів:
+                    </p>
+                    <ul>
+                        <li>
+                            Використовуйте <strong>протоколи</strong>, щоб визначити інтерфейси без вимоги спадкування.
+                        </li>
+                        <li>
+                            Тримайте методи плагінів <strong>простими і зосередженими</strong> (наприклад, <code>process_output</code> обробляє лише експорт).
+                        </li>
+                        <li>
+                            Документуйте <strong>очікуваний вхід/вихід</strong> для методів плагінів (наприклад, <code>data: list[tuple[int, str]]</code>).
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pitfalls">
+                    <p>
+                        <strong>⚠️ Поширені Помилки:</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Припущення, що плагіни не мають стану:</strong> Якщо ваші плагіни повинні зберігати стан (наприклад, дескриптори файлів),
+                            переконайтеся, що вони спроектовані для безпечної роботи з ним.
+                        </li>
+                        <li>
+                            <strong>Ігнорування вказівок типів у протоколах:</strong> Завжди використовуйте вказівки типів у протоколах, щоб зробити очікування ясними.
+                        </li>
+                        <li>
+                            <strong>Необробка порожніх даних:</strong> Метод <code>output_pipeline</code> повинен коректно обробляти випадки,
+                            коли обробники мають менше ніж <code>nb</code> елементів.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="theory">
+                    <h4>🔍 Як "Качина" Типізація Забезпечує Гнучкість</h4>
+                    <p>
+                        Система плагінів у цій вправі демонструє потужність "качиної" типізації:
+                    </p>
+                    <ol>
+                        <li>
+                            <strong>Не Потрібно Спадкування:</strong> <code>CSVPlugin</code> і <code>JSONPlugin</code> не успадковують від
+                            спільного базового класу. Їм просто потрібно реалізовувати <code>process_output</code>.
+                        </li>
+                        <li>
+                            <strong>Гнучкість на Етапі Виконання:</strong> Ви можете передати будь-який об'єкт, який реалізовує <code>process_output</code>
+                            до <code>output_pipeline</code>, навіть якщо він визначений пізніше (наприклад, в іншому модулі).
+                        </li>
+                        <li>
+                            <strong>Легке Тестування:</strong> Ви можете створювати мок-плагіни для тестування без зміни класу <code>DataStream</code>.
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="quiz">
+                    <h4>📝 Самооцінка</h4>
+                    <div>
+                        <p class="quiz-question">1. Що таке "качина" типізація, і чим вона відрізняється від поліморфізму на основі спадкування?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong> "Качина" типізація визначає придатність об'єкта на основі його методів/властивостей, а не його типу.
+                            Поліморфізм на основі спадкування вимагає, щоб об'єкти успадковувалися від конкретного класу. "Качина" типізація є більш гнучкою.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">2. Чому використовувати <code>typing.Protocol</code> для плагінів?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong> Щоб визначити контракт (інтерфейс), якого повинні дотримуватися плагіни, без вимоги успадкування від конкретного класу.
+                            Це дозволяє використовувати "качину" типізацію, забезпечуючи при цьому типову безпеку.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">3. Як ви додасте новий формат експорту (наприклад, XML)?</p>
+                        <p class="quiz-answer">
+                            <strong>Відповідь:</strong> Створіть новий клас (наприклад, <code>XMLPlugin</code>), який реалізовує метод <code>process_output</code>.
+                            Зміни до <code>DataStream</code> не потрібні.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Показати Відповідь</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Висновок -->
+        <section id="conclusion" class="lecture-section">
+            <h2>🎓 Висновок: Ключові Висновки</h2>
+            <p>
+                У цьому модулі ви дізналися, як використовувати <strong>поліморфізм</strong>, <strong>абстрактні класи</strong> і
+                <strong>"качину" типізацію</strong> для побудови гнучкої та розширюваної системи обробки даних. Ось короткий огляд ключових концепцій:
+            </p>
+
+            <div class="theory">
+                <h3>🔑 Основні Концепції</h3>
+                <ol>
+                    <li>
+                        <strong>Поліморфізм:</strong> Обробляйте об'єкти різних класів єдино через спільний інтерфейс.
+                        Це дозволяє створювати гнучкий і багаторазово використовуваний код.
+                    </li>
+                    <li>
+                        <strong>Абстрактні Базові Класи (ABC):</strong> Визначте контракти для підкласів, щоб забезпечити консистентність.
+                        Використовуйте <code>abc.ABC</code> і <code>@abstractmethod</code> для цього.
+                    </li>
+                    <li>
+                        <strong>Перевизначення Методів:</strong> Налаштуйте поведінку в підкласах, перевизначаючи методи базового класу.
+                    </li>
+                    <li>
+                        <strong>"Качина" Типізація:</strong> Зосереджуйтеся на поведінці об'єкта (методах/властивостях), а не на його типі.
+                        Дозволяє створювати гнучкі системи плагінів.
+                    </li>
+                    <li>
+                        <strong>Протоколи:</strong> Визначте інтерфейси без спадкування. Використовуйте <code>typing.Protocol</code> для типової безпеки.
+                    </li>
+                </ol>
+            </div>
+
+            <div class="theory">
+                <h3>🏗️ Принципи Проектування</h3>
+                <ul>
+                    <li>
+                        <strong>Розділення Обов'язків:</strong> Кожен клас (наприклад, <code>NumericProcessor</code>, <code>CSVPlugin</code>)
+                        має єдину відповідальність.
+                    </li>
+                    <li>
+                        <strong>Принцип Відкритості/Закритості:</strong> Клас <code>DataStream</code> відкритий для розширення (нові обробники/плагіни),
+                        але закритий для зміни.
+                    </li>
+                    <li>
+                        <strong>Слабка Зв'язність:</strong> <code>DataStream</code> залежить від абстракцій (<code>DataProcessor</code>, <code>ExportPlugin</code>),
+                        а не від конкретних реалізацій.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="theory">
+                <h3>🚀 Наступні Кроки</h3>
+                <p>
+                    Щоб поглибити свої знання, спробуйте наступне:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Додайте новий обробник:</strong> Реалізуйте <code>ImageProcessor</code>, який обробляє зображення (наприклад, об'єкти PIL або шляхи до файлів).
+                    </li>
+                    <li>
+                        <strong>Створіть новий плагін:</strong> Реалізуйте <code>DatabasePlugin</code>, який експортує дані до бази даних SQLite.
+                    </li>
+                    <li>
+                        <strong>Оптимізуйте продуктивність:</strong> Використовуйте потоки або мультипроцесинг для паралельної обробки даних у <code>DataStream</code>.
+                    </li>
+                    <li>
+                        <strong>Дослідіть <code>dataclasses</code> у Python:</strong> Використовуйте <code>@dataclass</code>, щоб спростити реалізацію обробників і плагінів.
+                    </li>
+                    <li>
+                        <strong>Ознайомтеся з офіційною документацією:</strong>
+                        <ul>
+                            <li><a href="https://docs.python.org/3/library/abc.html" target="_blank">Модуль <code>abc</code> у Python</a></li>
+                            <li><a href="https://docs.python.org/3/library/typing.html#typing.Protocol" target="_blank">Протоколи у Python</a></li>
+                            <li><a href="https://peps.python.org/pep-0544/" target="_blank">PEP 544: Протоколи</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="theory">
+                <h3>💬 Фінальні Думки</h3>
+                <p>
+                    Поліморфізм і "качина" типізація — це потужні інструменти для написання <strong>гнучкого, підтримуваного і масштабованого</strong> коду.
+                    Концентруючись на <strong>інтерфейсах</strong> (що можуть робити об'єкти), а не на <strong>реалізаціях</strong> (як вони це роблять),
+                    ви можете проектувати системи, які легко розширювати і адаптувати. Це один з основних принципів <strong>об'єктно-орієнтованого проектування</strong>
+                    і широко використовується в реальному програмному забезпеченні, від веб-фреймворків (наприклад, Django, Flask) до бібліотек обробки даних (наприклад, Pandas).
+                </p>
+                <p>
+                    Пам'ятайте:
+                </p>
+                <blockquote>
+                    "Програмуйте для інтерфейсу, а не для реалізації."<br>
+                    — <em>Паттерни Проектування: Елементи Багаторазово Використовуваного Об'єктно-Орієнтованого Програмного Забезпечення</em>
+                </blockquote>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p><strong>Модуль Python 05: Поліморфні Потоки Даних | Довідник Лекцій</strong></p>
+        <p>Створено для освітніх цілей. Натхненно курсом школи 42.</p>
+    </footer>
+
+    <script>
+        function toggleAnswer(button) {
+            const answer = button.previousElementSibling;
+            if (answer.style.display === "none" || answer.style.display === "") {
+                answer.style.display = "block";
+                button.textContent = "Сховати Відповідь";
+            } else {
+                answer.style.display = "none";
+                button.textContent = "Показати Відповідь";
+            }
+        }
+    </script>
+</body>
+</html>
