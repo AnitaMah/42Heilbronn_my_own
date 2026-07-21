@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Module 05: Polymorphic Data Streams | Lecture Guide</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--dark-color);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            margin-top: 20px;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        .lecture-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .theory {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid var(--primary-color);
+            margin: 15px 0;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .code-block .comment {
+            color: #75715e;
+        }
+
+        .code-block .keyword {
+            color: #f92672;
+        }
+
+        .code-block .string {
+            color: #e6db74;
+        }
+
+        .code-block .number {
+            color: #ae81ff;
+        }
+
+        .exercise {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .exercise-title {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .quiz {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .quiz-answer {
+            margin-left: 20px;
+            display: none;
+        }
+
+        .quiz-button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .pitfalls {
+            background: #fff8f8;
+            border-left: 4px solid var(--danger-color);
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .best-practices {
+            background: #f8fff8;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .analogy {
+            font-style: italic;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--dark-color);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🚀 Python Module 05: Polymorphic Data Streams in the Digital Matrix</h1>
+            <p><strong>Lecture Guide: Mastering Polymorphism, Abstract Classes, and Duck Typing</strong></p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="nav">
+            <a href="#introduction">Introduction</a>
+            <a href="#exercise0">Exercise 0: Data Processor</a>
+            <a href="#exercise1">Exercise 1: Polymorphic Data Stream</a>
+            <a href="#exercise2">Exercise 2: Data Pipeline</a>
+            <a href="#conclusion">Conclusion</a>
+        </div>
+
+        <!-- Introduction Section -->
+        <section id="introduction" class="lecture-section">
+            <h2>📌 Lecture Introduction: Why Polymorphism Matters</h2>
+
+            <div class="theory">
+                <h3>🎯 Learning Objectives</h3>
+                <p>
+                    By the end of this lecture, you will:
+                </p>
+                <ul>
+                    <li>Understand the principles of <strong>polymorphism</strong> and how it enables flexible, reusable code.</li>
+                    <li>Implement <strong>abstract base classes (ABCs)</strong> to define interfaces for subclasses.</li>
+                    <li>Use <strong>method overriding</strong> to customize behavior in subclasses.</li>
+                    <li>Design a <strong>plugin system</strong> using duck typing and protocols.</li>
+                    <li>Apply these concepts to build a <strong>scalable data processing pipeline</strong>.</li>
+                </ul>
+            </div>
+
+            <div class="analogy">
+                <p>
+                    <strong>🌆 Real-World Analogy: The Code Nexus</strong><br>
+                    Imagine a futuristic city where data flows like rivers through quantum networks. The <strong>Code Nexus</strong>
+                    is the central hub where all this data is processed. Just like a city handles different types of vehicles
+                    (cars, buses, bikes) on the same roads, the Nexus uses <strong>polymorphism</strong> to process different
+                    data types (numbers, text, logs) through the same pipeline. Each data type has its own "vehicle" (processor),
+                    but they all follow the same "road rules" (interface).
+                </p>
+            </div>
+
+            <h3>🔑 Key Concepts</h3>
+            <div class="theory">
+                <h4>1. Polymorphism</h4>
+                <p>
+                    Polymorphism (from Greek <em>poly</em> = many, <em>morph</em> = form) allows objects of different classes
+                    to be treated as objects of a common superclass. In Python, this is achieved through:
+                </p>
+                <ul>
+                    <li><strong>Inheritance:</strong> Subclasses inherit from a base class and override methods.</li>
+                    <li><strong>Duck Typing:</strong> If an object "walks like a duck and quacks like a duck," it’s treated as a duck—no explicit inheritance required.</li>
+                </ul>
+                <p>
+                    <strong>Example:</strong> A <code>DataProcessor</code> can validate and ingest data, but the specific behavior
+                    depends on whether it's a <code>NumericProcessor</code>, <code>TextProcessor</code>, or <code>LogProcessor</code>.
+                </p>
+            </div>
+
+            <div class="theory">
+                <h4>2. Abstract Base Classes (ABCs)</h4>
+                <p>
+                    ABCs define a <strong>contract</strong> that subclasses must follow. They cannot be instantiated directly
+                    and may contain <strong>abstract methods</strong> (methods without implementation) that subclasses must override.
+                </p>
+                <p>
+                    <strong>Why use ABCs?</strong>
+                </p>
+                <ul>
+                    <li>Enforce a consistent <strong>interface</strong> across subclasses.</li>
+                    <li>Make your code <strong>self-documenting</strong> by clearly defining expected methods.</li>
+                    <li>Enable <strong>runtime checks</strong> (e.g., <code>isinstance(obj, DataProcessor)</code>).</li>
+                </ul>
+            </div>
+
+            <div class="theory">
+                <h4>3. Duck Typing</h4>
+                <p>
+                    Duck typing is a programming concept where the <strong>type or class of an object is determined by its behavior</strong>
+                    (methods and properties) rather than its explicit type. In Python, this is often summarized as:
+                </p>
+                <blockquote>
+                    "If it walks like a duck and quacks like a duck, then it must be a duck."
+                </blockquote>
+                <p>
+                    <strong>Example:</strong> In Exercise 2, the <code>ExportPlugin</code> protocol defines that any class with a
+                    <code>process_output</code> method can be used as a plugin, regardless of its inheritance hierarchy.
+                </p>
+            </div>
+
+            <div class="theory">
+                <h4>4. Method Overriding</h4>
+                <p>
+                    Method overriding allows a subclass to provide a <strong>specific implementation</strong> of a method that is
+                    already defined in its superclass. This is how polymorphism is achieved in object-oriented programming.
+                </p>
+                <p>
+                    <strong>Example:</strong> The <code>validate</code> method in <code>NumericProcessor</code> checks if the data is
+                    numeric, while the same method in <code>TextProcessor</code> checks if the data is a string.
+                </p>
+            </div>
+        </section>
+
+        <!-- Exercise 0: Data Processor -->
+        <section id="exercise0" class="lecture-section">
+            <div class="exercise">
+                <div class="exercise-title">
+                    <h2>🛠️ Exercise 0: Data Processor</h2>
+                </div>
+
+                <h3>📚 Lecture: Building the Foundation</h3>
+                <p>
+                    In this exercise, you’ll create the <strong>base architecture</strong> for a data processing system.
+                    The goal is to define a common interface for processing different types of data (numeric, text, logs)
+                    while allowing each type to maintain its unique behavior.
+                </p>
+
+                <div class="theory">
+                    <h4>🎯 Why Abstract Classes?</h4>
+                    <p>
+                        The <code>DataProcessor</code> class is defined as an <strong>abstract base class (ABC)</strong> because:
+                    </p>
+                    <ul>
+                        <li>
+                            It <strong>cannot be instantiated directly</strong>—it’s a blueprint for other classes.
+                        </li>
+                        <li>
+                            It <strong>enforces a contract</strong>: All subclasses must implement <code>validate</code> and <code>ingest</code>.
+                        </li>
+                        <li>
+                            It provides a <strong>unified interface</strong> for interacting with different processors.
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>Real-World Analogy:</strong> Think of <code>DataProcessor</code> as a "USB port." Any device (subclass)
+                        that follows the USB standard (implements <code>validate</code> and <code>ingest</code>) can plug into it.
+                    </p>
+                </div>
+
+                <h3>🔧 Step-by-Step Implementation</h3>
+
+                <h4>1. Define the Abstract Base Class</h4>
+                <p>
+                    Start by creating the <code>DataProcessor</code> class with abstract methods. Use the <code>abc</code> module
+                    to define abstract methods.
+                </p>
+                <div class="code-block">
+<code><span class="keyword">from</span> <span class="string">abc</span> <span class="keyword">import</span> <span class="string">ABC</span>, <span class="string">abstractmethod</span>
+<span class="keyword">from</span> <span class="string">typing</span> <span class="keyword">import</span> <span class="string">Any</span>
+
+<span class="keyword">class</span> <span class="string">DataProcessor</span>(<span class="string">ABC</span>):
+    <span class="comment"># Abstract method: Must be overridden by subclasses</span>
+    <span class="keyword">@abstractmethod</span>
+    <span class="keyword">def</span> <span class="string">validate</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">bool</span>:
+        <span class="comment">"""Check if the data can be processed by this processor."""</span>
+        <span class="keyword">pass</span>
+
+    <span class="comment"># Abstract method: Must be overridden by subclasses</span>
+    <span class="keyword">@abstractmethod</span>
+    <span class="keyword">def</span> <span class="string">ingest</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">None</span>:
+        <span class="comment">"""Process and store the data internally."""</span>
+        <span class="keyword">pass</span>
+
+    <span class="comment"># Concrete method: Can be inherited or overridden</span>
+    <span class="keyword">def</span> <span class="string">output</span>(<span class="string">self</span>) -> <span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]:
+        <span class="comment">"""Extract the oldest stored data and its rank."""</span>
+        <span class="keyword">pass</span>
+</code>
+                </div>
+                <div class="best-practices">
+                    <p>
+                        <strong>💡 Best Practice:</strong> Always use <strong>type hints</strong> (e.g., <code>data: Any</code>, <code>-> bool</code>)
+                        to make your code self-documenting. This helps tools like <code>mypy</code> catch type-related errors early.
+                    </p>
+                </div>
+
+                <h4>2. Implement Specialized Processors</h4>
+                <p>
+                    Now, create three subclasses of <code>DataProcessor</code>: <code>NumericProcessor</code>, <code>TextProcessor</code>,
+                    and <code>LogProcessor</code>. Each will override <code>validate</code> and <code>ingest</code> to handle its specific data type.
+                </p>
+
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">NumericProcessor</span>(<span class="string">DataProcessor</span>):
+    <span class="keyword">def</span> <span class="string">__init__</span>(<span class="string">self</span>):
+        <span class="string">self._data</span> = []  <span class="comment"># Internal storage for processed data</span>
+        <span class="string">self._rank</span> = 0   <span class="comment"># Rank counter for output</span>
+
+    <span class="keyword">def</span> <span class="string">validate</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">bool</span>:
+        <span class="comment"># Accept int, float, or lists of these types</span>
+        <span class="keyword">return</span> <span class="string">isinstance</span>(<span class="string">data</span>, (<span class="string">int</span>, <span class="string">float</span>, <span class="string">list</span>))
+
+    <span class="keyword">def</span> <span class="string">ingest</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">int</span> | <span class="string">float</span> | <span class="string">list</span>[<span class="string">int</span> | <span class="string">float</span>]) -> <span class="string">None</span>:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self.validate</span>(<span class="string">data</span>):
+            <span class="keyword">raise</span> <span class="string">ValueError</span>(<span class="string">"Improper numeric data"</span>)
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="string">self._data.extend</span>(<span class="string">map</span>(<span class="string">str</span>, <span class="string">data</span>))
+        <span class="keyword">else</span>:
+            <span class="string">self._data.append</span>(<span class="string">str</span>(<span class="string">data</span>))
+
+    <span class="keyword">def</span> <span class="string">output</span>(<span class="string">self</span>) -> <span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self._data</span>:
+            <span class="keyword">raise</span> <span class="string">IndexError</span>(<span class="string">"No data to output"</span>)
+        <span class="string">item</span> = <span class="string">self._data.pop</span>(0)
+        <span class="string">rank</span> = <span class="string">self._rank</span>
+        <span class="string">self._rank</span> += 1
+        <span class="keyword">return</span> (<span class="string">rank</span>, <span class="string">item</span>)
+</code>
+                </div>
+
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">TextProcessor</span>(<span class="string">DataProcessor</span>):
+    <span class="keyword">def</span> <span class="string">__init__</span>(<span class="string">self</span>):
+        <span class="string">self._data</span> = []
+        <span class="string">self._rank</span> = 0
+
+    <span class="keyword">def</span> <span class="string">validate</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">bool</span>:
+        <span class="keyword">return</span> <span class="string">isinstance</span>(<span class="string">data</span>, (<span class="string">str</span>, <span class="string">list</span>))
+
+    <span class="keyword">def</span> <span class="string">ingest</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">str</span> | <span class="string">list</span>[<span class="string">str</span>]) -> <span class="string">None</span>:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self.validate</span>(<span class="string">data</span>):
+            <span class="keyword">raise</span> <span class="string">ValueError</span>(<span class="string">"Improper text data"</span>)
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="string">self._data.extend</span>(<span class="string">data</span>)
+        <span class="keyword">else</span>:
+            <span class="string">self._data.append</span>(<span class="string">data</span>)
+
+    <span class="keyword">def</span> <span class="string">output</span>(<span class="string">self</span>) -> <span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self._data</span>:
+            <span class="keyword">raise</span> <span class="string">IndexError</span>(<span class="string">"No data to output"</span>)
+        <span class="string">item</span> = <span class="string">self._data.pop</span>(0)
+        <span class="string">rank</span> = <span class="string">self._rank</span>
+        <span class="string">self._rank</span> += 1
+        <span class="keyword">return</span> (<span class="string">rank</span>, <span class="string">item</span>)
+</code>
+                </div>
+
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">LogProcessor</span>(<span class="string">DataProcessor</span>):
+    <span class="keyword">def</span> <span class="string">__init__</span>(<span class="string">self</span>):
+        <span class="string">self._data</span> = []
+        <span class="string">self._rank</span> = 0
+
+    <span class="keyword">def</span> <span class="string">validate</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">Any</span>) -> <span class="string">bool</span>:
+        <span class="comment"># Accept dict with string key-value pairs or list of such dicts</span>
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">dict</span>):
+            <span class="keyword">return</span> <span class="string">all</span>(<span class="string">isinstance</span>(<span class="string">k</span>, <span class="string">str</span>) <span class="keyword">and</span> <span class="string">isinstance</span>(<span class="string">v</span>, <span class="string">str</span>) <span class="keyword">for</span> <span class="string">k</span>, <span class="string">v</span> <span class="keyword">in</span> <span class="string">data.items</span>())
+        <span class="keyword">elif</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="keyword">return</span> <span class="string">all</span>(<span class="string">self.validate</span>(<span class="string">item</span>) <span class="keyword">for</span> <span class="string">item</span> <span class="keyword">in</span> <span class="string">data</span>)
+        <span class="keyword">return</span> <span class="string">False</span>
+
+    <span class="keyword">def</span> <span class="string">ingest</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">dict</span>[<span class="string">str</span>, <span class="string">str</span>] | <span class="string">list</span>[<span class="string">dict</span>[<span class="string">str</span>, <span class="string">str</span>]]) -> <span class="string">None</span>:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self.validate</span>(<span class="string">data</span>):
+            <span class="keyword">raise</span> <span class="string">ValueError</span>(<span class="string">"Improper log data"</span>)
+        <span class="keyword">if</span> <span class="string">isinstance</span>(<span class="string">data</span>, <span class="string">list</span>):
+            <span class="keyword">for</span> <span class="string">item</span> <span class="keyword">in</span> <span class="string">data</span>:
+                <span class="string">log_str</span> = <span class="string">f"</span>{<span class="string">item</span>[<span class="string">'log_level'</span>]}<span class="string">: </span>{<span class="string">item</span>[<span class="string">'log_message'</span>]}<span class="string">"</span>
+                <span class="string">self._data.append</span>(<span class="string">log_str</span>)
+        <span class="keyword">else</span>:
+            <span class="string">log_str</span> = <span class="string">f"</span>{<span class="string">data</span>[<span class="string">'log_level'</span>]}<span class="string">: </span>{<span class="string">data</span>[<span class="string">'log_message'</span>]}<span class="string">"</span>
+            <span class="string">self._data.append</span>(<span class="string">log_str</span>)
+
+    <span class="keyword">def</span> <span class="string">output</span>(<span class="string">self</span>) -> <span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]:
+        <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">self._data</span>:
+            <span class="keyword">raise</span> <span class="string">IndexError</span>(<span class="string">"No data to output"</span>)
+        <span class="string">item</span> = <span class="string">self._data.pop</span>(0)
+        <span class="string">rank</span> = <span class="string">self._rank</span>
+        <span class="string">self._rank</span> += 1
+        <span class="keyword">return</span> (<span class="string">rank</span>, <span class="string">item</span>)
+</code>
+                </div>
+
+                <div class="pitfalls">
+                    <p>
+                        <strong>⚠️ Common Pitfalls:</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Forgetting to call <code>super().__init__()</code>:</strong> If your base class has an <code>__init__</code>
+                            method, always call it in subclasses to ensure proper initialization.
+                        </li>
+                        <li>
+                            <strong>Ignoring type hints:</strong> While Python is dynamically typed, type hints improve readability
+                            and help catch errors early with tools like <code>mypy</code>.
+                        </li>
+                        <li>
+                            <strong>Not validating data before ingestion:</strong> Always validate data in <code>ingest</code> to avoid
+                            silent failures or corruption.
+                        </li>
+                    </ul>
+                </div>
+
+                <h4>3. Test Your Implementation</h4>
+                <p>
+                    Create instances of each processor and test their methods. Pay special attention to edge cases,
+                    such as empty lists or invalid data types.
+                </p>
+                <div class="code-block">
+<code><span class="comment"># Test NumericProcessor</span>
+<span class="string">numeric_proc</span> = <span class="string">NumericProcessor</span>()
+<span class="string">print</span>(<span class="string">numeric_proc.validate</span>(42))          <span class="comment"># True</span>
+<span class="string">print</span>(<span class="string">numeric_proc.validate</span>(<span class="string">"Hello"</span>))      <span class="comment"># False</span>
+
+<span class="string">numeric_proc.ingest</span>([1, 2, 3])
+<span class="string">print</span>(<span class="string">numeric_proc.output</span>())  <span class="comment"># (0, '1')</span>
+<span class="string">print</span>(<span class="string">numeric_proc.output</span>())  <span class="comment"># (1, '2')</span>
+
+<span class="comment"># Test invalid ingestion (should raise ValueError)</span>
+<span class="keyword">try</span>:
+    <span class="string">numeric_proc.ingest</span>(<span class="string">"foo"</span>)
+<span class="keyword">except</span> <span class="string">ValueError</span> <span class="keyword">as</span> <span class="string">e</span>:
+    <span class="string">print</span>(<span class="string">f</span><span class="string">"Got exception: </span>{<span class="string">e</span>}<span class="string">"</span>)  <span class="comment"># Got exception: Improper numeric data</span>
+</code>
+                </div>
+
+                <div class="quiz">
+                    <h4>📝 Self-Assessment Quiz</h4>
+                    <div>
+                        <p class="quiz-question">1. Why is <code>DataProcessor</code> defined as an abstract class?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong> To enforce a contract that all subclasses must implement <code>validate</code> and <code>ingest</code>.
+                            This ensures consistency across all processors and prevents instantiation of the base class.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">2. What happens if you call <code>ingest</code> without validating the data first?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong> The method will raise a <code>ValueError</code> if the data is invalid, as per the
+                            implementation in each processor's <code>ingest</code> method.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">3. How does polymorphism simplify the design of <code>DataProcessor</code>?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong> Polymorphism allows the <code>DataStream</code> (in Exercise 1) to treat all processors uniformly
+                            through the <code>DataProcessor</code> interface, without needing to know their specific implementations.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercise 1: Polymorphic Processing of a Data Stream -->
+        <section id="exercise1" class="lecture-section">
+            <div class="exercise">
+                <div class="exercise-title">
+                    <h2>🌊 Exercise 1: Polymorphic Processing of a Data Stream</h2>
+                </div>
+
+                <h3>📚 Lecture: Routing Data Dynamically</h3>
+                <p>
+                    In Exercise 0, you built individual processors. Now, you’ll create a <code>DataStream</code> class that
+                    <strong>dynamically routes data</strong> to the appropriate processor based on polymorphism. This is where the
+                    power of abstract classes and method overriding shines: the <code>DataStream</code> doesn’t need to know
+                    the specifics of each processor—it just calls <code>validate</code> and <code>ingest</code> on each registered processor.
+                </p>
+
+                <div class="theory">
+                    <h4>🎯 Why Polymorphism Matters Here</h4>
+                    <p>
+                        Polymorphism allows the <code>DataStream</code> to:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Treat all processors uniformly:</strong> The <code>DataStream</code> interacts with processors
+                            through the <code>DataProcessor</code> interface, regardless of their specific type.
+                        </li>
+                        <li>
+                            <strong>Add new processors without modification:</strong> You can register a new processor (e.g., <code>ImageProcessor</code>)
+                            without changing the <code>DataStream</code> class.
+                        </li>
+                        <li>
+                            <strong>Handle diverse data types:</strong> The stream can process numbers, text, logs, or any other type
+                            for which a processor is registered.
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>Real-World Analogy:</strong> Think of the <code>DataStream</code> as a postal service. It doesn’t need to know
+                        the contents of each package (data)—it just needs to know which mailbox (processor) to deliver it to based on the address (validation).
+                    </p>
+                </div>
+
+                <h3>🔧 Step-by-Step Implementation</h3>
+
+                <h4>1. Define the DataStream Class</h4>
+                <p>
+                    The <code>DataStream</code> class will:
+                </p>
+                <ul>
+                    <li>Maintain a list of registered processors.</li>
+                    <li>Route each data element to the first processor that validates it.</li>
+                    <li>Log errors for unprocessable data.</li>
+                    <li>Track statistics for each processor.</li>
+                </ul>
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">DataStream</span>:
+    <span class="keyword">def</span> <span class="string">__init__</span>(<span class="string">self</span>):
+        <span class="string">self._processors</span> = []  <span class="comment"># List of registered processors</span>
+
+    <span class="keyword">def</span> <span class="string">register_processor</span>(<span class="string">self</span>, <span class="string">proc</span>: <span class="string">DataProcessor</span>) -> <span class="string">None</span>:
+        <span class="comment">"""Register a new data processor."""</span>
+        <span class="string">self._processors.append</span>(<span class="string">proc</span>)
+
+    <span class="keyword">def</span> <span class="string">process_stream</span>(<span class="string">self</span>, <span class="string">stream</span>: <span class="string">list</span>[<span class="string">Any</span>]) -> <span class="string">None</span>:
+        <span class="comment">"""Route each element in the stream to the appropriate processor."""</span>
+        <span class="keyword">for</span> <span class="string">data</span> <span class="keyword">in</span> <span class="string">stream</span>:
+            <span class="string">processed</span> = <span class="string">False</span>
+            <span class="keyword">for</span> <span class="string">proc</span> <span class="keyword">in</span> <span class="string">self._processors</span>:
+                <span class="keyword">if</span> <span class="string">proc.validate</span>(<span class="string">data</span>):
+                    <span class="string">proc.ingest</span>(<span class="string">data</span>)
+                    <span class="string">processed</span> = <span class="string">True</span>
+                    <span class="keyword">break</span>
+            <span class="keyword">if</span> <span class="keyword">not</span> <span class="string">processed</span>:
+                <span class="string">print</span>(<span class="string">f</span><span class="string">"DataStream error - Can't process element in stream: </span>{<span class="string">data</span>}<span class="string">"</span>)
+
+    <span class="keyword">def</span> <span class="string">print_processors_stats</span>(<span class="string">self</span>) -> <span class="string">None</span>:
+        <span class="comment">"""Print statistics for all registered processors."""</span>
+        <span class="keyword">for</span> <span class="string">i</span>, <span class="string">proc</span> <span class="keyword">in</span> <span class="string">enumerate</span>(<span class="string">self._processors</span>):
+            <span class="string">processor_name</span> = <span class="string">proc.__class__.__name__</span>
+            <span class="string">data_count</span> = <span class="string">len</span>(<span class="string">proc._data</span>)
+            <span class="string">print</span>(<span class="string">f"</span>{<span class="string">processor_name</span>}<span class="string">: total </span>{<span class="string">data_count</span>}<span class="string"> items processed, remaining </span>{<span class="string">data_count</span>}<span class="string"> on processor"</span>)
+</code>
+                </div>
+
+                <div class="best-practices">
+                    <p>
+                        <strong>💡 Best Practice:</strong> The <code>process_stream</code> method uses a <strong>loop-and-break</strong> pattern to route
+                        data to the first processor that validates it. This is efficient and ensures that each data element is processed by at most one processor.
+                    </p>
+                </div>
+
+                <h4>2. Test the DataStream</h4>
+                <p>
+                    Register all three processors and send a mixed data stream through the <code>DataStream</code>. Observe how
+                    each data element is routed to the correct processor.
+                </p>
+                <div class="code-block">
+<code><span class="comment"># Initialize DataStream</span>
+<span class="string">stream</span> = <span class="string">DataStream</span>()
+
+<span class="comment"># Register processors</span>
+<span class="string">stream.register_processor</span>(<span class="string">NumericProcessor</span>())
+<span class="string">stream.register_processor</span>(<span class="string">TextProcessor</span>())
+<span class="string">stream.register_processor</span>(<span class="string">LogProcessor</span>())
+
+<span class="comment"># Send a batch of mixed data</span>
+<span class="string">data</span> = [
+    <span class="string">42</span>,
+    <span class="string">"Hello"</span>,
+    <span class="string">{</span><span class="string">'log_level'</span>: <span class="string">'INFO'</span>, <span class="string">'log_message'</span>: <span class="string">'Test'</span><span class="string">}</span>,
+    <span class="string">[1, 2, 3]</span>,
+    <span class="string">["a", "b", "c"]</span>
+]
+<span class="string">stream.process_stream</span>(<span class="string">data</span>)
+
+<span class="comment"># Print statistics</span>
+<span class="string">stream.print_processors_stats</span>()
+</code>
+                </div>
+                <p>
+                    <strong>Expected Output:</strong>
+                </p>
+                <div class="code-block">
+<code><span class="string">DataStream error - Can't process element in stream: Hello</span>
+<span class="string">NumericProcessor: total 2 items processed, remaining 2 on processor</span>
+<span class="string">TextProcessor: total 1 items processed, remaining 1 on processor</span>
+<span class="string">LogProcessor: total 1 items processed, remaining 1 on processor</span>
+</code>
+                </div>
+                <div class="pitfalls">
+                    <p>
+                        <strong>⚠️ Common Pitfalls:</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Order of processor registration matters:</strong> If two processors can validate the same data,
+                            the first one registered will handle it. Ensure processors are registered in the correct order.
+                        </li>
+                        <li>
+                            <strong>Unprocessable data is silently ignored:</strong> The current implementation prints an error but
+                            continues processing. Consider logging these errors for debugging.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="theory">
+                    <h4>🔍 How Polymorphism Works Here</h4>
+                    <p>
+                        The <code>DataStream</code> class demonstrates polymorphism in action:
+                    </p>
+                    <ol>
+                        <li>
+                            <strong>Uniform Interface:</strong> The <code>DataStream</code> calls <code>validate</code> and <code>ingest</code>
+                            on each processor without knowing its specific type. This is possible because all processors inherit from
+                            <code>DataProcessor</code> and implement these methods.
+                        </li>
+                        <li>
+                            <strong>Dynamic Dispatch:</strong> Python automatically calls the correct <code>validate</code> and <code>ingest</code>
+                            methods based on the actual type of the processor (e.g., <code>NumericProcessor.validate</code> vs.
+                            <code>TextProcessor.validate</code>).
+                        </li>
+                        <li>
+                            <strong>Extensibility:</strong> You can add a new processor (e.g., <code>ImageProcessor</code>) without modifying
+                            the <code>DataStream</code> class. Just register it, and the stream will use it automatically.
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="quiz">
+                    <h4>📝 Self-Assessment Quiz</h4>
+                    <div>
+                        <p class="quiz-question">1. How does <code>DataStream</code> determine which processor to use for a given data element?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong> It iterates through all registered processors and uses the first one whose <code>validate</code>
+                            method returns <code>True</code> for the data.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">2. What are the benefits of using polymorphism in this design?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong>
+                            <ul>
+                                <li>Allows <code>DataStream</code> to handle new data types without modification.</li>
+                                <li>Simplifies the <code>DataStream</code> logic by treating all processors uniformly.</li>
+                                <li>Makes the system more maintainable and extensible.</li>
+                            </ul>
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">3. How would you extend this system to support a new data type (e.g., <code>ImageProcessor</code>)?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong> Create a new class (e.g., <code>ImageProcessor</code>) that inherits from <code>DataProcessor</code>
+                            and implements <code>validate</code> and <code>ingest</code>. Then register it with the <code>DataStream</code>.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercise 2: Data Pipeline -->
+        <section id="exercise2" class="lecture-section">
+            <div class="exercise">
+                <div class="exercise-title">
+                    <h2>🚀 Exercise 2: Data Pipeline</h2>
+                </div>
+
+                <h3>📚 Lecture: Duck Typing and Plugin Systems</h3>
+                <p>
+                    In Exercise 1, you built a system that processes and stores data. Now, you’ll extend it to <strong>export</strong>
+                    the processed data using a <strong>plugin system</strong>. This is where <strong>duck typing</strong> and
+                    <strong>protocols</strong> come into play. Instead of requiring plugins to inherit from a specific class,
+                    you’ll define a <strong>protocol</strong> (a set of methods) that plugins must implement.
+                </p>
+
+                <div class="theory">
+                    <h4>🎯 Why Duck Typing?</h4>
+                    <p>
+                        Duck typing allows you to:
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Avoid tight coupling:</strong> Plugins don’t need to inherit from a specific class—they just need
+                            to implement the required methods (e.g., <code>process_output</code>).
+                        </li>
+                        <li>
+                            <strong>Support multiple implementations:</strong> You can create CSV, JSON, or XML plugins without
+                            modifying the <code>DataStream</code> class.
+                        </li>
+                        <li>
+                            <strong>Keep the code flexible:</strong> New export formats can be added without changing existing code.
+                        </li>
+                    </ul>
+                    <p>
+                        <strong>Real-World Analogy:</strong> Think of plugins as "adapters" for a power outlet. As long as the adapter
+                        (plugin) has the correct prongs (methods), it can plug into the outlet (<code>DataStream</code>), regardless of
+                        its brand or design.
+                    </p>
+                </div>
+
+                <div class="theory">
+                    <h4>🔍 Protocols in Python</h4>
+                    <p>
+                        Python’s <code>typing.Protocol</code> allows you to define a "contract" for classes without requiring them to
+                        inherit from a specific base class. This is perfect for plugin systems where you want to enforce a set of methods
+                        without restricting inheritance.
+                    </p>
+                    <p>
+                        <strong>Example:</strong> The <code>ExportPlugin</code> protocol requires a <code>process_output</code> method.
+                        Any class that implements this method can be used as a plugin, even if it doesn’t inherit from a specific class.
+                    </p>
+                </div>
+
+                <h3>🔧 Step-by-Step Implementation</h3>
+
+                <h4>1. Define the ExportPlugin Protocol</h4>
+                <p>
+                    Use <code>typing.Protocol</code> to define the interface for export plugins. The <code>@runtime_checkable</code>
+                    decorator allows you to use <code>isinstance</code> to check if an object conforms to the protocol.
+                </p>
+                <div class="code-block">
+<code><span class="keyword">from</span> <span class="string">typing</span> <span class="keyword">import</span> <span class="string">Protocol</span>, <span class="string">runtime_checkable</span>
+
+<span class="keyword">@runtime_checkable</span>
+<span class="keyword">class</span> <span class="string">ExportPlugin</span>(<span class="string">Protocol</span>):
+    <span class="keyword">def</span> <span class="string">process_output</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">list</span>[<span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]]) -> <span class="string">None</span>:
+        <span class="comment">"""Process and export the data."""</span>
+        <span class="keyword">pass</span>
+</code>
+                </div>
+
+                <h4>2. Implement CSV and JSON Plugins</h4>
+                <p>
+                    Create two plugins: <code>CSVPlugin</code> and <code>JSONPlugin</code>. Each will implement <code>process_output</code>
+                    to format the data as CSV or JSON, respectively.
+                </p>
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">CSVPlugin</span>:
+    <span class="keyword">def</span> <span class="string">process_output</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">list</span>[<span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]]) -> <span class="string">None</span>:
+        <span class="comment">"""Export data as CSV."""</span>
+        <span class="string">csv_data</span> = [<span class="string">f"</span>{<span class="string">rank</span>},<span class="string">"</span>{<span class="string">value</span>}<span class="string">"</span> <span class="keyword">for</span> <span class="string">rank</span>, <span class="string">value</span> <span class="keyword">in</span> <span class="string">data</span>]
+        <span class="string">print</span>(<span class="string">"CSV Output:\n"</span> + <span class="string">"\n"</span>.join(<span class="string">csv_data</span>))
+
+<span class="keyword">class</span> <span class="string">JSONPlugin</span>:
+    <span class="keyword">def</span> <span class="string">process_output</span>(<span class="string">self</span>, <span class="string">data</span>: <span class="string">list</span>[<span class="string">tuple</span>[<span class="string">int</span>, <span class="string">str</span>]]) -> <span class="string">None</span>:
+        <span class="comment">"""Export data as JSON."""</span>
+        <span class="string">json_data</span> = {<span class="string">f"</span><span class="string">item_</span>{<span class="string">rank</span>}<span class="string">"</span>: <span class="string">value</span> <span class="keyword">for</span> <span class="string">rank</span>, <span class="string">value</span> <span class="keyword">in</span> <span class="string">data</span>}
+        <span class="string">print</span>(<span class="string">"JSON Output:\n"</span> + <span class="string">str</span>(<span class="string">json_data</span>))
+</code>
+                </div>
+
+                <h4>3. Extend DataStream to Support Plugins</h4>
+                <p>
+                    Add an <code>output_pipeline</code> method to <code>DataStream</code> that consumes <code>nb</code> elements from all
+                    registered processors and exports them using the provided plugin.
+                </p>
+                <div class="code-block">
+<code><span class="keyword">class</span> <span class="string">DataStream</span>:
+    <span class="comment"># ... (previous methods)</span>
+
+    <span class="keyword">def</span> <span class="string">output_pipeline</span>(<span class="string">self</span>, <span class="string">nb</span>: <span class="string">int</span>, <span class="string">plugin</span>: <span class="string">ExportPlugin</span>) -> <span class="string">None</span>:
+        <span class="comment">"""Consume `nb` elements from all processors and export using the plugin."""</span>
+        <span class="string">all_data</span> = []
+        <span class="keyword">for</span> <span class="string">proc</span> <span class="keyword">in</span> <span class="string">self._processors</span>:
+            <span class="keyword">for</span> <span class="string">_</span> <span class="keyword">in</span> <span class="string">range</span>(<span class="string">nb</span>):
+                <span class="keyword">try</span>:
+                    <span class="string">all_data.append</span>(<span class="string">proc.output</span>())
+                <span class="keyword">except</span> <span class="string">IndexError</span>:
+                    <span class="keyword">break</span>
+        <span class="string">plugin.process_output</span>(<span class="string">all_data</span>)
+</code>
+                </div>
+
+                <h4>4. Test the Pipeline</h4>
+                <p>
+                    Register processors, process a stream of data, and then export the results using the CSV and JSON plugins.
+                </p>
+                <div class="code-block">
+<code><span class="comment"># Initialize DataStream</span>
+<span class="string">stream</span> = <span class="string">DataStream</span>()
+
+<span class="comment"># Register processors</span>
+<span class="string">stream.register_processor</span>(<span class="string">NumericProcessor</span>())
+<span class="string">stream.register_processor</span>(<span class="string">TextProcessor</span>())
+<span class="string">stream.register_processor</span>(<span class="string">LogProcessor</span>())
+
+<span class="comment"># Process a stream of data</span>
+<span class="string">data</span> = [
+    42,
+    <span class="string">"Hello"</span>,
+    <span class="string">{</span><span class="string">'log_level'</span>: <span class="string">'INFO'</span>, <span class="string">'log_message'</span>: <span class="string">'Test'</span><span class="string">}</span>,
+    <span class="string">[1, 2, 3]</span>,
+    <span class="string">["a", "b", "c"]</span>
+]
+<span class="string">stream.process_stream</span>(<span class="string">data</span>)
+
+<span class="comment"># Export 2 elements from each processor as CSV</span>
+<span class="string">stream.output_pipeline</span>(2, <span class="string">CSVPlugin</span>())
+
+<span class="comment"># Export 2 elements from each processor as JSON</span>
+<span class="string">stream.output_pipeline</span>(2, <span class="string">JSONPlugin</span>())
+</code>
+                </div>
+                <p>
+                    <strong>Expected Output:</strong>
+                </p>
+                <div class="code-block">
+<code><span class="string">CSV Output:</span>
+<span class="string">0,42</span>
+<span class="string">1,1</span>
+<span class="string">0,Hello</span>
+<span class="string">0,INFO: Test</span>
+
+<span class="string">JSON Output:</span>
+<span class="string">{'item_0': '42', 'item_1': '1', 'item_0': 'Hello', 'item_0': 'INFO: Test'}</span>
+</code>
+                </div>
+
+                <div class="best-practices">
+                    <p>
+                        <strong>💡 Best Practice:</strong> When designing plugin systems:
+                    </p>
+                    <ul>
+                        <li>
+                            Use <strong>protocols</strong> to define interfaces without requiring inheritance.
+                        </li>
+                        <li>
+                            Keep plugin methods <strong>simple and focused</strong> (e.g., <code>process_output</code> only handles exporting).
+                        </li>
+                        <li>
+                            Document the <strong>expected input/output</strong> for plugin methods (e.g., <code>data: list[tuple[int, str]]</code>).
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="pitfalls">
+                    <p>
+                        <strong>⚠️ Common Pitfalls:</strong>
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Assuming plugins are stateless:</strong> If your plugins need to maintain state (e.g., file handles),
+                            ensure they are designed to handle it safely.
+                        </li>
+                        <li>
+                            <strong>Ignoring type hints in protocols:</strong> Always use type hints in protocols to make expectations clear.
+                        </li>
+                        <li>
+                            <strong>Not handling empty data:</strong> The <code>output_pipeline</code> method should gracefully handle cases
+                            where processors have fewer than <code>nb</code> elements.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="theory">
+                    <h4>🔍 How Duck Typing Enables Flexibility</h4>
+                    <p>
+                        The plugin system in this exercise demonstrates the power of duck typing:
+                    </p>
+                    <ol>
+                        <li>
+                            <strong>No Inheritance Required:</strong> <code>CSVPlugin</code> and <code>JSONPlugin</code> don’t inherit from
+                            a common base class. They only need to implement <code>process_output</code>.
+                        </li>
+                        <li>
+                            <strong>Runtime Flexibility:</strong> You can pass any object that implements <code>process_output</code> to
+                            <code>output_pipeline</code>, even if it’s defined later (e.g., in another module).
+                        </li>
+                        <li>
+                            <strong>Easy Testing:</strong> You can create mock plugins for testing without modifying the <code>DataStream</code> class.
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="quiz">
+                    <h4>📝 Self-Assessment Quiz</h4>
+                    <div>
+                        <p class="quiz-question">1. What is duck typing, and how does it differ from inheritance-based polymorphism?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong> Duck typing determines an object's suitability based on its methods/properties, not its type.
+                            Inheritance-based polymorphism requires objects to inherit from a specific class. Duck typing is more flexible.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">2. Why use <code>typing.Protocol</code> for plugins?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong> To define a contract (interface) that plugins must follow without requiring them to inherit
+                            from a specific class. This enables duck typing while providing type safety.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                    <div>
+                        <p class="quiz-question">3. How would you add a new export format (e.g., XML)?</p>
+                        <p class="quiz-answer">
+                            <strong>Answer:</strong> Create a new class (e.g., <code>XMLPlugin</code>) that implements the <code>process_output</code>
+                            method. No changes to <code>DataStream</code> are needed.
+                        </p>
+                        <button class="quiz-button" onclick="toggleAnswer(this)">Show Answer</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion" class="lecture-section">
+            <h2>🎓 Conclusion: Key Takeaways</h2>
+            <p>
+                In this module, you’ve learned how to use <strong>polymorphism</strong>, <strong>abstract classes</strong>, and
+                <strong>duck typing</strong> to build a flexible and extensible data processing pipeline. Here’s a recap of the key concepts:
+            </p>
+
+            <div class="theory">
+                <h3>🔑 Core Concepts</h3>
+                <ol>
+                    <li>
+                        <strong>Polymorphism:</strong> Treat objects of different classes uniformly through a common interface.
+                        This enables flexible and reusable code.
+                    </li>
+                    <li>
+                        <strong>Abstract Base Classes (ABCs):</strong> Define contracts for subclasses to ensure consistency.
+                        Use <code>abc.ABC</code> and <code>@abstractmethod</code> to enforce this.
+                    </li>
+                    <li>
+                        <strong>Method Overriding:</strong> Customize behavior in subclasses by overriding methods from the base class.
+                    </li>
+                    <li>
+                        <strong>Duck Typing:</strong> Focus on an object’s behavior (methods/properties) rather than its type.
+                        Enables flexible plugin systems.
+                    </li>
+                    <li>
+                        <strong>Protocols:</strong> Define interfaces without inheritance. Use <code>typing.Protocol</code> for type safety.
+                    </li>
+                </ol>
+            </div>
+
+            <div class="theory">
+                <h3>🏗️ Design Principles</h3>
+                <ul>
+                    <li>
+                        <strong>Separation of Concerns:</strong> Each class (e.g., <code>NumericProcessor</code>, <code>CSVPlugin</code>)
+                        has a single responsibility.
+                    </li>
+                    <li>
+                        <strong>Open/Closed Principle:</strong> The <code>DataStream</code> class is open for extension (new processors/plugins)
+                        but closed for modification.
+                    </li>
+                    <li>
+                        <strong>Loose Coupling:</strong> <code>DataStream</code> depends on abstractions (<code>DataProcessor</code>, <code>ExportPlugin</code>),
+                        not concrete implementations.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="theory">
+                <h3>🚀 Next Steps</h3>
+                <p>
+                    To deepen your understanding, try the following:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Add a new processor:</strong> Implement an <code>ImageProcessor</code> that handles image data (e.g., PIL images or file paths).
+                    </li>
+                    <li>
+                        <strong>Create a new plugin:</strong> Implement a <code>DatabasePlugin</code> that exports data to an SQLite database.
+                    </li>
+                    <li>
+                        <strong>Optimize performance:</strong> Use threading or multiprocessing to parallelize data processing in <code>DataStream</code>.
+                    </li>
+                    <li>
+                        <strong>Explore Python’s <code>dataclasses</code>:</strong> Use <code>@dataclass</code> to simplify the implementation of processors and plugins.
+                    </li>
+                    <li>
+                        <strong>Read the official docs:</strong>
+                        <ul>
+                            <li><a href="https://docs.python.org/3/library/abc.html" target="_blank">Python <code>abc</code> module</a></li>
+                            <li><a href="https://docs.python.org/3/library/typing.html#typing.Protocol" target="_blank">Python <code>typing.Protocol</code></a></li>
+                            <li><a href="https://peps.python.org/pep-0544/" target="_blank">PEP 544: Protocols</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="theory">
+                <h3>💬 Final Thoughts</h3>
+                <p>
+                    Polymorphism and duck typing are powerful tools for writing <strong>flexible, maintainable, and scalable</strong> code.
+                    By focusing on <strong>interfaces</strong> (what objects can do) rather than <strong>implementations</strong> (how they do it),
+                    you can design systems that are easy to extend and adapt. This is a core principle of <strong>object-oriented design</strong>
+                    and is widely used in real-world software, from web frameworks (e.g., Django, Flask) to data processing libraries (e.g., Pandas).
+                </p>
+                <p>
+                    As you continue your journey, remember:
+                </p>
+                <blockquote>
+                    "Program to an interface, not an implementation."<br>
+                    — <em>Design Patterns: Elements of Reusable Object-Oriented Software</em>
+                </blockquote>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p><strong>Python Module 05: Polymorphic Data Streams | Lecture Guide</strong></p>
+        <p>Created for educational purposes. Inspired by the 42 School curriculum.</p>
+    </footer>
+
+    <script>
+        function toggleAnswer(button) {
+            const answer = button.previousElementSibling;
+            if (answer.style.display === "none" || answer.style.display === "") {
+                answer.style.display = "block";
+                button.textContent = "Hide Answer";
+            } else {
+                answer.style.display = "none";
+                button.textContent = "Show Answer";
+            }
+        }
+    </script>
+</body>
+</html>
