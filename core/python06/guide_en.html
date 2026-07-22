@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering Python's Import Mysteries</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #3498db;
+            font-size: 1.8em;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .slide {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .theory {
+            background-color: #f1f8ff;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 15px 0;
+        }
+        .code-block {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            border-left: 5px solid #2ecc71;
+        }
+        .demo {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-left: 5px solid #f39c12;
+            margin: 15px 0;
+        }
+        .note {
+            background-color: #ffebee;
+            padding: 10px;
+            border-left: 5px solid #e74c3c;
+            margin: 15px 0;
+            font-style: italic;
+        }
+        .toggle {
+            cursor: pointer;
+            color: #3498db;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 2px solid #e9ecef;
+            margin-top: 30px;
+            color: #7f8c8d;
+        }
+        .bilingual {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .lang-btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .lang-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mastering Python's Import Mysteries</h1>
+        <p><em>An Alchemical Journey into Modules and Packages</em></p>
+    </header>
+
+    <div class="slide">
+        <h2>🧙‍♂️ Introduction: The Alchemist's Laboratory</h2>
+        <div class="theory">
+            <p>
+                In medieval times, alchemists sought to transform base metals into gold using <strong>grimoires</strong> (spell books).
+                In Python, we organize code into <strong>modules</strong> and <strong>packages</strong> to achieve reusability and clarity.
+            </p>
+            <p>
+                Today, we'll explore the <strong>four sacred mysteries</strong> of Python imports:
+            </p>
+            <ol>
+                <li><strong>Package Initialization</strong> with <code>__init__.py</code></li>
+                <li><strong>Import Pathways</strong> (absolute vs. relative)</li>
+                <li><strong>Module Access</strong> (direct vs. nested)</li>
+                <li><strong>Avoiding Circular Dependencies</strong></li>
+            </ol>
+        </div>
+        <div class="note">
+            <p><strong>💡 Key Insight:</strong> Imports are not just about accessing code—they're about <em>organizing</em> it.</p>
+        </div>
+    </div>
+
+    <!-- Part I: The Alembic -->
+    <div class="slide">
+        <h2>🔥 Part I: The Alembic</h2>
+        <h3>Theory: Modules and Packages</h3>
+        <div class="theory">
+            <p>
+                A <strong>module</strong> is a single Python file (e.g., <code>elements.py</code>).
+                A <strong>package</strong> is a directory containing modules and an <code>__init__.py</code> file.
+            </p>
+            <p>
+                <code>__init__.py</code> can be empty or define what symbols are exposed when the package is imported.
+            </p>
+            <p>
+                <strong>Import Styles:</strong>
+            </p>
+            <ul>
+                <li><code>import module_name</code>: Imports the entire module.</li>
+                <li><code>from module_name import function_name</code>: Imports a specific function/class.</li>
+            </ul>
+        </div>
+
+        <h3>Code: Creating Elements</h3>
+        <div class="code-block">
+            <p><strong>elements.py</strong></p>
+            <pre>
+def create_fire():
+    return "Fire element created"
+
+def create_water():
+    return "Water element created"
+</pre>
+        </div>
+        <div class="code-block">
+            <p><strong>alchemy/elements.py</strong></p>
+            <pre>
+def create_earth():
+    return "Earth element created"
+
+def create_air():
+    return "Air element created"
+</pre>
+        </div>
+
+        <h3>Demo: Testing Imports</h3>
+        <div class="demo">
+            <p><strong>ft_alembic_0.py</strong> (import entire module):</p>
+            <pre>import elements
+print(elements.create_fire())  # Output: "Fire element created"
+</pre>
+            <p class="toggle" onclick="toggle('alembic0')">▶ Show Output</p>
+            <div id="alembic0" class="hidden">
+                <pre>$ python3 ft_alembic_0.py
+=== Alembic 0 ===
+Using: 'import ...' structure to access elements.py
+Testing create_fire: Fire element created</pre>
+            </div>
+        </div>
+        <div class="demo">
+            <p><strong>ft_alembic_4.py</strong> (import package, hide <code>create_earth</code>):</p>
+            <pre>import alchemy
+print(alchemy.create_air())  # Works
+print(alchemy.create_earth())  # Raises AttributeError
+</pre>
+            <p class="toggle" onclick="toggle('alembic4')">▶ Show Output</p>
+            <div id="alembic4" class="hidden">
+                <pre>$ python3 ft_alembic_4.py
+=== Alembic 4 ===
+Testing create_air: Air element created
+Testing create_earth: AttributeError: module 'alchemy' has no attribute 'create_earth'</pre>
+            </div>
+        </div>
+        <div class="note">
+            <p><strong>🔑 Takeaway:</strong> <code>__init__.py</code> controls what is exposed when importing a package.</p>
+        </div>
+    </div>
+
+    <!-- Part II: Distillation -->
+    <div class="slide">
+        <h2>🧪 Part II: Distillation</h2>
+        <h3>Theory: Nested Imports and Aliases</h3>
+        <div class="theory">
+            <p>
+                Nested imports allow you to access modules inside packages.
+                Use <code>__init__.py</code> to create <strong>aliases</strong> for easier access.
+            </p>
+            <p>
+                Example: Expose <code>healing_potion</code> as <code>heal</code> in the package interface.
+            </p>
+        </div>
+
+        <h3>Code: Potions Module</h3>
+        <div class="code-block">
+            <p><strong>alchemy/potions.py</strong></p>
+            <pre>
+from alchemy.elements import create_earth, create_air
+from elements import create_fire, create_water
+
+def healing_potion():
+    return f"Healing potion brewed with '{create_earth()}' and '{create_air()}'"
+
+def strength_potion():
+    return f"Strength potion brewed with '{create_fire()}' and '{create_water()}'"
+</pre>
+        </div>
+        <div class="code-block">
+            <p><strong>alchemy/__init__.py</strong></p>
+            <pre>
+from .potions import healing_potion as heal, strength_potion
+</pre>
+        </div>
+
+        <h3>Demo: Accessing Potions</h3>
+        <div class="demo">
+            <p><strong>ft_distillation_1.py</strong> (import package, use alias):</p>
+            <pre>import alchemy
+print(alchemy.strength_potion())
+print(alchemy.heal())  # Alias for healing_potion
+</pre>
+            <p class="toggle" onclick="toggle('distillation1')">▶ Show Output</p>
+            <div id="distillation1" class="hidden">
+                <pre>$ python3 ft_distillation_1.py
+=== Distillation 1 ===
+Testing strength_potion: Strength potion brewed with 'Fire element created' and 'Water element created'
+Testing heal alias: Healing potion brewed with 'Earth element created' and 'Air element created'</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Part III: The Great Transmutation -->
+    <div class="slide">
+        <h2>🔄 Part III: The Great Transmutation</h2>
+        <h3>Theory: Absolute vs. Relative Imports</h3>
+        <div class="theory">
+            <p>
+                <strong>Absolute Imports:</strong> Use the full path from the project root.
+                Example: <code>from alchemy.transmutation.recipes import lead_to_gold</code>
+            </p>
+            <p>
+                <strong>Relative Imports:</strong> Use <code>.</code> (current package) or <code>..</code> (parent package).
+                Example: <code>from ..elements import create_fire</code>
+            </p>
+            <p>
+                <strong>PEP 8 Recommendation:</strong> Prefer absolute imports for clarity.
+            </p>
+        </div>
+
+        <h3>Code: Transmutation Recipes</h3>
+        <div class="code-block">
+            <p><strong>alchemy/transmutation/recipes.py</strong></p>
+            <pre>
+# Absolute import
+from alchemy.elements import create_air
+from alchemy.potions import strength_potion
+
+# Relative import
+from ..elements import create_fire
+
+def lead_to_gold():
+    return f"Recipe transmuting Lead to Gold: brew '{create_air()}' and '{strength_potion()}' mixed with '{create_fire()}'"
+</pre>
+        </div>
+
+        <h3>Demo: Testing Transmutation</h3>
+        <div class="demo">
+            <p><strong>ft_transmutation_0.py</strong> (direct import):</p>
+            <pre>from alchemy.transmutation.recipes import lead_to_gold
+print(lead_to_gold())
+</pre>
+            <p class="toggle" onclick="toggle('transmutation0')">▶ Show Output</p>
+            <div id="transmutation0" class="hidden">
+                <pre>$ python3 ft_transmutation_0.py
+=== Transmutation 0 ===
+Testing lead to gold: Recipe transmuting Lead to Gold: brew 'Air element created' and 'Strength potion brewed with 'Fire element created' and 'Water element created' mixed with 'Fire element created'</pre>
+            </div>
+        </div>
+        <div class="note">
+            <p><strong>🔑 Takeaway:</strong> Use absolute imports for clarity, relative imports for intra-package references.</p>
+        </div>
+    </div>
+
+    <!-- Part IV: Avoid the Explosion -->
+    <div class="slide">
+        <h2>💥 Part IV: Avoid the Explosion</h2>
+        <h3>Theory: Circular Dependencies</h3>
+        <div class="theory">
+            <p>
+                <strong>Circular Dependency:</strong> Occurs when Module A imports Module B, and Module B imports Module A.
+                This can cause <code>ImportError</code> or infinite loops.
+            </p>
+            <p>
+                <strong>Solutions:</strong>
+            </p>
+            <ol>
+                <li><strong>Restructure Code:</strong> Move shared code to a third module.</li>
+                <li><strong>Lazy Imports:</strong> Import inside functions/methods.</li>
+                <li><strong>Use Interfaces:</strong> Define abstract base classes (ABCs) to break cycles.</li>
+            </ol>
+        </div>
+
+        <h3>Code: Light vs. Dark Magic</h3>
+        <div class="code-block">
+            <p><strong>alchemy/grimoire/light_spellbook.py</strong> (Safe)</p>
+            <pre>
+# No circular dependency: validate_ingredients is imported inside the function
+def light_spell_allowed_ingredients():
+    return ["earth", "air", "fire", "water"]
+
+def light_spell_record(spell_name, ingredients):
+    from .light_validator import validate_ingredients  # Lazy import
+    validation = validate_ingredients(ingredients)
+    return f"Spell recorded: {spell_name} ({validation})"
+</pre>
+        </div>
+        <div class="code-block">
+            <p><strong>alchemy/grimoire/dark_spellbook.py</strong> (Circular)</p>
+            <pre>
+# Circular dependency: dark_spellbook and dark_validator import each other
+from .dark_validator import validate_ingredients  # ❌ Causes ImportError
+
+def dark_spell_allowed_ingredients():
+    return ["bats", "frogs", "arsenic", "eyeball"]
+
+def dark_spell_record(spell_name, ingredients):
+    validation = validate_ingredients(ingredients)
+    return f"Spell recorded: {spell_name} ({validation})"
+</pre>
+        </div>
+
+        <h3>Demo: Circular Import Error</h3>
+        <div class="demo">
+            <p><strong>ft_kaboom_1.py</strong> (dark magic explodes):</p>
+            <pre>from alchemy.grimoire.dark_spellbook import dark_spell_record
+print(dark_spell_record("Dark Spell", "bats, frogs"))
+</pre>
+            <p class="toggle" onclick="toggle('kaboom1')">▶ Show Output</p>
+            <div id="kaboom1" class="hidden">
+                <pre>$ python3 ft_kaboom_1.py
+=== Kaboom 1 ===
+ImportError: cannot import name 'dark_spell_allowed_ingredients' from partially initialized module 'alchemy.grimoire.dark_spellbook' (most likely due to a circular import)</pre>
+            </div>
+        </div>
+        <div class="note">
+            <p><strong>🔑 Takeaway:</strong> Avoid circular imports by restructuring or using lazy imports.</p>
+        </div>
+    </div>
+
+    <!-- Recap -->
+    <div class="slide">
+        <h2>📚 Recap: The Four Sacred Mysteries</h2>
+        <div class="theory">
+            <ol>
+                <li><strong>Package Initialization:</strong> Use <code>__init__.py</code> to expose symbols.</li>
+                <li><strong>Import Pathways:</strong> Prefer absolute imports; use relative imports for intra-package references.</li>
+                <li><strong>Module Access:</strong> Organize code into modules/packages for reusability.</li>
+                <li><strong>Avoid Circular Dependencies:</strong> Restructure code or use lazy imports.</li>
+            </ol>
+        </div>
+        <div class="note">
+            <p><strong>🎯 Final Challenge:</strong> Refactor a project to use absolute imports and avoid circular dependencies!</p>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Mastering Python's Import Mysteries</strong> | Lecture for 42 School</p>
+        <div class="bilingual">
+            <button class="lang-btn" onclick="window.location.href='python-imports-lecture-uk.html'">Українська</button>
+        </div>
+    </footer>
+
+    <script>
+        function toggle(id) {
+            const element = document.getElementById(id);
+            if (element.classList.contains('hidden')) {
+                element.classList.remove('hidden');
+            } else {
+                element.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
