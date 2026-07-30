@@ -33,21 +33,13 @@ class Plant:
         self.stats.show_calls += 1
         print(f"{self.name}: {self.height}cm, {self.age} days old")
 
-    # NOTE: this extra print (not present in the subject's example
-    # transcript) means calling grow() produces one more line of
-    # output than the expected example shows.
     def grow(self, add_height: float) -> None:
         self.stats.grow_calls += 1
         self.height += add_height
-        print(f"{self.name} is growing.")
 
-    # NOTE: same as grow() above — this prints the full plant state on
-    # every call, which the example output does not show happening
-    # between "[make ... grow, age and bloom]" and the final show().
     def age_plant(self, add_age: int) -> None:
         self.stats.age_calls += 1
         self.age += add_age
-        print(f"{self.name}: {self.height}cm, {self.age} days old")
 
     # Static method: doesn't need an instance, just checks a raw value.
     # Matches the subject's requirement exactly.
