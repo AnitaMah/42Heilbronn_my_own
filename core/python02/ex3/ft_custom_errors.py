@@ -1,108 +1,66 @@
-class GartenError(Exception):
-    """Raised when we have Garten errors"""
-    pass
+class GardenError(Exception):
+    """Base error for all garden-related problems."""
 
-class EmptyGartenNameError(GartenError):
-    """Raised when the Garten name is an empty string."""
-    pass
+    def __init__(self, message: str = "Unknown garden error") -> None:
+        super().__init__(message)
 
-class NotValidAge(GartenError):
-    """Raised when Garten age less than 0"""
-    pass
-class NoPlantsInGarten(GartenError):
-    """Raised when numbers of plans less than 0"""
-    pass
 
-class PlantError(GartenError):
-    """Raised if we have PlantError"""
-    pass
+class PlantError(GardenError):
+    """Raised when there is a problem with a plant."""
 
-class EmptyPlansName(PlantError):
-    """Raised if plant name is empty"""
-    pass
+    def __init__(self, message: str = "Unknown plant error") -> None:
+        super().__init__(message)
 
-class WiltingError(PlantError):
-    """Raised if plant is wiltibng"""
-    pass
 
-class WatterError(GartenError):
-    """Raised if we got WatterError"""
-    pass
-class NoWaterinTank(WatterError):
-    """Raised if we don't have watter in tank"""
-    pass
+class WaterError(GardenError):
+    """Raised when there is a problem with watering."""
 
-class Garten:
-    def __init__(self, name, number_of_plant, age):
-        if not name or name.strip() == "":
-            raise EmptyGartenNameError("The Garten name cannot be empty!")
-        self.name = name
-        if number_of_plant < 0:
-            raise NoPlantsInGarten("The Garten dosen't has a plants")
-        self.number_of_plant = number_of_plant
-        if age < 0:
-            raise NotValidAge("The age cannot be less than 0")
-        self.age = age
+    def __init__(self, message: str = "Unknown water error") -> None:
+        super().__init__(message)
 
-class Plant:
-    def __init__(self, name, height, age, last_wattering):
-        if not name or name.strip() == "":
-            raise EmptyPlansName("The name of plant cannot be empty")
 
-        self.name = name
-        self.height = height
-        self.age = age
-        if last_wattering > 5:
-            raise WiltingError(f"The {self.name} is wilting")
-        self.last_wattering = last_wattering
+def check_plant(is_wilting: bool) -> None:
+    if is_wilting:
+        raise PlantError("The tomato plant is wilting!")
 
-class Watter:
-    def __init__(self, liter_in_tank):
 
-        if liter_in_tank <= 0:
-            raise NoWaterinTank("No water in tank")
+def check_water(liters_in_tank: int) -> None:
+    if liters_in_tank <= 0:
+        raise WaterError("Not enough water in the tank!")
 
-        self.liter_in_tank = liter_in_tank
 
-def ft_custom_errors():
+def _fail_plant() -> None:
+    check_plant(is_wilting=True)
+
+
+def _fail_water() -> None:
+    check_water(liters_in_tank=0)
+
+
+def ft_custom_errors() -> None:
     print("=== Custom Garden Errors Demo ===")
-    print("\n")
 
+    print("\nTesting PlantError...")
     try:
-        print("Testing PlantError...")
-        Plant(name="", height=10, age=2, last_wattering=6)
-
+        check_plant(is_wilting=True)
     except PlantError as e:
         print(f"Caught PlantError: {e}")
 
-    print("\n")
-
+    print("\nTesting WaterError...")
     try:
-        print("Testing WaterError...")
-        Watter(liter_in_tank=0)
-
-    except WatterError as e:
+        check_water(liters_in_tank=0)
+    except WaterError as e:
         print(f"Caught WaterError: {e}")
 
-    print("\n")
-
-    print("Testing catching all garden errors...")
-
-    test_cases = [
-        lambda: Garten(name="Villa", number_of_plant=5, age=-1),
-        lambda: Plant(name="Potato", height=4, age=3, last_wattering=6),
-        lambda: Watter(liter_in_tank=-1)
-    ]
-
-    for test in test_cases:
+    print("\nTesting catching all garden errors...")
+    for check in (_fail_plant, _fail_water):
         try:
-            test()
-        except GartenError as e:
-            print(f"Caught GartenError: {e}")
+            check()
+        except GardenError as e:
+            print(f"Caught GardenError: {e}")
 
-    print("\n")
+    print("\nAll custom error types work correctly!")
 
-    print("All custom error types work correctly!")
 
 if __name__ == "__main__":
     ft_custom_errors()

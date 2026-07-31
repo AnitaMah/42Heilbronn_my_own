@@ -1,33 +1,34 @@
 class PlantError(Exception):
     """Raised if we have a PlantError."""
-    pass
 
-def water_plant(plant_name):
-    """Waters the plant if the name is capitalized, otherwise raises PlantError."""
+    def __init__(self, message: str = "Unknown plant error") -> None:
+        super().__init__(message)
+
+
+def water_plant(plant_name: str) -> None:
+    """Waters the plant if capitalized, otherwise raises PlantError."""
     if plant_name != plant_name.capitalize():
-        raise PlantError(f"Plant name '{plant_name}' is not capitalized!")
+        raise PlantError(f"Invalid plant name to water: '{plant_name}'")
 
     print(f"Watering {plant_name}: [OK]")
 
-def test_watering_system():
+
+def test_watering_system() -> None:
     print("=== Garden Watering System ===")
 
-    print("\n")
-
-    print("Testing valid plants...")
+    print("\nTesting valid plants...")
     print("Opening watering system")
     try:
-        valid_plants = ["Rose", "Lemon", "Carrots"]
+        valid_plants = ["Tomato", "Lettuce", "Carrots"]
         for plant in valid_plants:
             water_plant(plant)
     finally:
         print("Closing watering system")
-    print("\n")
 
-    print("Testing invalid plants...")
+    print("\nTesting invalid plants...")
     print("Opening watering system")
     try:
-        invalid_plants = ["Rose", "potato"]
+        invalid_plants = ["Tomato", "lettuce"]
         for plant in invalid_plants:
             water_plant(plant)
     except PlantError as e:
@@ -36,9 +37,8 @@ def test_watering_system():
     finally:
         print("Closing watering system")
 
-    print("\n")
+    print("\nCleanup always happens, even with errors!")
 
-    print("Cleanup always happens, even with errors!")
 
 if __name__ == "__main__":
     test_watering_system()
