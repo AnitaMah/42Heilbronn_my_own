@@ -1,98 +1,131 @@
-# NOTE on this file overall: like Ex5, this Plant base class is
-# rebuilt from scratch again rather than extending Ex4's version — the
-# protected-attribute / get_/set_ validation work from Ex4 is not
-# carried over here either. The constructor's parameter order is also
-# swapped (name, age, height) compared to the name/height/age order
-# used consistently in Ex0-Ex4.
 class Plant:
-    # Nested class: each Plant owns a private-ish statistics tracker
-    # counting how many times grow()/age_plant()/show() were called.
-    # NOTE: subject requires encapsulation here too; grow_calls,
-    # age_calls and show_calls are still plain public attributes
-    # (no leading underscore), so nothing actually prevents external
-    # code from reading/overwriting them directly.
     class Stats:
         def __init__(self) -> None:
             self.grow_calls = 0
             self.age_calls = 0
             self.show_calls = 0
 
-        # Required "display function" for the stats.
         def display(self) -> None:
             print(f"Stats: {self.grow_calls} grow, {self.age_calls} age, "
                   f"{self.show_calls} show")
 
     def __init__(self, name: str, age: int = 0, height: float = 0.0) -> None:
-        self.name = name
-        self.age = age
-        self.height = height
-        # Each plant gets its own independent Stats instance.
+        self._name = name
+        self._age = age if age >= 0 else 0
+        self._height = height if height >= 0 else 0.0
         self.stats = self.Stats()
+
+    def get_name(self) -> str:
+        return self._name
+
+    def get_height(self) -> float:
+        return self._height
+
+    def set_height(self, new_height: float) -> None:
+        if new_height < 0:
+            print(
+                f"{self._name.capitalize()}: Error, height can't be negative\n"
+                "Height update rejected\n"
+            )
+        else:
+            self._height = new_height
+            print(f"Height updated: {self._height}cm")
+
+    def get_age(self) -> int:
+        return self._age
+
+    def set_age(self, new_age: int) -> None:
+        if new_age < 0:
+            print(
+                f"{self._name.capitalize()}: Error, age can't be negative\n"
+                "Age update rejected\n"
+            )
+        else:
+            self._age = new_age
+            print(f"Age updated: {self._age} days")
 
     def show(self) -> None:
         self.stats.show_calls += 1
-        print(f"{self.name}: {self.height}cm, {self.age} days old")
+        print(f"{self._name}: {self._height}cm, {self._age} days old")
 
     def grow(self, add_height: float) -> None:
         self.stats.grow_calls += 1
-        self.height += add_height
+        self._height += add_height
+        print(f"{self._name} is growing.")
 
     def age_plant(self, add_age: int) -> None:
         self.stats.age_calls += 1
-        self.age += add_age
+        self._age += add_age
+        print(f"{self._name}: {self._height}cm, {self._age} days old")
 
-    # Static method: doesn't need an instance, just checks a raw value.
-    # Matches the subject's requirement exactly.
     @staticmethod
     def is_older_than_a_year(days: int) -> bool:
         return days > 365
 
-    # Class method: alternate constructor for building a placeholder
-    # "anonymous" plant when full information isn't known yet.
     @classmethod
     def create_anonymous(cls) -> "Plant":
         return cls("Unknown plant", 0, 0.0)
 
 
-# Flower reuses Plant's show() via super().show() and just adds the
-# color + bloomed status on top — a clean example of the requested
-# "override that re-uses the parent's existing code" pattern.
 class Flower(Plant):
     def __init__(self, name: str, age: int, height: float, color: str) -> None:
         super().__init__(name, age, height)
-        self.color = color
-        self.bloomed = False
+        self._color = color
+        self._bloomed = False
+
+    def get_color(self) -> str:
+        return self._color
+
+    def set_color(self, new_color: str) -> None:
+        self._color = new_color
+        print(f"Color updated: {self._color}")
+
+    def is_bloomed(self) -> bool:
+        return self._bloomed
+
+    def set_bloomed(self, new_bloomed: bool) -> None:
+        self._bloomed = new_bloomed
+        print(f"Bloomed status updated: {self._bloomed}")
 
     def show(self) -> None:
         super().show()
-        print(f"Color: {self.color}")
-        if self.bloomed:
-            print(f"{self.name} is blooming beautifully!")
+        print(f"Color: {self._color}")
+        if self._bloomed:
+            print(f"{self.get_name()} is blooming beautifully!")
         else:
-            print(f"{self.name} has not bloomed yet")
+            print(f"{self.get_name()} has not bloomed yet")
 
 
-# Seed extends Flower (inheritance chain): once a Seed-flower grows
-# past 100cm it blooms and produces 42 seeds.
 class Seed(Flower):
     def __init__(self, name: str, age: int, height: float, color: str) -> None:
         super().__init__(name, age, height, color)
-        self.seeds = 0
+        self._seeds = 0
+
+    def get_seeds(self) -> int:
+        return self._seeds
+
+    def set_seeds(self, new_seeds: int) -> None:
+        if new_seeds < 0:
+            print(
+                f"{self.get_name().capitalize()}: Error, seeds can't be "
+                "negative\nSeeds update rejected\n"
+            )
+        else:
+            self._seeds = new_seeds
+            print(f"Seeds updated: {self._seeds}")
 
     def grow(self, add_height: float) -> None:
         super().grow(add_height)
-        if self.height > 100:
-            self.bloomed = True
-            self.seeds = 42
+        if self.get_height() > 100:
+            self._bloomed = True
+            self._seeds = 42
 
     def show(self) -> None:
         super().show()
-        print(f"Seeds: {self.seeds}")
+        print(f"Seeds: {self._seeds}")
 
 
 class Tree(Plant):
-    # TreeStats extends Plant.Stats to add a shade-call counter,
-    # reusing display() via super() the same way Flower reuses show().
     class TreeStats(Plant.Stats):
         def __init__(self) -> None:
             super().__init__()
@@ -104,25 +137,34 @@ class Tree(Plant):
 
     def __init__(self, name: str, age: int, height: float, d: float) -> None:
         super().__init__(name, age, height)
-        self.d = d
-        # Replaces the base Stats with the tree-specific TreeStats.
+        self._d = d if d >= 0 else 0.0
         self.stats: "Tree.TreeStats" = self.TreeStats()
+
+    def get_diameter(self) -> float:
+        return self._d
+
+    def set_diameter(self, new_diameter: float) -> None:
+        if new_diameter < 0:
+            print(
+                f"{self.get_name().capitalize()}: Error, diameter can't "
+                "be negative\nDiameter update rejected\n"
+            )
+        else:
+            self._d = new_diameter
+            print(f"Trunk diameter updated: {self._d}cm")
 
     def show(self) -> None:
         super().show()
-        print(f"Trunk diameter: {self.d}cm")
+        print(f"Trunk diameter: {self._d}cm")
 
     def produce_shade(self) -> None:
         self.stats.shade_calls += 1
-        print(f"Tree {self.name} now produces a shade of {self.height}cm "
-              f"long and {self.d}cm wide.")
+        print(f"Tree {self.get_name()} now produces a shade of "
+              f"{self.get_height()}cm long and {self._d}cm wide.")
 
 
-# Standalone function (not a method of any class) that can display
-# stats for any plant, regardless of its concrete type — satisfies the
-# "unique function... for any kind of plant" requirement.
 def display_any_plant_stats(plant: Plant) -> None:
-    print(f"[statistics for {plant.name}]")
+    print(f"[statistics for {plant.get_name()}]")
     plant.stats.display()
 
 
