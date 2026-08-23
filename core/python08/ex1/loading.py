@@ -11,9 +11,6 @@ REQUIRED_PACKAGES: dict[str, str] = {
     "numpy": "Numerical computation",
     "matplotlib": "Visualization",
 }
-OPTIONAL_PACKAGES: dict[str, str] = {
-    "requests": "Network access",
-}
 
 
 def try_import(name: str) -> ModuleType | None:
@@ -33,7 +30,7 @@ def check_dependencies() -> dict[str, ModuleType | None]:
     """Import every known package and report its availability."""
     print("Checking dependencies:")
     modules: dict[str, ModuleType | None] = {}
-    for name, purpose in {**REQUIRED_PACKAGES, **OPTIONAL_PACKAGES}.items():
+    for name, purpose in REQUIRED_PACKAGES.items():
         module = try_import(name)
         modules[name] = module
         if module is not None:
@@ -109,8 +106,6 @@ def main() -> int:
         compare_pip_poetry()
         return 1
 
-    compare_pip_poetry()
-
     print()
     print("Analyzing Matrix data...")
     pandas_module = modules["pandas"]
@@ -130,6 +125,8 @@ def main() -> int:
     print()
     print("Analysis complete!")
     print(f"Results saved to: {output_path}")
+
+    compare_pip_poetry()
     return 0
 
 

@@ -2,8 +2,8 @@
 """Exercise 0: Entering the Matrix - virtual environment detection."""
 
 import os
-import site
 import sys
+import sysconfig
 
 
 def in_virtual_env() -> bool:
@@ -16,12 +16,11 @@ def get_venv_name(venv_path: str) -> str:
     return os.path.basename(os.path.normpath(venv_path))
 
 
-def get_site_packages() -> list[str]:
-    """Return the site-packages directories, falling back to the user one."""
-    try:
-        return list(site.getsitepackages())
-    except AttributeError:
-        return [site.getusersitepackages()]
+def site_packages_for_prefix(prefix: str) -> str:
+    """Return the site-packages directory that a given prefix would use."""
+    scheme = sysconfig.get_default_scheme()
+    prefix_vars = {"base": prefix, "platbase": prefix}
+    return sysconfig.get_paths(scheme, vars=prefix_vars)["purelib"]
 
 
 def print_outside_matrix() -> None:
@@ -35,14 +34,13 @@ def print_outside_matrix() -> None:
     print()
     print("To enter the construct, run:")
     print("python -m venv matrix_env")
-    print("source matrix_env/bin/activate  # On Unix")
-    print("matrix_env\\Scripts\\activate     # On Windows")
+    print("source matrix_env/bin/activate # On Unix")
+    print("matrix_env\\Scripts\\activate # On Windows")
     print()
     print("Then run this program again.")
     print()
-    print("Global package installation path(s):")
-    for path in get_site_packages():
-        print(f"  {path}")
+    print("Global package installation path:")
+    print(site_packages_for_prefix(sys.prefix))
 
 
 def print_inside_construct(venv_path: str) -> None:
@@ -58,8 +56,7 @@ def print_inside_construct(venv_path: str) -> None:
     print("the global system.")
     print()
     print("Package installation path:")
-    for path in get_site_packages():
-        print(f"  {path}")
+    print(site_packages_for_prefix(venv_path))
 
 
 def main() -> int:

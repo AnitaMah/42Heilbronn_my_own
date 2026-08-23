@@ -61,8 +61,8 @@ def mask_secret(value: str) -> str:
 def describe_database(url: str) -> str:
     """Describe whether a database URL points at a local or remote instance."""
     if url.startswith("sqlite") or "localhost" in url or "127.0.0.1" in url:
-        return f"Connected to local instance ({url})"
-    return f"Connected to remote instance ({url})"
+        return "Connected to local instance"
+    return "Connected to remote instance"
 
 
 def print_report(config: dict[str, str], env_loaded: bool) -> None:
@@ -87,17 +87,18 @@ def print_report(config: dict[str, str], env_loaded: bool) -> None:
     overrides_flag = "OK" if overrides_ok else "FAIL"
     print(f"[{overrides_flag}] Production overrides available")
     print()
+    print("The Oracle sees all configurations.")
 
     if is_production:
+        print()
         print("PRODUCTION MODE: sensitive values are masked below.")
         print(f"API_KEY: {mask_secret(config['API_KEY'])}")
     else:
+        print()
         print("DEVELOPMENT MODE: verbose configuration for debugging.")
         for key, value in config.items():
             shown = mask_secret(value) if key == "API_KEY" else value
             print(f"  {key} = {shown}")
-    print()
-    print("The Oracle sees all configurations.")
 
 
 def main() -> int:
