@@ -1,0 +1,17 @@
+space_stations_data = [
+    {'station_id': 'ST001', 'name': 'International Space Station', 'crew_size': 11, 'power_level': 61.4, 'oxygen_level': 60.4, 'last_maintenance': '2026-04-28T17:05:55.669050', 'is_operational': True, 'notes': 'Awaiting resupply'},
+    {'station_id': 'ST002', 'name': 'Kepler Watch', 'crew_size': 15, 'power_level': 14.4, 'oxygen_level': 54.1, 'last_maintenance': '2026-04-08T02:35:55.669068', 'is_operational': True, 'notes': 'Awaiting resupply'},
+    {'station_id': 'ST003', 'name': 'Titan Observatory', 'crew_size': 13, 'power_level': 38.4, 'oxygen_level': 34.5, 'last_maintenance': '2025-10-30T01:58:55.669078', 'is_operational': True, 'notes': None},
+    {'station_id': 'ST004', 'name': 'International Space Station', 'crew_size': 15, 'power_level': 9.9, 'oxygen_level': 20.4, 'last_maintenance': '2026-07-02T07:30:55.669087', 'is_operational': True, 'notes': None},
+    {'station_id': 'ST005', 'name': 'Lunar Gateway', 'crew_size': 0, 'power_level': 91.6, 'oxygen_level': 54.4, 'last_maintenance': '2026-01-10T00:36:55.669091', 'is_operational': False, 'notes': None},
+    {'station_id': 'ST006', 'name': 'Mars Orbital Hub', 'crew_size': 7, 'power_level': 98.3, 'oxygen_level': 33.7, 'last_maintenance': '2026-04-15T20:22:55.669097', 'is_operational': True, 'notes': 'Routine check completed'},
+    {'station_id': 'ST007', 'name': 'International Space Station', 'crew_size': 8, 'power_level': 64.1, 'oxygen_level': 76.0, 'last_maintenance': '2026-04-24T07:38:55.669102', 'is_operational': False, 'notes': None},
+    {'station_id': 'ST008', 'name': 'International Space Station', 'crew_size': 13, 'power_level': 20.1, 'oxygen_level': 30.8, 'last_maintenance': '2025-11-18T14:16:55.669110', 'is_operational': True, 'notes': 'Routine check completed'},
+    {'station_id': 'ST009', 'name': 'Lunar Gateway', 'crew_size': 25, 'power_level': 27.0, 'oxygen_level': 8.4, 'last_maintenance': '2026-03-19T08:35:55.669116', 'is_operational': True, 'notes': 'Awaiting resupply'},
+    {'station_id': 'ST010', 'name': 'Mars Orbital Hub', 'crew_size': 17, 'power_level': 92.1, 'oxygen_level': 41.9, 'last_maintenance': '2026-07-03T02:19:55.669122', 'is_operational': True, 'notes': None},
+    {'station_id': 'ST011', 'name': 'Artemis Outpost', 'crew_size': 14, 'power_level': 18.3, 'oxygen_level': 73.7, 'last_maintenance': '2025-11-23T06:04:55.669127', 'is_operational': True, 'notes': None},
+    {'station_id': 'ST012', 'name': 'Proxima Relay', 'crew_size': 1, 'power_level': 0.4, 'oxygen_level': 66.7, 'last_maintenance': '2026-02-03T17:52:55.669131', 'is_operational': True, 'notes': None},
+    {'station_id': 'ST013', 'name': 'Ganymede Research Base', 'crew_size': 1, 'power_level': 61.1, 'oxygen_level': 15.5, 'last_maintenance': '2026-05-28T02:16:55.669135', 'is_operational': True, 'notes': None},
+    {'station_id': 'ST014', 'name': 'Europa Relay', 'crew_size': 0, 'power_level': 40.0, 'oxygen_level': 56.2, 'last_maintenance': '2026-05-13T06:34:55.669139', 'is_operational': True, 'notes': 'Awaiting resupply'},
+    {'station_id': 'ST015', 'name': 'Titan Observatory', 'crew_size': 9, 'power_level': 79.6, 'oxygen_level': 63.0, 'last_maintenance': '2026-07-06T12:33:55.669144', 'is_operational': True, 'notes': 'Awaiting resupply'},
+]
