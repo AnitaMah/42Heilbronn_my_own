@@ -1,0 +1,3 @@
+[flake8]
+max-line-length = 110
+exclude = .venv,.venv-test,llm_sdk,data,.mypy_cache,.pytest_cache,__pycache__

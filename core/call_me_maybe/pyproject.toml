@@ -1,0 +1,41 @@
+[project]
+name = "call-me-maybe"
+version = "0.1.2"
+description = "Function calling for small LLMs via constrained decoding (42 Heilbronn subject)."
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.7",
+    "numpy>=1.26",
+    "llm-sdk",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "mypy>=1.10",
+    "flake8>=7.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+llm-sdk = { path = "llm_sdk" }
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+# Tests are explicitly "not submitted or graded" per the subject, and use
+# loosely-typed pytest fixtures -- keep them out of the strict scan.
+exclude = ["^tests/", "^\\.venv"]
+
+[[tool.mypy.overrides]]
+# llm_sdk is the provided, unmodified SDK, not our code -- don't hold it to
+# our lint bar (mypy still follows the import from src/cli.py either way).
+module = "llm_sdk.*"
+ignore_errors = true
+
