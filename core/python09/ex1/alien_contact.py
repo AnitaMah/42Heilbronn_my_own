@@ -36,7 +36,14 @@ class AlienContact(BaseModel):
 
     @model_validator(mode="after")
     def check_business_rules(self) -> "AlienContact":
-        """Enforce cross-field rules beyond simple type/range checks."""
+        """Enforce cross-field rules beyond simple type/range checks.
+
+        mode="after" (not "before") on purpose: by the time this runs,
+        every field has already passed its own Field() validation, so
+        self.contact_type is guaranteed to already be a real ContactType
+        and self.witness_count a real int - these rules can trust that
+        and focus purely on the business logic between fields.
+        """
         # Rule 1: every contact ID must be tagged as an Alien Contact report
         if not self.contact_id.startswith("AC"):
             raise ValueError('Contact ID must start with "AC"')
@@ -54,8 +61,12 @@ class AlienContact(BaseModel):
                 "Telepathic contact requires at least 3 witnesses"
             )
 
-        # Rule 4: a strong signal is a significant event - if we picked
-        # up something that clear, we expect an actual message logged
+        # Rule 4 (the one judgment call in this file): the subject says
+        # strong signals "should" include a message, while the other
+        # three rules say "must" - I'm still treating it as a hard
+        # requirement (raise, not a warning), and reading the boundary
+        # as strictly greater-than, so a signal of exactly 7.0 does NOT
+        # require a message.
         if self.signal_strength > 7.0 and not self.message_received:
             raise ValueError(
                 "Strong signals (>7.0) should include received messages"
@@ -92,7 +103,13 @@ def _clean_error_message(error: ValidationError) -> str:
 
 
 def main() -> None:
-    """Demonstrate valid and invalid AlienContact creation."""
+    """Demonstrate valid and invalid AlienContact creation.
+
+    Prints one report that passes every rule, then deliberately builds
+    a telepathic report with only 1 witness (violates rule 3) so the
+    caught ValidationError demonstrates the custom validator, not just
+    a plain Field() bound.
+    """
     print("Alien Contact Log Validation")
     print("=" * 40)
 

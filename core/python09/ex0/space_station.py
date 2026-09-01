@@ -11,15 +11,27 @@ from pydantic import BaseModel, Field, ValidationError
 
 
 class SpaceStation(BaseModel):
-    """Validated data for a single space station report."""
+    """Validated data for a single space station report.
+
+    Every field below is checked purely with Field() constraints - no
+    custom validator is needed yet, since none of these rules depend on
+    another field's value (that comes in ex1/ex2). Numeric bounds use
+    ge/le (inclusive) because the subject's ranges are closed intervals,
+    e.g. "1-20 people" includes both 1 and 20.
+    """
 
     station_id: str = Field(..., min_length=3, max_length=10)
     name: str = Field(..., min_length=1, max_length=50)
     crew_size: int = Field(..., ge=1, le=20)
     power_level: float = Field(..., ge=0.0, le=100.0)
     oxygen_level: float = Field(..., ge=0.0, le=100.0)
+    # No Field() constraint here on purpose: Pydantic auto-converts an
+    # ISO-8601 string into a real datetime, which is the behavior the
+    # subject's "Think About" box is pointing at.
     last_maintenance: datetime
     is_operational: bool = True
+    # The only field where absence is itself valid - hence Optional
+    # with a default instead of a required Field(...).
     notes: Optional[str] = Field(default=None, max_length=200)
 
 
@@ -36,7 +48,14 @@ def _print_station(station: SpaceStation) -> None:
 
 
 def main() -> None:
-    """Demonstrate valid and invalid SpaceStation creation."""
+    """Demonstrate valid and invalid SpaceStation creation.
+
+    Builds one valid station and prints it, then deliberately builds
+    an invalid one (crew_size over the limit) inside try/except so the
+    ValidationError is caught and reported instead of crashing the
+    program - this is what "protect the data stream from corruption"
+    means in practice for this exercise.
+    """
     print("Space Station Data Validation")
     print("=" * 40)
 

@@ -35,7 +35,15 @@ class CrewMember(BaseModel):
 
 
 class SpaceMission(BaseModel):
-    """A mission with its full crew roster and safety requirements."""
+    """A mission with its full crew roster and safety requirements.
+
+    crew: List[CrewMember] is the nested-model piece of this exercise -
+    when a SpaceMission is built, Pydantic validates every CrewMember in
+    the list first, each against CrewMember's own Field() constraints,
+    before check_safety_requirements() below ever runs. A bad crew
+    member (e.g. age=200) fails immediately with a location like
+    ('crew', 0, 'age') and never reaches the mission-level rules at all.
+    """
 
     mission_id: str = Field(..., min_length=5, max_length=15)
     mission_name: str = Field(..., min_length=3, max_length=100)
@@ -48,7 +56,13 @@ class SpaceMission(BaseModel):
 
     @model_validator(mode="after")
     def check_safety_requirements(self) -> "SpaceMission":
-        """Enforce mission-level rules that depend on the crew list."""
+        """Enforce mission-level rules that depend on the crew list.
+
+        Rules 2 and 4 use any()/all() comprehensions over self.crew
+        instead of a manual loop with a flag variable - any() reads as
+        "does at least one crew member satisfy this," all() as "do all
+        of them," which matches the rule wording directly.
+        """
         # Rule 1: mission IDs are tagged with the launch program prefix
         if not self.mission_id.startswith("M"):
             raise ValueError('Mission ID must start with "M"')
@@ -63,8 +77,11 @@ class SpaceMission(BaseModel):
                 "Mission must have at least one Commander or Captain"
             )
 
-        # Rule 3: long missions are riskier, so at least half the crew
-        # must be seasoned (5+ years experience)
+        # Rule 3 (the judgment call in this file): "at least 50%"
+        # experienced crew. I compute the ratio and fail on < 0.5, which
+        # means a crew that is EXACTLY 50% experienced passes - "at
+        # least" reads as inclusive, but it's a boundary worth being
+        # able to justify out loud.
         if self.duration_days > 365:
             experienced = sum(
                 1 for member in self.crew if member.years_experience >= 5
@@ -114,7 +131,13 @@ def _print_mission(mission: SpaceMission) -> None:
 
 
 def main() -> None:
-    """Demonstrate valid and invalid SpaceMission creation."""
+    """Demonstrate valid and invalid SpaceMission creation.
+
+    The failing case has only one crew member (an Officer, not a
+    Commander/Captain) and a short duration - short on purpose, so
+    rule 3's experience check can't also fire and muddy which rule
+    actually caused the error.
+    """
     print("Space Mission Crew Validation")
     print("=" * 40)
 
