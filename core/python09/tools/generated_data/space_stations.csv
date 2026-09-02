@@ -1,0 +1,16 @@
+station_id,name,crew_size,power_level,oxygen_level,last_maintenance,is_operational,notes
+ST001,International Space Station,11,61.4,60.4,2026-04-28T17:05:55.669050,True,Awaiting resupply
+ST002,Kepler Watch,15,14.4,54.1,2026-04-08T02:35:55.669068,True,Awaiting resupply
+ST003,Titan Observatory,13,38.4,34.5,2025-10-30T01:58:55.669078,True,
+ST004,International Space Station,15,9.9,20.4,2026-07-02T07:30:55.669087,True,
+ST005,Lunar Gateway,0,91.6,54.4,2026-01-10T00:36:55.669091,False,
+ST006,Mars Orbital Hub,7,98.3,33.7,2026-04-15T20:22:55.669097,True,Routine check completed
+ST007,International Space Station,8,64.1,76.0,2026-04-24T07:38:55.669102,False,
+ST008,International Space Station,13,20.1,30.8,2025-11-18T14:16:55.669110,True,Routine check completed
+ST009,Lunar Gateway,25,27.0,8.4,2026-03-19T08:35:55.669116,True,Awaiting resupply
+ST010,Mars Orbital Hub,17,92.1,41.9,2026-07-03T02:19:55.669122,True,
+ST011,Artemis Outpost,14,18.3,73.7,2025-11-23T06:04:55.669127,True,
+ST012,Proxima Relay,1,0.4,66.7,2026-02-03T17:52:55.669131,True,
+ST013,Ganymede Research Base,1,61.1,15.5,2026-05-28T02:16:55.669135,True,
+ST014,Europa Relay,0,40.0,56.2,2026-05-13T06:34:55.669139,True,Awaiting resupply
+ST015,Titan Observatory,9,79.6,63.0,2026-07-06T12:33:55.669144,True,Awaiting resupply
