@@ -21,8 +21,8 @@ class JSONPlugin:
 
 class DataStream:
     def __init__(self) -> None:
-        self._processors: List[Any] = []        
-    
+        self._processors: List[Any] = []
+
     def register_processor(self, processor: Any) -> None:
         self._processors.append(processor)
 
