@@ -1,9 +1,21 @@
+"""!
+@file ft_data_stream.py
+@brief Demonstrate generators by streaming random game events on demand.
+"""
 import random
 from typing import Generator
 
 
 class GameData:
+    """!
+    @brief Holds the fixed pools of player names and possible actions.
+    """
+
     def __init__(self) -> None:
+        """!
+        @brief Initialize the player and action pools.
+        @return None.
+        """
         self.players = ["bob", "alice", "dylan", "charlie"]
         self.actions = [
             "run",
@@ -17,6 +29,10 @@ class GameData:
             "release"]
 
     def get_game_parameters(self) -> tuple[list[str], list[str]]:
+        """!
+        @brief Expose the player and action pools.
+        @return A tuple of (players, actions) lists.
+        """
         return self.players, self.actions
 
 
@@ -24,6 +40,10 @@ data_source = GameData()
 
 
 def generate_rools() -> Generator[tuple[str, str], None, None]:
+    """!
+    @brief Endlessly yield random (player, action) events.
+    @return A generator producing (name, action) tuples forever.
+    """
     players, actions = data_source.get_game_parameters()
     while True:
         yield (random.choice(players), random.choice(actions))
@@ -31,17 +51,32 @@ def generate_rools() -> Generator[tuple[str, str], None, None]:
 
 def creat_items(generator: Generator[tuple[str, str],
                 None, None], count: int) -> list[tuple[str, str]]:
+    """!
+    @brief Pull a fixed number of events out of a generator into a list.
+    @param generator The event generator to pull from.
+    @param count How many events to collect.
+    @return A list of (name, action) event tuples.
+    """
     return [next(generator) for _ in range(count)]
 
 
 def get_event(event_list: list[tuple[str, str]]
               ) -> Generator[tuple[str, str], None, None]:
+    """!
+    @brief Yield random events from a list, removing each as it's used.
+    @param event_list The list of events to consume (mutated in place).
+    @return A generator yielding and removing one event at a time.
+    """
     while len(event_list) > 0:
         index = random.randint(0, len(event_list) - 1)
         yield event_list.pop(index)
 
 
 def main() -> None:
+    """!
+    @brief Stream 1000 events, then build and drain a list of 10 more.
+    @return None.
+    """
     print("=== Game Data Stream Processor ===")
     event_gen = generate_rools()
 

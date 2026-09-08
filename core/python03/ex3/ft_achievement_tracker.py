@@ -1,13 +1,31 @@
+"""!
+@file ft_achievement_tracker.py
+@brief Generate and compare random achievement sets across players.
+"""
 import random
+from typing import List, Set
 
 
 class PlayerData:
-    def __init__(self, name):
+    """!
+    @brief Holds a player's name and the set of achievements they own.
+    """
+
+    def __init__(self, name: str) -> None:
+        """!
+        @brief Create a player with an empty achievement set.
+        @param name The player's display name.
+        @return None.
+        """
         self.name = name
-        self.achievements = set()
+        self.achievements: Set[str] = set()
 
 
-def get_all_possible_achievements():
+def get_all_possible_achievements() -> Set[str]:
+    """!
+    @brief List every achievement that can be unlocked in the game.
+    @return The full set of possible achievements.
+    """
     return {
         'Crafting Genius', 'World Savior', 'Master Explorer',
         'Collector Supreme', 'Untouchable', 'Boss Slayer',
@@ -17,13 +35,22 @@ def get_all_possible_achievements():
     }
 
 
-def add_atributs(player):
+def gen_player_achievements() -> Set[str]:
+    """!
+    @brief Randomly assign a set of achievements to a player.
+    @return A randomly sized subset of the achievement pool.
+    """
     pool = get_all_possible_achievements()
     count = random.randint(3, 9)
-    player.achievements = set(random.sample(list(pool), count))
+    return set(random.sample(list(pool), count))
 
 
-def check_atributs(players):
+def check_achievements(players: List[PlayerData]) -> None:
+    """!
+    @brief Print achievement stats: shared, unique and missing per player.
+    @param players The list of players to analyze.
+    @return None.
+    """
     all_pool = get_all_possible_achievements()
     all_sets = [p.achievements for p in players]
 
@@ -46,18 +73,18 @@ def check_atributs(players):
         print(f"{p.name} is missing: {all_pool.difference(p.achievements)}")
 
 
-def gen_player_achievements():
+def main() -> None:
+    """!
+    @brief Generate achievements for four players and report analytics.
+    @return None.
+    """
     names = ["Alice", "Bob", "Charlie", "Dylan"]
     players = [PlayerData(name) for name in names]
 
     for player in players:
-        add_atributs(player)
+        player.achievements = gen_player_achievements()
 
-    check_atributs(players)
-
-
-def main():
-    gen_player_achievements()
+    check_achievements(players)
 
 
 if __name__ == "__main__":
