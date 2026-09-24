@@ -3,13 +3,12 @@
 
 import os
 import sys
-from pathlib import Path
-from types import ModuleType
 
 try:
-    dotenv: ModuleType | None = __import__("dotenv")
+    from dotenv import load_dotenv
+    DOTENV_AVAILABLE = True
 except ImportError:
-    dotenv = None
+    DOTENV_AVAILABLE = False
 
 REQUIRED_KEYS: list[str] = [
     "MATRIX_MODE",
@@ -30,15 +29,16 @@ DEFAULTS: dict[str, str] = {
 
 def load_environment() -> bool:
     """Load variables from a local .env file, if python-dotenv is available."""
-    if dotenv is None:
+    if not DOTENV_AVAILABLE:
         print("[WARNING] python-dotenv is not installed; using only the")
         print("          system environment. Install with:")
         print("          pip install python-dotenv")
         return False
-    env_path = Path(__file__).resolve().parent / ".env"
-    if not env_path.exists():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    env_path = os.path.join(script_dir, ".env")
+    if not os.path.isfile(env_path):
         return False
-    dotenv.load_dotenv(dotenv_path=env_path)
+    load_dotenv(dotenv_path=env_path)
     return True
 
 
