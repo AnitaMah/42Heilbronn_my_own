@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, List, Protocol, Tuple, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 
 class DataProcessor(ABC):
@@ -18,7 +18,7 @@ class DataProcessor(ABC):
         """Process and store the data internally."""
         pass
 
-    def output(self) -> Tuple[int, str]:
+    def output(self) -> tuple[int, str]:
         """Extract the oldest stored data and its rank."""
         if not self._data:
             raise IndexError("No data to output")
@@ -106,19 +106,19 @@ class LogProcessor(DataProcessor):
 
 @runtime_checkable
 class ExportPlugin(Protocol):
-    def process_output(self, data: List[Tuple[int, str]]) -> None:
+    def process_output(self, data: list[tuple[int, str]]) -> None:
         pass
 
 
 class CSVPlugin:
-    def process_output(self, data: List[Tuple[int, str]]) -> None:
+    def process_output(self, data: list[tuple[int, str]]) -> None:
         csv_data = [value for _, value in data]
         print("CSV Output:\n" + ",".join(csv_data))
 
 
 class JSONPlugin:
-    def process_output(self, data: List[Tuple[int, str]]) -> None:
-        pairs: List[str] = []
+    def process_output(self, data: list[tuple[int, str]]) -> None:
+        pairs: list[str] = []
         for rank, value in data:
             escaped = value.replace("\\", "\\\\").replace('"', '\\"')
             pairs.append(f'"item_{rank}": "{escaped}"')
@@ -127,13 +127,13 @@ class JSONPlugin:
 
 class DataStream:
     def __init__(self) -> None:
-        self._processors: List[DataProcessor] = []
+        self._processors: list[DataProcessor] = []
 
-    def register_processor(self, processor: DataProcessor) -> None:
+    def register_processor(self, proc: DataProcessor) -> None:
         """Register a new data processor."""
-        self._processors.append(processor)
+        self._processors.append(proc)
 
-    def process_stream(self, stream: List[Any]) -> None:
+    def process_stream(self, stream: list[Any]) -> None:
         """Route each element in the stream to the appropriate processor."""
         for data in stream:
             processed = False
@@ -152,7 +152,7 @@ class DataStream:
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
         """Consume nb elements from each processor and export them."""
         for proc in self._processors:
-            batch: List[Tuple[int, str]] = []
+            batch: list[tuple[int, str]] = []
             for _ in range(nb):
                 try:
                     batch.append(proc.output())
@@ -161,7 +161,7 @@ class DataStream:
             if batch:
                 plugin.process_output(batch)
 
-    def print_statistics(self) -> None:
+    def print_processors_stats(self) -> None:
         """Print statistics for all processors."""
         print("== DataStream statistics ==")
         if not self._processors:
@@ -179,7 +179,7 @@ def main() -> None:
     print("Initialize Data Stream...\n")
 
     stream = DataStream()
-    stream.print_statistics()
+    stream.print_processors_stats()
 
     print("\nRegistering Processors")
     stream.register_processor(NumericProcessor())
@@ -199,12 +199,12 @@ def main() -> None:
     ]
     print(f"\nSend first batch of data on stream: {batch_1}\n")
     stream.process_stream(batch_1)
-    stream.print_statistics()
+    stream.print_processors_stats()
 
     print("\nSend 3 processed data from each processor to a CSV plugin:")
     stream.output_pipeline(3, CSVPlugin())
     print()
-    stream.print_statistics()
+    stream.print_processors_stats()
 
     batch_2: list[Any] = [
         21,
@@ -219,12 +219,12 @@ def main() -> None:
     ]
     print(f"\nSend another batch of data: {batch_2}\n")
     stream.process_stream(batch_2)
-    stream.print_statistics()
+    stream.print_processors_stats()
 
     print("\nSend 5 processed data from each processor to a JSON plugin:")
     stream.output_pipeline(5, JSONPlugin())
     print()
-    stream.print_statistics()
+    stream.print_processors_stats()
 
 
 if __name__ == "__main__":
