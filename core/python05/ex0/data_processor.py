@@ -3,6 +3,11 @@ from typing import Any
 
 
 class DataProcessor(ABC):
+    def __init__(self) -> None:
+        self._data: list[str] = []
+        self._rank: int = 0
+        self._total_processed: int = 0
+
     @abstractmethod
     def validate(self, data: Any) -> bool:
         """Check if the data can be processed by this processor."""
@@ -13,18 +18,17 @@ class DataProcessor(ABC):
         """Process and store the data internally."""
         pass
 
-    @abstractmethod
     def output(self) -> tuple[int, str]:
         """Extract the oldest stored data and its rank."""
-        pass
+        if not self._data:
+            raise IndexError("No data to output")
+        item = self._data.pop(0)
+        rank = self._rank
+        self._rank += 1
+        return (rank, item)
 
 
 class NumericProcessor(DataProcessor):
-    def __init__(self) -> None:
-        self._data: list[str] = []
-        self._rank: int = 0
-        self._total_processed: int = 0
-
     def validate(self, data: Any) -> bool:
         """Check if the data is numeric (int, float, or list of these)."""
         if isinstance(data, (int, float)):
@@ -39,26 +43,13 @@ class NumericProcessor(DataProcessor):
             raise ValueError("Improper numeric data")
         if isinstance(data, list):
             self._data.extend(map(str, data))
+            self._total_processed += len(data)
         else:
             self._data.append(str(data))
-        self._total_processed += 1
-
-    def output(self) -> tuple[int, str]:
-        """Extract the oldest stored numeric data and its rank."""
-        if not self._data:
-            raise IndexError("No data to output")
-        item = self._data.pop(0)
-        rank = self._rank
-        self._rank += 1
-        return (rank, item)
+            self._total_processed += 1
 
 
 class TextProcessor(DataProcessor):
-    def __init__(self) -> None:
-        self._data: list[str] = []
-        self._rank: int = 0
-        self._total_processed: int = 0
-
     def validate(self, data: Any) -> bool:
         """Check if the data is a string or list of strings."""
         if isinstance(data, str):
@@ -73,36 +64,30 @@ class TextProcessor(DataProcessor):
             raise ValueError("Improper text data")
         if isinstance(data, list):
             self._data.extend(data)
+            self._total_processed += len(data)
         else:
             self._data.append(data)
-        self._total_processed += 1
-
-    def output(self) -> tuple[int, str]:
-        """Extract the oldest stored text data and its rank."""
-        if not self._data:
-            raise IndexError("No data to output")
-        item = self._data.pop(0)
-        rank = self._rank
-        self._rank += 1
-        return (rank, item)
+            self._total_processed += 1
 
 
 class LogProcessor(DataProcessor):
-    def __init__(self) -> None:
-        self._data: list[str] = []
-        self._rank: int = 0
-        self._total_processed: int = 0
-
     def validate(self, data: Any) -> bool:
-        """Check if the data is a dict with str k/v or a list of such dicts."""
-        if isinstance(data, dict):
-            return all(
+        """Check if the data is a log dict or a list of log dicts."""
+        if isinstance(data, list):
+            return all(self._is_log(item) for item in data)
+        return self._is_log(data)
+
+    def _is_log(self, data: Any) -> bool:
+        """Check for a str k/v dict with log_level and log_message keys."""
+        return (
+            isinstance(data, dict)
+            and "log_level" in data
+            and "log_message" in data
+            and all(
                 isinstance(k, str) and isinstance(v, str)
                 for k, v in data.items()
             )
-        if isinstance(data, list):
-            return all(self.validate(item) for item in data)
-        return False
+        )
 
     def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         """Process and store log data."""
@@ -112,19 +97,11 @@ class LogProcessor(DataProcessor):
             for item in data:
                 log_str = f"{item['log_level']}: {item['log_message']}"
                 self._data.append(log_str)
+            self._total_processed += len(data)
         else:
             log_str = f"{data['log_level']}: {data['log_message']}"
             self._data.append(log_str)
-        self._total_processed += 1
-
-    def output(self) -> tuple[int, str]:
-        """Extract the oldest stored log data and its rank."""
-        if not self._data:
-            raise IndexError("No data to output")
-        item = self._data.pop(0)
-        rank = self._rank
-        self._rank += 1
-        return (rank, item)
+            self._total_processed += 1
 
 
 def main() -> None:
