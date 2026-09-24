@@ -15,23 +15,23 @@ def test_healing_family(factory: CreatureFactory) -> None:
     so mypy can't know a ``heal()`` method exists on it. An
     ``isinstance`` check narrows the type safely -- no casts, no
     ``# type: ignore`` needed -- and it's exactly the same check
-    ex2's ``BattleStrategy.is_valid`` will use later.
+    ex2's ``BattleStrategy.is_valid`` will use later. A factory that
+    builds Creatures without the capability gets an error message
+    instead of a crash.
     """
     print("Testing Creature with healing capability")
 
-    base = factory.create_base()
-    assert isinstance(base, HealCapability)
-    print(" base:")
-    print(base.describe())
-    print(base.attack())
-    print(base.heal())
-
-    evolved = factory.create_evolved()
-    assert isinstance(evolved, HealCapability)
-    print(" evolved:")
-    print(evolved.describe())
-    print(evolved.attack())
-    print(evolved.heal())
+    for label, creature in (
+        (" base:", factory.create_base()),
+        (" evolved:", factory.create_evolved()),
+    ):
+        if not isinstance(creature, HealCapability):
+            print(f"Error: '{creature.name}' has no healing capability")
+            return
+        print(label)
+        print(creature.describe())
+        print(creature.attack())
+        print(creature.heal())
     print()
 
 
@@ -43,7 +43,9 @@ def test_transform_family(factory: CreatureFactory) -> None:
         (" base:", factory.create_base()),
         (" evolved:", factory.create_evolved()),
     ):
-        assert isinstance(creature, TransformCapability)
+        if not isinstance(creature, TransformCapability):
+            print(f"Error: '{creature.name}' has no transform capability")
+            return
         print(label)
         print(creature.describe())
         print(creature.attack())

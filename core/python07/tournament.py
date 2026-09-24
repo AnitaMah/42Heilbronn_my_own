@@ -50,6 +50,7 @@ def battle(opponents: list[Opponent]) -> None:
                 strategy_b.act(creature_b)
             except InvalidStrategyError as exc:
                 print(f"Battle error, aborting tournament: {exc}")
+                print()
                 return
             print()
 
@@ -59,7 +60,6 @@ def run_tor(label: str, description: str, opponents: list[Opponent]) -> None:
     print(label)
     print(f" {description}")
     battle(opponents)
-    print()
 
 
 def main() -> None:
