@@ -3,3 +3,6 @@ push_swap/venv/
 venv/
 __pycache__/
 *.pyc
+.mypy_cache/
+.idea/
+Claude outputs/
