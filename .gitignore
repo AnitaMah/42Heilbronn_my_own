@@ -6,3 +6,6 @@ __pycache__/
 .mypy_cache/
 .idea/
 Claude outputs/
+*.o
+*.a
+core/push_swap/push_swap
