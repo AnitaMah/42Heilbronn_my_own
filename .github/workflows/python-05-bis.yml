@@ -1,0 +1,35 @@
+name: python module 05 bis
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "core/python module 05 bis/**"
+      - ".github/workflows/python-05-bis.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "core/python module 05 bis/**"
+      - ".github/workflows/python-05-bis.yml"
+
+jobs:
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "core/python module 05 bis"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tooling
+        run: pip install flake8 mypy python-dotenv
+
+      - name: flake8
+        run: python -m flake8 --exclude=.mypy_cache,__pycache__ .
+
+      - name: mypy
+        run: python -m mypy --exclude '\.mypy_cache' --exclude '__pycache__' .
