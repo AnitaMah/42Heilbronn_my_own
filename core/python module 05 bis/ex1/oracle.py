@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise 2: Accessing the Mainframe - secure configuration via .env."""
+"""Exercise 1: The Oracle - secure configuration via .env."""
 
 import os
 import sys
@@ -68,7 +68,7 @@ def describe_database(url: str) -> str:
 def print_report(config: dict[str, str], env_loaded: bool) -> None:
     is_production = config["MATRIX_MODE"] == "production"
 
-    print("ORACLE STATUS: Reading the Matrix...")
+    print("ORACLE STATUS: Consulting the configuration...")
     print()
     print("Configuration loaded:")
     print(f"Mode: {config['MATRIX_MODE']}")
@@ -77,7 +77,7 @@ def print_report(config: dict[str, str], env_loaded: bool) -> None:
     print(f"API Access: {api_status}")
     print(f"Log Level: {config['LOG_LEVEL']}")
     network_status = "Online" if config["ZION_ENDPOINT"] else "Offline"
-    print(f"Zion Network: {network_status}")
+    print(f"Remote Network: {network_status}")
     print()
     print("Environment security check:")
     print("[OK] No hardcoded secrets detected")

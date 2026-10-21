@@ -1,14 +1,12 @@
 [project]
-name = "loading"
+name = "ex0"
 version = "0.1.0"
-description = "Matrix data loading and analysis - Python module 08 exercise 1"
-authors = [{ name = "Zion Data Team" }]
+description = "The Sealed Laboratory - reagent loading (python module 05 bis)"
+authors = [{ name = "Anita Mah" }]
 requires-python = ">=3.10"
 dependencies = [
     "pandas>=2.0.0",
     "numpy>=1.24.0",
-    "matplotlib>=3.7.0",
-    "requests>=2.31.0",
 ]
 
 [tool.poetry]

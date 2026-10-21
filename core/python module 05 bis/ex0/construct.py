@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise 0: Entering the Matrix - virtual environment detection."""
+"""Exercise 0: The Sealed Laboratory - virtual environment detection."""
 
 import os
 import site
@@ -25,38 +25,36 @@ def get_site_packages_path() -> str:
     return packages[0] if packages else site.getusersitepackages()
 
 
-def print_outside_matrix() -> None:
-    print("MATRIX STATUS: You're still plugged in")
+def print_outside_laboratory() -> None:
+    print("LABORATORY STATUS: You are working in the open")
     print()
     print(f"Current Python: {sys.executable}")
     print("Virtual Environment: None detected")
     print()
-    print("WARNING: You're in the global environment!")
-    print("The machines can see everything you install.")
+    print("WARNING: You are in the global environment!")
+    print("Every reagent you install here leaks into the whole system.")
     print()
-    print("To enter the construct, run:")
-    print("python -m venv matrix_env")
-    print("source matrix_env/bin/activate")
+    print("To seal the laboratory, run:")
+    print("python3 -m venv lab_env")
+    print("source lab_env/bin/activate # On Unix")
+    print("lab_env\\Scripts\\activate  # On Windows")
     print()
     print("Then run this program again.")
-    print()
-    print("Global package installation path:")
-    print(get_site_packages_path())
 
 
-def print_inside_construct(venv_path: str) -> None:
+def print_sealed_laboratory(venv_path: str) -> None:
     venv_name = get_venv_name(venv_path)
-    print("MATRIX STATUS: Welcome to the construct")
+    print("LABORATORY STATUS: The laboratory is sealed")
     print()
     print(f"Current Python: {sys.executable}")
     print(f"Virtual Environment: {venv_name}")
     print(f"Environment Path: {venv_path}")
     print()
-    print("SUCCESS: You're in an isolated environment!")
-    print("Safe to install packages without affecting")
+    print("SUCCESS: You are working in an isolated environment!")
+    print("Safe to install reagents without affecting")
     print("the global system.")
     print()
-    print("Package installation path:")
+    print("Reagent installation path:")
     print(get_site_packages_path())
 
 
@@ -64,9 +62,9 @@ def main() -> int:
     try:
         venv_path = os.environ.get("VIRTUAL_ENV")
         if venv_path or in_virtual_env():
-            print_inside_construct(venv_path or sys.prefix)
+            print_sealed_laboratory(venv_path or sys.prefix)
         else:
-            print_outside_matrix()
+            print_outside_laboratory()
     except OSError as error:
         print(f"ERROR: Unable to inspect the environment: {error}",
               file=sys.stderr)
